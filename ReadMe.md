@@ -1,9 +1,9 @@
 Batflat
 =======
 
-This repository is used to report bugs. To download the CMS go to the project page.
+This repository is used to report bugs and to list available languages and modules. To download the CMS go to the project page.
 
-## Supported Languages
+## Supported languages
 * English
 * Polish
 
@@ -21,5 +21,6 @@ We are looking for human resources, especially translators who will help us reac
 
 ## Credits
 
-* **Dominique Tauzin** - French translation
-* **Ladeyshchikov Valery** - Russian translation
+* **Dominique Tauzin** - French translation of website and CMS
+* **Ladeyshchikov Valery** - Russian translation of CMS
+* **Artem Sharovatov** - Russian translation of website

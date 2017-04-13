@@ -3,10 +3,6 @@ Batflat
 
 This repository is used to report bugs and to list available languages and modules. To download the CMS go to the project page.
 
-## Supported languages
-* English
-* Polish
-
 ## Project page
 
 https://batflat.org
@@ -14,6 +10,13 @@ https://batflat.org
 ## Documentation
 
 https://batflat.org/docs
+
+## Supported languages
+* English
+* Polish
+
+## Modules
+* This is place for link to your module on GitHub ;-)
 
 ## Recruitment
 We are looking for human resources, especially translators who will help us reach other corners of the world.

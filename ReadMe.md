@@ -7,10 +7,6 @@ This repository is used to report bugs and to list available languages, themes a
 
 https://batflat.org
 
-## Documentation
-
-https://batflat.org/docs
-
 ## Supported languages
 * English
 * Polish

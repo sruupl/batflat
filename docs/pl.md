@@ -573,18 +573,15 @@ $this->notify('success', 'This is %s!', $foo); // $this->core->setNotify('succes
 mixed settings(string $module [, string $field [, string $value]])
 ```
 
-Pobiera lub ustawia wartość ustawień danego modułu. Domyślnie są to główne ustawienia Batflata.
+Pobiera lub ustawia wartość ustawień danego modułu.
 
 #### Argumenty
-+ `module` — nazwa modułu, nazwa pola ustawień Batflata lub nazwa modułu i pole ustawień połączone kropką
++ `module` — nazwa modułu i opcjonalnie nazwa pola oddzielona kropką
 + `field` — nazwa pola modułu *(opcjonalne)*
 + `value` — wartość na jaką zostanie zmienione pole modułu *(opcjonalne)*
 
 #### Przykład
 ```php
-// Pobranie pola "title" z ogólnych ustawień systemu
-$this->settings('title');        // $this->core->getSettings('title');
-
 // Pobranie pola "desc" z modułu "blog"
 $this->settings('blog.desc');    // $this->core->getSettings('blog', 'desc');
 

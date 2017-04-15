@@ -573,18 +573,15 @@ $this->notify('success', 'This is %s!', $foo); // $this->core->setNotify('succes
 mixed settings(string $module [, string $field [, string $value]])
 ```
 
-Gets or sets the value of the module settings. By default these are the main Batflat settings.
+Gets or sets the value of the module settings.
 
 #### Arguments
-+ `module` — the module name, the name of the Batflat settings field, or the module name and the field set with a dot
++ `module` — module name and optionally field separated by a period
 + `field` — module field name *(optional)*
-+ `value` — the value to which module field  will be changed *(optional)*
++ `value` — the value to which module field will be changed *(optional)*
 
 #### Example
 ```php
-// Select the "title" field from the general system settings
-$this->settings('title');        // $this->core->getSettings('title');
-
 // Select the "desc" field from the "blog" module
 $this->settings('blog.desc');    // $this->core->getSettings('blog', 'desc');
 

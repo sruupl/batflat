@@ -1032,25 +1032,25 @@ Pobieranie wielu rekordów:
 
 ```php
 // JSON
-$rows = $this->$core->db('table')->toJson();
+$rows = $this->core->db('table')->toJson();
 
 // Tablica
-$rows = $this->$core->db('table')->select('foo')->select('bar')->toArray();
+$rows = $this->core->db('table')->select('foo')->select('bar')->toArray();
 
 // Obiekt
-$rows = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->toObject();
+$rows = $this->core->db('table')->select(['foo', 'b' => 'bar'])->toObject();
 ```
 
 Pobieranie pojedycznego rekordu:
 ```php
 // JSON
-$row = $this->$core->db('table')->oneJson();
+$row = $this->core->db('table')->oneJson();
 
 // Tablica
-$row = $this->$core->db('table')->select('foo')->select('bar')->oneArray();
+$row = $this->core->db('table')->select('foo')->select('bar')->oneArray();
 
 // Obiekt
-$row = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
+$row = $this->core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
 ```
 
 
@@ -1059,52 +1059,60 @@ $row = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
 Wybór wiersza o określonym numerze w kolumnie `id`:
 
 ```php
-$row = $this->$core->db('table')->oneArray(1);
+$row = $this->core->db('table')->oneArray(1);
 // lub
-$row = $this->$core->db('table')->oneArray('id', 1);
+$row = $this->core->db('table')->oneArray('id', 1);
 // lub
-$row = $this->$core->db('table')->where(1)->oneArray();
+$row = $this->core->db('table')->where(1)->oneArray();
 // lub
-$row = $this->$core->db('table')->where('id', 1)->oneArray();
+$row = $this->core->db('table')->where('id', 1)->oneArray();
 ```
 
 Złożone warunki:
 ```php
 // Pobranie wierszy, których wartość kolumny 'foo' jest WIĘKSZA od 4
-$rows = $this->$core->db('table')->where('foo', '>', 4)->toArray();
+$rows = $this->core->db('table')->where('foo', '>', 4)->toArray();
 
 // Pobranie wierszy, których wartość kolumny 'foo' jest WIĘKSZA od 4 i MNIEJSZA od 8
-$rows = $this->$core->db('table')->where('foo', '>', 4)->where('foo', '<', 8)->toArray();
+$rows = $this->core->db('table')->where('foo', '>', 4)->where('foo', '<', 8)->toArray();
 ```
 
 OR WHERE:
 ```php
 // Pobranie wierszy, których wartość kolumny 'foo' jest RÓWNA 4 LUB 8
-$rows = $this->$core->db('table')->where('foo', '=', 4)->orWhere('foo', '=', 8)->toArray();
+$rows = $this->core->db('table')->where('foo', '=', 4)->orWhere('foo', '=', 8)->toArray();
 ```
 
 WHERE LIKE:
 ```php
 // Pobranie wierszy, których kolumna 'foo' ZAWIERA ciąg znaków 'bar' LUB 'baz'
-$rows = $this->$core->db('table')->like('foo', '%bar%')->orLike('foo', '%baz%')->toArray();
+$rows = $this->core->db('table')->like('foo', '%bar%')->orLike('foo', '%baz%')->toArray();
 ```
 
 WHERE NOT LIKE:
 ```php
 // Pobranie wierszy, których kolumna 'foo' NIE ZAWIERA ciągu znaków 'bar' LUB 'baz'
-$rows = $this->$core->db('table')->notLike('foo', '%bar%')->orNotLike('foo', '%baz%')->toArray();
+$rows = $this->core->db('table')->notLike('foo', '%bar%')->orNotLike('foo', '%baz%')->toArray();
 ```
 
 WHERE IN:
 ```php
 // Pobranie wierszy, których wartość kolumny 'foo' ZAWIERA SIĘ w tablicy [1,2,3] LUB [7,8,9]
-$rows = $this->$core->db('table')->in('foo', [1,2,3])->orIn('foo', [7,8,9])->toArray();
+$rows = $this->core->db('table')->in('foo', [1,2,3])->orIn('foo', [7,8,9])->toArray();
 ```
 
 WHERE NOT IN:
 ```php
 // Pobranie wierszy, których wartość kolumny 'foo' NIE ZAWIERA SIĘ w tablicy [1,2,3] LUB [7,8,9]
-$rows = $this->$core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
+$rows = $this->core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
+```
+
+GRUPOWANIE WARUNKÓW:
+```php
+// Pobranie wierszy, których wartość kolumny 'foo' to 1 lub 2 ORAZ posiadają status = 1
+$rows = $this->core->db('table')->where(function($st) {
+            $st->where('foo', 1)->orWhere('foo', 2);
+        })->where('status', 1)->toArray();
 ```
 
 Dozwolone operatory porównania: `=`, `>`, `<`, `>=`, `<=`, `<>`, `!=`. 
@@ -1114,24 +1122,24 @@ Dozwolone operatory porównania: `=`, `>`, `<`, `>=`, `<=`, `<>`, `!=`.
 
 INNER JOIN:
 ```php
-$rows = $this->$core->db('table')->join('foo', 'foo.table_id = table.id')->toJson();
+$rows = $this->core->db('table')->join('foo', 'foo.table_id = table.id')->toJson();
 ```
 
 LEFT JOIN:
 ```php
-$rows = $this->$core->db('table')->leftJoin('foo', 'foo.table_id = table.id')->toJson();
+$rows = $this->core->db('table')->leftJoin('foo', 'foo.table_id = table.id')->toJson();
 ```
 
 
 ### HAVING
 
 ```php
-$rows = $this->$core->db('table')->having('COUNT(*)', '>', 5)->toArray();
+$rows = $this->core->db('table')->having('COUNT(*)', '>', 5)->toArray();
 ```
 
 OR HAVING:
 ```php
-$rows = $this->$core->db('table')->orHaving('COUNT(*)', '>', 5)->toArray();
+$rows = $this->core->db('table')->orHaving('COUNT(*)', '>', 5)->toArray();
 ```
 
 
@@ -1141,11 +1149,11 @@ Metoda `save` może dodać nowy rekord do tabeli lub zaktualizować istniejące,
 
 ```php
 // Dodanie nowego rekordu
-$id = $this->$core->db('table')->save(['name' => 'James Gordon', 'city' => 'Gotham']);
+$id = $this->core->db('table')->save(['name' => 'James Gordon', 'city' => 'Gotham']);
 // Wartość zwracana: numer ID nowego rekordu
 
 // Aktualizacja istniejącego rekordu
-$this->$core->db('table')->where('age', 50)->save(['name' => 'James Gordon', 'city' => 'Gotham']);
+$this->core->db('table')->where('age', 50)->save(['name' => 'James Gordon', 'city' => 'Gotham']);
 // Wartość zwracana: TRUE w przypadku sukcesu lub FALSE przy niepowodzeniu
 ```
 
@@ -1156,17 +1164,17 @@ Aktualizacja rekordów w przypadku powodzenia zwróci wartość `TRUE`. W przeci
 
 ```php
 // Zmiana jednej kolumny
-$this->$core->db('table')->where('city', 'Gotham')->update('name', 'Joker');
+$this->core->db('table')->where('city', 'Gotham')->update('name', 'Joker');
 
 // Zmiana wielu kolumn
-$this->$core->db('table')->where('city', 'Gotham')->update(['name' => 'Joker', 'type' => 'Villain']);
+$this->core->db('table')->where('city', 'Gotham')->update(['name' => 'Joker', 'type' => 'Villain']);
 ```
 
 
 ### SET
 
 ```php
-$this->$core->db('table')->where('age', 65)->set('age', 70)->set('name', 'Alfred Pennyworth')->update();
+$this->core->db('table')->where('age', 65)->set('age', 70)->set('name', 'Alfred Pennyworth')->update();
 ```
 
 
@@ -1176,10 +1184,10 @@ Pomyślne usunięcie rekordów zwróci ich liczbę.
 
 ```php
 // Usunięcie rekordu o `id` równym 1
-$this->$core->db('table')->delete(1);
+$this->core->db('table')->delete(1);
 
 // Usunięcie rekordu z warunkiem
-$this->$core->db('table')->where('age', 20)->delete();
+$this->core->db('table')->where('age', 20)->delete();
 ```
 
 
@@ -1187,24 +1195,24 @@ $this->$core->db('table')->where('age', 20)->delete();
 
 Sortowanie rosnące:
 ```php
-$this->$core->db('table')->asc('created_at')->toJson();
+$this->core->db('table')->asc('created_at')->toJson();
 ```
 
 Sortowanie malejące:
 ```php
-$this->$core->db('table')->desc('created_at')->toJson();
+$this->core->db('table')->desc('created_at')->toJson();
 ```
 
 Łączenie sortowania:
 ```php
-$this->$core->db('table')->desc('created_at')->asc('id')->toJson();
+$this->core->db('table')->desc('created_at')->asc('id')->toJson();
 ```
 
 
 ### GROUP BY
 
 ```php
-$this->$core->db('table')->group('city')->toArray();
+$this->core->db('table')->group('city')->toArray();
 ```
 
 
@@ -1212,7 +1220,7 @@ $this->$core->db('table')->group('city')->toArray();
 
 ```php
 // Pobranie 5 rekordów, zaczynając od dziesiątego
-$this->$core->db('table')->offset(10)->limit(5)->toJson();
+$this->core->db('table')->offset(10)->limit(5)->toJson();
 ```
 
 
@@ -1221,7 +1229,7 @@ $this->$core->db('table')->offset(10)->limit(5)->toJson();
 Nie wszystkie zapytania da się stworzyć przy pomocy wyżej wymienionych metod *(np. utworzenie lub usunięcie tabeli)*, dlatego możesz również pisać zapytania przy pomocy [PDO](http://php.net/manual/en/book.pdo.php):
 
 ```php
-$this->$core->db()->pdo()->exec("DROP TABLE `example`");
+$this->core->db()->pdo()->exec("DROP TABLE `example`");
 ``` 
 
 

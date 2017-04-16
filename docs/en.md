@@ -1033,25 +1033,25 @@ Select multiple records:
 
 ```php
 // JSON
-$rows = $this->$core->db('table')->toJson();
+$rows = $this->core->db('table')->toJson();
 
 // Array
-$rows = $this->$core->db('table')->select('foo')->select('bar')->toArray();
+$rows = $this->core->db('table')->select('foo')->select('bar')->toArray();
 
 // Object
-$rows = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->toObject();
+$rows = $this->core->db('table')->select(['foo', 'b' => 'bar'])->toObject();
 ```
 
 Select a single record:
 ```php
 // JSON
-$row = $this->$core->db('table')->oneJson();
+$row = $this->core->db('table')->oneJson();
 
 // Array
-$row = $this->$core->db('table')->select('foo')->select('bar')->oneArray();
+$row = $this->core->db('table')->select('foo')->select('bar')->oneArray();
 
 // Object
-$row = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
+$row = $this->core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
 ```
 
 
@@ -1060,52 +1060,60 @@ $row = $this->$core->db('table')->select(['foo', 'b' => 'bar'])->oneObject();
 Select a record with the specified number in the `id` column:
 
 ```php
-$row = $this->$core->db('table')->oneArray(1);
+$row = $this->core->db('table')->oneArray(1);
 // or
-$row = $this->$core->db('table')->oneArray('id', 1);
+$row = $this->core->db('table')->oneArray('id', 1);
 // or
-$row = $this->$core->db('table')->where(1)->oneArray();
+$row = $this->core->db('table')->where(1)->oneArray();
 // or
-$row = $this->$core->db('table')->where('id', 1)->oneArray();
+$row = $this->core->db('table')->where('id', 1)->oneArray();
 ```
 
 Complex conditions:
 ```php
 // Fetch rows whose column value 'foo' is GREATER than 4
-$rows = $this->$core->db('table')->where('foo', '>', 4)->toArray();
+$rows = $this->core->db('table')->where('foo', '>', 4)->toArray();
 
 // Fetch rows whose column value 'foo' is GREATER than 4 and LOWER than 8
-$rows = $this->$core->db('table')->where('foo', '>', 4)->where('foo', '<', 8)->toArray();
+$rows = $this->core->db('table')->where('foo', '>', 4)->where('foo', '<', 8)->toArray();
 ```
 
 OR WHERE:
 ```php
 // Fetch rows whose column value 'foo' is EQUAL 4 or 8
-$rows = $this->$core->db('table')->where('foo', '=', 4)->orWhere('foo', '=', 8)->toArray();
+$rows = $this->core->db('table')->where('foo', '=', 4)->orWhere('foo', '=', 8)->toArray();
 ```
 
 WHERE LIKE:
 ```php
 // Fetch rows whose column 'foo' CONTAINS the string 'bar' OR 'bases'
-$rows = $this->$core->db('table')->like('foo', '%bar%')->orLike('foo', '%baz%')->toArray();
+$rows = $this->core->db('table')->like('foo', '%bar%')->orLike('foo', '%baz%')->toArray();
 ```
 
 WHERE NOT LIKE:
 ```php
 // Fetch rows whose column 'foo' DOES NOT CONTAIN the string 'bar' OR 'baz'
-$rows = $this->$core->db('table')->notLike('foo', '%bar%')->orNotLike('foo', '%baz%')->toArray();
+$rows = $this->core->db('table')->notLike('foo', '%bar%')->orNotLike('foo', '%baz%')->toArray();
 ```
 
 WHERE IN:
 ```php
 // Fetch rows whose column value 'foo' CONTAINS in array [1,2,3] OR [7,8,9]
-$rows = $this->$core->db('table')->in('foo', [1,2,3])->orIn('foo', [7,8,9])->toArray();
+$rows = $this->core->db('table')->in('foo', [1,2,3])->orIn('foo', [7,8,9])->toArray();
 ```
 
 WHERE NOT IN:
 ```php
 // Fetch rows whose column value 'foo' DOES NOT CONTAIN in array [1,2,3] OR [7,8,9]
-$rows = $this->$core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
+$rows = $this->core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
+```
+
+GROUPING CONDITIONS:
+```php
+// Fetch rows those column value 'foo' is 1 or 2 AND status is 1
+$rows = $this->core->db('table')->where(function($st) {
+            $st->where('foo', 1)->orWhere('foo', 2);
+        })->where('status', 1)->toArray();
 ```
 
 Allowed comparison operators: `=`, `>`, `<`, `>=`, `<=`, `<>`, `!=`. 
@@ -1115,24 +1123,24 @@ Allowed comparison operators: `=`, `>`, `<`, `>=`, `<=`, `<>`, `!=`.
 
 INNER JOIN:
 ```php
-$rows = $this->$core->db('table')->join('foo', 'foo.table_id = table.id')->toJson();
+$rows = $this->core->db('table')->join('foo', 'foo.table_id = table.id')->toJson();
 ```
 
 LEFT JOIN:
 ```php
-$rows = $this->$core->db('table')->leftJoin('foo', 'foo.table_id = table.id')->toJson();
+$rows = $this->core->db('table')->leftJoin('foo', 'foo.table_id = table.id')->toJson();
 ```
 
 
 ### HAVING
 
 ```php
-$rows = $this->$core->db('table')->having('COUNT(*)', '>', 5)->toArray();
+$rows = $this->core->db('table')->having('COUNT(*)', '>', 5)->toArray();
 ```
 
 OR HAVING:
 ```php
-$rows = $this->$core->db('table')->orHaving('COUNT(*)', '>', 5)->toArray();
+$rows = $this->core->db('table')->orHaving('COUNT(*)', '>', 5)->toArray();
 ```
 
 
@@ -1142,11 +1150,11 @@ The `save` method can add a new record to the table or update an existing one wh
 
 ```php
 // Add a new record
-$id = $this->$core->db('table')->save(['name' => 'James Gordon', 'city' => 'Gotham']);
+$id = $this->core->db('table')->save(['name' => 'James Gordon', 'city' => 'Gotham']);
 // Return value: ID number of new record
 
 // Update an existing record
-$this->$core->db('table')->where('age', 50)->save(['name' => 'James Gordon', 'city' => 'Gotham']);
+$this->core->db('table')->where('age', 50)->save(['name' => 'James Gordon', 'city' => 'Gotham']);
 // Return value: TRUE on success or FALSE on failure
 ```
 
@@ -1157,17 +1165,17 @@ Updating records in case of success will return `TRUE`. Otherwise it will be `FA
 
 ```php
 // Changing one column
-$this->$core->db('table')->where('city', 'Gotham')->update('name', 'Joker');
+$this->core->db('table')->where('city', 'Gotham')->update('name', 'Joker');
 
 // Changing multiple columns
-$this->$core->db('table')->where('city', 'Gotham')->update(['name' => 'Joker', 'type' => 'Villain']);
+$this->core->db('table')->where('city', 'Gotham')->update(['name' => 'Joker', 'type' => 'Villain']);
 ```
 
 
 ### SET
 
 ```php
-$this->$core->db('table')->where('age', 65)->set('age', 70)->set('name', 'Alfred Pennyworth')->update();
+$this->core->db('table')->where('age', 65)->set('age', 70)->set('name', 'Alfred Pennyworth')->update();
 ```
 
 
@@ -1177,10 +1185,10 @@ Successful deletion of records returns their number.
 
 ```php
 // Delete record with `id` equal to 1
-$this->$core->db('table')->delete(1);
+$this->core->db('table')->delete(1);
 
 // Deletion of record with condition
-$this->$core->db('table')->where('age', 20)->delete();
+$this->core->db('table')->where('age', 20)->delete();
 ```
 
 
@@ -1188,24 +1196,24 @@ $this->$core->db('table')->where('age', 20)->delete();
 
 Ascending order:
 ```php
-$this->$core->db('table')->asc('created_at')->toJson();
+$this->core->db('table')->asc('created_at')->toJson();
 ```
 
 Descending order:
 ```php
-$this->$core->db('table')->desc('created_at')->toJson();
+$this->core->db('table')->desc('created_at')->toJson();
 ```
 
 Combine order:
 ```php
-$this->$core->db('table')->desc('created_at')->asc('id')->toJson();
+$this->core->db('table')->desc('created_at')->asc('id')->toJson();
 ```
 
 
 ### GROUP BY
 
 ```php
-$this->$core->db('table')->group('city')->toArray();
+$this->core->db('table')->group('city')->toArray();
 ```
 
 
@@ -1213,7 +1221,7 @@ $this->$core->db('table')->group('city')->toArray();
 
 ```php
 // Fetch 5 records starting at tenth
-$this->$core->db('table')->offset(10)->limit(5)->toJson();
+$this->core->db('table')->offset(10)->limit(5)->toJson();
 ```
 
 
@@ -1222,7 +1230,7 @@ $this->$core->db('table')->offset(10)->limit(5)->toJson();
 Not all queries can be created using the above methods *(e.g. creating or deleting a table)*, so you can also write queries using [PDO](http://php.net/manual/en/book.pdo.php):
 
 ```php
-$this->$core->db()->pdo()->exec("DROP TABLE `example`");
+$this->core->db()->pdo()->exec("DROP TABLE `example`");
 ``` 
 
 

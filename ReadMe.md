@@ -12,7 +12,7 @@ https://batflat.org
 * Polish
 
 ## Modules
-* [Visitor Counter](https://github.com/michu2k/Counter)
+* [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
 * This is place for link to your module on GitHub ;-)
 
 ## Themes

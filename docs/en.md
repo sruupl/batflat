@@ -231,7 +231,7 @@ Example
   <title>{$page.title} - {$settings.title}</title>
   <meta name="description" content="{$settings.description}">
   <meta name="keywords" content="{$settings.keywords}">
-  <link rel="stylesheet" href="{$bat.path}/themes/{$settings.theme}/styles.css">
+  <link rel="stylesheet" href="{$bat.theme}/styles.css">
   {loop: $bat.header}{$value}{/loop}
 </head>
 
@@ -251,7 +251,7 @@ Example
         {$settings.footer} {$bat.powered}
     </footer>
    
-    <script src="{$bat.path}/themes/{$settings.theme}/scripts.js"></script>
+    <script src="{$bat.theme}/scripts.js"></script>
     {loop: $bat.footer}{$value}{/loop}
 </body>
 </html>

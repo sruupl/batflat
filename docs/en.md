@@ -86,7 +86,13 @@ Themes
 Structure
 ---------
 
-The structure of themes in Batflat is very simple. Just create a new folder in the `themes/` directory and the `index.html` file, which will be the default template for the subpages. Each subpage can use another template, so besides the mentioned file, you can also create another, eg `xyz.html`. Template selection is available in the admin panel while creating a page. There are no rules about CSS and JS files. There is full freedom.
+The structure of themes in Batflat is very simple. Just create a new folder in the `themes/` directory and the following files:
+
++ `index.html` — default template for subpages
++ `manifest.json` — theme informations
++ `preview.png` — screenshot showing the theme *(optional)*
+
+Each subpage can use another template, so besides the mentioned file, you can also create another, eg `xyz.html`. Template selection is available in the admin panel while creating a page. There are no rules about CSS and JS files. There is full freedom.
 
 In the theme folder you can also create your own module views. To do this, you need to create a directory `modules/module_name` and `*.html` files with names corresponding to the names of the original views. For example, the view of the contact form should be contained in the following path: `themes/theme_name/modules/contact/form.html`. Batflat automatically detects a new view and uses it instead of the module default view.
 
@@ -201,6 +207,20 @@ Batflat, like its modules, provides many variables *(usually arrays)* that serve
 
 Example
 -------
+
+### manifest.json
+
+```
+{
+    "name": "Example",
+    "version": "1.0",
+    "author": "Bruce Wayne",
+    "email": "contact@waynecorp.com",
+    "thumb": "preview.png"
+}
+```
+
+### index.html
 
 ```html
 <!doctype html>
@@ -1023,7 +1043,7 @@ Database
 
 The database used in Batflat is SQLite version 3. For its use, CMS uses a simple class that makes it easy to build queries. You do not need to know SQL to be able to operate it.
 
-In addition, we recommend [*Adminer*](https://www.adminer.org/) app for database management. This is a one-file PHP script similar to *phpMyAdmin*, where you can administer Batflat tables. This will allow you to familiarize yourself with the structure of existing tables.
+In addition, we recommend [*phpLiteAdmin*](https://github.com/sruupl/batflat-pla) app for database management. This is a one-file PHP script similar to *phpMyAdmin*, where you can administer Batflat tables. This will allow you to familiarize yourself with the structure of existing tables.
 The database file is located in `inc/data/database.sdb`.
 
 
@@ -1108,7 +1128,7 @@ WHERE NOT IN:
 $rows = $this->core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
 ```
 
-GROUPING CONDITIONS:
+Grouping conditions:
 ```php
 // Fetch rows those column value 'foo' is 1 or 2 AND status is 1
 $rows = $this->core->db('table')->where(function($st) {

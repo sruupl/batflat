@@ -86,7 +86,13 @@ Motywy
 Struktura
 ---------
 
-Struktura motywów w Batflacie jest bardzo prosta. Wystarczy utworzyć nowy folder z nazwą motywu w katalogu `themes/` oraz plik `index.html`, który będzie domyślnym szablonem dla podstron. Każda podstrona może korzystać z innego szablonu, zatem prócz wspomnianego pliku możesz utworzyć także inne, np. `xyz.html`. Wybór szablonu jest dostępny w panelu administracyjnym podczas tworzenia strony. Nie ma określonych reguł co do plików CSS oraz JS. Panuje pełna dowolność.
+Struktura motywów w Batflacie jest bardzo prosta. Wystarczy utworzyć nowy folder z nazwą motywu w katalogu `themes/` oraz następujące pliki:
+
++ `index.html` — domyślny szablon dla podstron
++ `manifest.json` — informacje o motywie
++ `preview.png` — zrzut ekranu przedstawiający motyw *(opcjonalne)*
+
+Każda podstrona może korzystać z innego szablonu, zatem prócz wspomnianego pliku możesz utworzyć także inne, np. `xyz.html`. Wybór szablonu jest dostępny w panelu administracyjnym podczas tworzenia strony. Nie ma określonych reguł co do plików CSS oraz JS. Panuje pełna dowolność.
 
 W katalogu motywu możesz również stworzyć własne widoki modułów. Aby to zrobić, musisz utworzyć katalog `modules/nazwa_modułu/` oraz pliki `*.html` z nazwami odpowiadającymi nazwom oryginalnych widoków. Przykładowo, widok modułu formularza kontaktowego powinien być zawarty w następującej ścieżce: `themes/nazwa_motywu/modules/contact/form.html`. Batflat automatycznie wykryje nowy widok i użyje go zamiast domyślnego widoku modułu.
 
@@ -203,6 +209,20 @@ Batflat, podobnie jak i jego moduły, dostarcza wiele zmiennych *(zazwyczaj tabl
 
 Przykład
 --------
+
+### manifest.json
+
+```
+{
+    "name": "Example",
+    "version": "1.0",
+    "author": "Bruce Wayne",
+    "email": "contact@waynecorp.com",
+    "thumb": "preview.png"
+}
+```
+
+### index.html
 
 ```html
 <!doctype html>
@@ -1022,7 +1042,7 @@ Baza danych
 
 Zastosowana w Batflacie baza danych to SQLite w wersji 3. Do jej obsługi, CMS wykorzystuje prostą klasę, która ułatwia budowanie zapytań. Nie musisz znać języka SQL, by móc na niej operować.
 
-Dodatkowo polecamy aplikację [*Adminer*](https://www.adminer.org/) do zarządzania nią. Jest to jednoplikowy skrypt PHP, podobny do *phpMyAdmin*, przy pomocy którego można administrować tabelami Batflata. Pozwoli on zapoznać się ze strukturą istniejących tabel.
+Dodatkowo polecamy aplikację [*phpLiteAdmin*](https://github.com/sruupl/batflat-pla) do zarządzania bazą. Jest to jednoplikowy skrypt PHP, podobny do *phpMyAdmin*, przy pomocy którego można administrować tabelami Batflata. Pozwoli on zapoznać się ze strukturą istniejących tabel.
 Plik bazy znajduje się w `inc/data/database.sdb`.
 
 
@@ -1107,7 +1127,7 @@ WHERE NOT IN:
 $rows = $this->core->db('table')->notIn('foo', [1,2,3])->orNotIn('foo', [7,8,9])->toArray();
 ```
 
-GRUPOWANIE WARUNKÓW:
+Grupowanie warunków:
 ```php
 // Pobranie wierszy, których wartość kolumny 'foo' to 1 lub 2 ORAZ posiadają status = 1
 $rows = $this->core->db('table')->where(function($st) {

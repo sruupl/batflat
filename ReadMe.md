@@ -16,7 +16,7 @@ https://batflat.org
 * This is place for link to your module on GitHub ;-)
 
 ## Themes
-* [Blue](https://github.com/michu2k/Blue)
+* [Blue](https://github.com/michu2k/Blue): Simple and clean theme.
 * This is place for link to your theme on GitHub ;-)
 
 ## Recruitment

@@ -1041,9 +1041,9 @@ $this->core->setNotify('success', 'This is %s!', $foo);
 Database
 --------
 
-The database used in Batflat is SQLite version 3. For its use, CMS uses a simple class that makes it easy to build queries. You do not need to know SQL to be able to operate it.
+The database used in Batflat is SQLite version 3. For its use CMS uses a simple class that makes it easy to build queries. You do not need to know SQL to be able to operate it.
 
-In addition, we recommend [*phpLiteAdmin*](https://github.com/sruupl/batflat-pla) app for database management. This is a one-file PHP script similar to *phpMyAdmin*, where you can administer Batflat tables. This will allow you to familiarize yourself with the structure of existing tables.
+In addition, we recommend [phpLiteAdmin](https://github.com/sruupl/batflat-pla) tool for database management. This is a one-file PHP script similar to *phpMyAdmin*, where you can administer Batflat tables. This will allow you to familiarize yourself with the structure of existing tables.
 The database file is located in `inc/data/database.sdb`.
 
 

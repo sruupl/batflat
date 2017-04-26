@@ -1040,9 +1040,9 @@ $this->core->setNotify('success', 'Pomyślnie zainstalowano moduł %s!', $foo);
 Baza danych
 -----------
 
-Zastosowana w Batflacie baza danych to SQLite w wersji 3. Do jej obsługi, CMS wykorzystuje prostą klasę, która ułatwia budowanie zapytań. Nie musisz znać języka SQL, by móc na niej operować.
+Zastosowana w Batflacie baza danych to SQLite w wersji 3. Do jej obsługi CMS wykorzystuje prostą klasę, która ułatwia budowanie zapytań. Nie musisz znać języka SQL, by móc na niej operować.
 
-Dodatkowo polecamy aplikację [*phpLiteAdmin*](https://github.com/sruupl/batflat-pla) do zarządzania bazą. Jest to jednoplikowy skrypt PHP, podobny do *phpMyAdmin*, przy pomocy którego można administrować tabelami Batflata. Pozwoli on zapoznać się ze strukturą istniejących tabel.
+Dodatkowo polecamy narzędzie [phpLiteAdmin](https://github.com/sruupl/batflat-pla) do zarządzania bazą. Jest to jednoplikowy skrypt PHP, podobny do *phpMyAdmin*, przy pomocy którego można administrować tabelami Batflata. Pozwoli on zapoznać się ze strukturą istniejących tabel.
 Plik bazy znajduje się w `inc/data/database.sdb`.
 
 

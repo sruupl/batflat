@@ -547,7 +547,7 @@ $this->draw('../path/to/view.html', ['foo' => 'bar']);
 string lang(string $key [, string $module])
 ```
 
-Zwraca zawartość klucza tablicy językowej z aktualnego modułu bądź wskazanego poprzez drugi argument.
+Returns the contents of the language array key from the current module or indicated by the second argument.
 
 #### Arguments
 + `key` — the name of the language array key

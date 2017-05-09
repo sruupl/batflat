@@ -10,6 +10,7 @@ https://batflat.org
 ## Supported languages
 * English
 * Polish
+* [French](https://github.com/Eztharia/batflat)
 * [Turkish](https://github.com/pppedant/batflat)
 
 ## Modules
@@ -26,7 +27,7 @@ We are looking for human resources, especially translators who will help us reac
 
 ## Credits
 
-* **Dominique Tauzin** - French translation of website
+* **Eztharia** - French translation of website and CMS
 * **Ladeyshchikov Valery** - Russian translation of CMS
 * **Artem Sharovatov** - Russian translation of website
 * **Birkan Ergüç** - Turkish translation of CMS

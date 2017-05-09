@@ -10,6 +10,7 @@ https://batflat.org
 ## Supported languages
 * English
 * Polish
+* [Turkish](https://github.com/pppedant/batflat)
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
@@ -25,6 +26,7 @@ We are looking for human resources, especially translators who will help us reac
 
 ## Credits
 
-* **Dominique Tauzin** - French translation of website and CMS
+* **Dominique Tauzin** - French translation of website
 * **Ladeyshchikov Valery** - Russian translation of CMS
 * **Artem Sharovatov** - Russian translation of website
+* **Birkan Ergüç** - Turkish translation of CMS

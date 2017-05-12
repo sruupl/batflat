@@ -1264,16 +1264,22 @@ Obsługa systemu szablonów jest łatwa i opiera się głównie na dwóch metoda
 void set(string $name, mixed $value)
 ```
 
-Przypisuje wartość do zmiennej, którą będzie można się posługiwać w widokach.
+Przypisuje wartość lub funkcję do zmiennej, którą będzie można się posługiwać w widokach.
 
 #### Argumenty
 + `name` — nazwa zmiennej
-+ `value` — wartość zmiennej
++ `value` — wartość zmiennej lub anonimowa funkcja
 
 #### Przykład
 ```php
+// Przypisanie tablicy
 $foo = ['bar', 'baz', 'qux'];
 $this->tpl->set('foo', $foo);
+
+// Przypisanie funkcji anonimowej
+$this->tpl->set('bar', function() {
+   return ['baz' => 'qux']; 
+})
 ```
 
 

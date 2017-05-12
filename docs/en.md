@@ -1265,16 +1265,22 @@ Operating the template system is easy and is based primarily on two methods. One
 void set(string $name, mixed $value)
 ```
 
-Assigns a value to a variable that can be used in views.
+Assigns a value or function to a variable that can be used in views.
 
 #### Arguments
 + `name` — variable name
-+ `value` — variable value
++ `value` — variable value or anonymous function
 
 #### Example
 ```php
+// Assignment of the array
 $foo = ['bar', 'baz', 'qux'];
 $this->tpl->set('foo', $foo);
+
+// Assign an anonymous function
+$this->tpl->set('bar', function() {
+   return ['baz' => 'qux']; 
+})
 ```
 
 

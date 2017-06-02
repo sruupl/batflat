@@ -12,6 +12,7 @@ https://batflat.org
 * Polish
 * [French](https://github.com/Eztharia/batflat)
 * [Turkish](https://github.com/pppedant/batflat)
+* [Swedish](https://github.com/sruupl/batflat-se)
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
@@ -31,3 +32,4 @@ We are looking for human resources, especially translators who will help us reac
 * **Ladeyshchikov Valery** - Russian translation of CMS
 * **Artem Sharovatov** - Russian translation of website
 * **Birkan Ergüç** - Turkish translation of CMS
+* **Michael Thell** - Swedish translation of CMS

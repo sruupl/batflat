@@ -13,6 +13,7 @@ https://batflat.org
 * [French](https://github.com/Eztharia/batflat)
 * [Turkish](https://github.com/pppedant/batflat)
 * [Swedish](https://github.com/sruupl/batflat-se)
+* [Russian](https://github.com/sruupl/batflat-ru)
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.

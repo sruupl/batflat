@@ -402,10 +402,10 @@ Plik ten odpowiada za część widzianą przez gości odwiedzających stronę. J
 
         public function routes()
         {
-            $this->route('example', '_mySite');
+            $this->route('example', 'mySite');
         }
 
-        private function _mySite()
+        public function mySite()
         {
             $page = [
                 'title' => 'Sample title..',
@@ -424,7 +424,7 @@ Plik ten odpowiada za część widzianą przez gości odwiedzających stronę. J
     }
 ```
 
-W powyższym przykładzie została utworzona nowa zmienna szablonowa `bar`, która poprzez wywołanie metody `_foo()` w inicjalizatorze modułu, będzie mogła być użyta w plikach motywu jako `{$bar}`. Dodatkowo w metodzie `routes()` został utworzony routing do podstrony `/example`, wskazujący wywołanie metody `_mySite()`. Jeżeli przejdziemy pod adres `http://example.com/example` zostanie wywołana metoda `_mySite()` modułu.
+W powyższym przykładzie została utworzona nowa zmienna szablonowa `bar`, która poprzez wywołanie metody `_foo()` w inicjalizatorze modułu, będzie mogła być użyta w plikach motywu jako `{$bar}`. Dodatkowo w metodzie `routes()` został utworzony routing do podstrony `/example`, wskazujący wywołanie metody `mySite()`. Jeżeli przejdziemy pod adres `http://example.com/example` zostanie wywołana metoda `mySite()` modułu.
 
 ### Pliki językowe
 

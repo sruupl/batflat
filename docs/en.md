@@ -402,10 +402,10 @@ This file is responsible for the portion seen by visitors of the website. If the
 
         public function routes()
         {
-            $this->route('example', '_mySite');
+            $this->route('example', 'mySite');
         }
 
-        private function _mySite()
+        public function mySite()
         {
             $page = [
                 'title' => 'Sample title..',
@@ -424,7 +424,7 @@ This file is responsible for the portion seen by visitors of the website. If the
     }
 ```
 
-In the above example, a new `bar` template variable has been created which, by calling the `_foo()` method in the module initializer, can be used in the theme files as `{$bar}`. In addition, the `routes()` method has created a `/example` subroutine that points to the `_mySite()` method call. If you go to `http://example.com/example`, you will call the `_mySite()` method.
+In the above example, a new `bar` template variable has been created which, by calling the `_foo()` method in the module initializer, can be used in the theme files as `{$bar}`. In addition, the `routes()` method has created a `/example` subroutine that points to the `mySite()` method call. If you go to `http://example.com/example`, you will call the `mySite()` method.
 
 ### Language files
 

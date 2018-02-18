@@ -698,15 +698,21 @@ if(checkEmptyFields(['name', 'phone', 'email'], $_POST) {
 ### currentURL
 
 ```php
-string currentURL()
+string currentURL([bool $query = false])
 ```
 
 Returns the current URL.
+
+#### Arguments
++ `query` — it decides whether the address will be returned with or without query
 
 #### Example
 ```php
 echo currentURL();
 // Result: http://example.com/contact
+
+echo currentURL(true);
+// Result: http://example.com/contact?foo=bar
 ```
 
 

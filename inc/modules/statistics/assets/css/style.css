@@ -1,0 +1,14 @@
+.panel-body h1 {
+    font-weight:bold;
+    margin:10px 0;
+    font-size:48px;
+}
+.panel-body-nopadding {
+    padding:0;
+}
+.panel-body-nopadding table tr th {
+    border-top:0;
+}
+.panel-body-nopadding table tr td, .panel-body-nopadding table tr th {
+    padding-left:15px;
+}

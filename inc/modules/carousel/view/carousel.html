@@ -1,0 +1,29 @@
+<div id="carousel-{$carousel.slug}" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        {loop: $carousel.items}
+        <li data-target="#carousel-{$carousel.slug}" {if: !$counter}class="active"{/if} data-slide-to="{$counter}"></li>
+        {/loop}
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        {loop: $carousel.items}
+        <div class="item {if: !$counter}active{/if}">
+            <img src="{?=url($value.src.lg)?}" />
+            <div class="carousel-caption">
+                <h3>{$value.title}</h3>
+                <p>{$value.desc}</p>
+            </div>
+        </div>
+        {/loop}
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-{$carousel.slug}" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-{$carousel.slug}" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    </a>
+</div>

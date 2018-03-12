@@ -1,0 +1,99 @@
+Batflat Freeware License
+
+1. Preamble
+
+This License applies to the computer program which with this licence is distributed (now
+the "Program"). The Program is intellectual property of Paweł Klockiewicz and
+Wojciech Król (the "Authors") and is placed under the protection of copyright laws,
+including Polish legislation and international treaties such as the Berne Convention.
+
+Please note that this License is not a free software licence as defined by the Free
+Software Foundation. Usage of the software covered by this licence is allowed free of
+charge, but its COMMERCIAL DISTRIBUTION IS PROHIBITED. While the authors of this software
+support the open-source philosophy and also distributes other GPL-licenced software, this
+licence states that no profit could be made by third parties from the covered software.
+
+BY USING OR DISTRIBUTING THE PROGRAM (OR ANY WORK BASED ON THE PROGRAM), YOU INDICATE YOUR
+ACCEPTANCE OF THIS LICENSE TO DO SO, AND ALL ITS TERMS AND CONDITIONS FOR USING AND
+DISTRIBUTING THE PROGRAM OR WORKS BASED ON IT. NOTHING OTHER THAN THIS LICENSE GRANTS YOU
+PERMISSION TO DISTRIBUTE THE PROGRAM OR ITS DERIVATIVE WORKS. THESE ACTIONS ARE PROHIBITED
+BY LAW. IF YOU DO NOT ACCEPT THESE TERMS AND CONDITIONS, DO NOT DISTRIBUTE THE PROGRAM.
+
+2. Licenses
+
+Licensor hereby grants you the following rights, provided that you comply with all of the
+restrictions set forth in this License and provided, further, that you distribute an
+unmodified copy of this License with the Program:
+
+    (a) Permission is granted to use the Program for non-commercial, non-military
+    purposes.
+
+    (b) You may copy and distribute literal (i.e. verbatim) copies of the Program as you
+    receive it throughout the world, in any medium.
+
+    (c) You may create works based on the Program and distribute copies of such throughout
+    the world, in any medium.
+
+3. Restrictions
+
+This license is subject to the following restrictions:
+
+    (a) The Program may not be used for commercial or milatary purposes.
+
+    (b) Every disribution of the Program must retain a copy of this Licence.
+
+    (c) The Program may not be sold or incorporated into any product which is sold without
+    prior permission from the Authors. Distribution of the Program or any work based on the
+    Program by a commercial organization to any third party without permission is prohibited
+    if any payment is made in connection with such distribution, whether directly (as in
+    payment for a copy of the Program) or indirectly (as in payment for some service related
+    to the Program, or payment for some product or service that includes a copy of the Program
+    "without charge").
+
+    (d) The Program, especially the name of the Program, logo, a backlink to the official
+    website and the names of the Authors must remain unmodified.
+
+    (e) Any output produced through the use of the Program, or derived from, is subject to
+    this license, i.e. content made by running the Program may be freely distributed provided
+    that no direct or indirect payment is required by the distributor in exchange of this
+    content. Distribution of produced content must also follow the rules that may govern
+    distribution and exploitation of the input material and/or the software that generated.
+
+    (f) You must meet all of the following conditions with respect to any work that you
+    distribute or publish that in whole or in part contains or is derived from the Program
+    (the "Work"):
+
+        (i) You must cause the Work to be licensed as a whole and at no charge to all
+        third parties under the terms of this License;
+
+        (ii) If the Work normally reads commands interactively when run, you must cause
+        it, at each time the Work commences operation, to print or display an announcement
+        including an appropriate copyright notice. Such notice must also state that users may
+        redistribute the Work only under the conditions of this License and tell the user how
+        to view the copy of this License included with the Work;
+
+        (iii) If you distribute any written or printed material at all with the Work, such
+        material must include either a written copy of this License, or a prominent written
+        indication that the Work is covered by this License and written instructions for
+        printing and/or displaying the copy of the License on the distribution medium;
+
+        (iv) You may not impose any further restrictions on the recipient's exercise of
+        the rights granted herein.
+
+4. Reservation of Rights
+
+No rights are granted to the Program except as expressly set forth herein. You may not
+copy, modify, sublicense, or distribute the Program except as expressly provided under
+this License. Any attempt otherwise to copy, modify, sublicense or distribute the Program
+is void, and will automatically terminate your rights under this License. However, parties
+who have received copies, or rights, from you under this License will not have their
+licenses terminated so long as such parties remain in full compliance.
+
+5. Limitations
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.

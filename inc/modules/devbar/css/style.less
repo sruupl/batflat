@@ -1,0 +1,121 @@
+body {
+    margin-bottom: 30px;
+}
+#devbar {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    left: -2px;
+    right: -2px;
+    padding: 0px;
+    background: #222;
+    border-top: 1px solid #444;
+    color: #FFF;
+    font-size: 14px;
+    font-family: "Lucida Console", Monaco, monospace !important;
+    font-weight: 400;
+    line-height: 1.4;
+    > ul {
+        position: relative;
+        min-height: auto;
+        border: 0;
+        border-radius: 0;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        > li {
+            position: static;
+            padding: 0;
+            margin: 0;
+            float: left;
+            > a {
+                color:#FFF;
+                text-decoration: none;
+            }
+            &:not(:last-of-type) {
+                border-right: 1px solid #444;
+            }
+            &.title {
+                font-weight: bold;
+
+                span > span {
+                    color:#f8be12;
+                }
+            }
+            &.show-hide {
+                position: absolute;
+                top: 0;
+                right: 14px;
+                bottom: 0;
+                padding: 3px 6px 0 6px;
+                cursor: pointer;
+
+                i.fa:after {
+                    content: '\f0d8';
+                }
+                &[aria-expanded="true"] i.fa:after {
+                    content: '\f0d7';
+                }
+            }
+            & > span, & > a {
+                display: inline-block;
+                padding: 3px 10px 2px 10px;
+            }
+            
+            &.logo {
+                padding: 2px 20px 2px 20px;
+                img {
+                    height: 18px;
+                    width: auto;
+                }
+            }
+        }
+    }
+    .tab-pane {
+        background: #FFF;
+        height: 300px;
+        color: #000;
+        width: 100%;
+        overflow: auto;
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                padding: 5px 10px;
+                border-bottom: 1px solid #e5e5e5;
+                font-family: monospace;
+
+                dl {
+                    margin-bottom: 0;
+
+                    dd, dt {
+                        line-height: 1.4;
+                    }
+                }
+                
+                .truncate {
+                    cursor: pointer;
+
+                    &.active {
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+                }
+
+                pre {
+                    background: none;
+                    border: none;
+                    margin: 0;
+                    padding: 0;
+                    white-space: pre-wrap;
+                    color: #656d78;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}

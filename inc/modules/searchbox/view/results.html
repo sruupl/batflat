@@ -1,0 +1,8 @@
+<div class="searchbox-results">
+    {loop: $results}
+    <dl>
+        <dt><a href="{$value.url}">{$value.title}</a></dt>
+        <dd>{$value.content|cut:160}</dd>
+    </dl>
+    {/loop}
+</div>

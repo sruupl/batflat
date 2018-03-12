@@ -1,0 +1,33 @@
+<article class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$snippets.title}</h3>
+                <ul class="nav nav-tabs">
+					{loop: $snippets.languages}
+                    <li class="{$value.attr}"><a href="#snippet_{$value.name}" role="tab" data-toggle="tab">{$value.name}</a></li>
+                    {/loop}
+				</ul>
+            </div>
+            <div class="panel-body">
+        		<form name="snippets" action="{?=url(ADMIN.'/snippets/save/'.isset_or($snippets.id, null))?}" method="POST">
+    	            <div class="form-group">
+    	                <label>{$lang.general.name}</label>
+    	                <input type="text" name="name" class="form-control" value="{$snippets.name}" required />
+    	            </div>
+                    <div class="form-group">
+    	                <label>{$lang.snippets.content}</label>
+                        <div class="tab-content">
+                            {loop: $snippets.languages}
+                            <div role="tabpanel" class="tab-pane {$value.attr}" id="snippet_{$value.name}">
+                                <textarea name="content[{$value.name}]" rows="16" class="editor form-control" data-editor="{$snippets.editor}">{?= isset_or($snippets.content[$value.name], null) ?}</textarea>
+                            </div>
+                            {/loop}
+                        </div>
+                    </div>
+    	            <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</article>

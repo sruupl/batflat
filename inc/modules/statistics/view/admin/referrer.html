@@ -1,0 +1,133 @@
+<h3><b>{$lang.statistics.referrals_from}</b> {$url}</h3>
+<article class="row">
+    <div class="col-sm-6">
+        
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.all_unique}</h3>
+              </div>
+              <div class="panel-body">
+                    <h1 class="text-center">{?= $visitors.unique ?}</h1>
+              </div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+        
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.all_visits}</h3>
+              </div>
+              <div class="panel-body">
+                    <h1 class="text-center">{?= $visitors.all ?}</h1>
+              </div>
+        </div>
+        
+    </div>
+</article>
+
+<article class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+              <div class="panel-body">
+                    <canvas id="visits"
+                    style="width:100%; height:300px;"
+                    data-chart="line"
+                    data-labels='[{?= implode(",", $visitors.chart.readable) ?}]'
+                    data-datasets='[
+                        {
+                            label: "{$lang.statistics.unique}",
+                            data: [{?= implode(',', $visitors.chart.uniques) ?}],
+                            backgroundColor: "rgba(248, 190, 18, 0.2)",
+                            borderColor: "rgba(248, 190, 18, 1)"
+                        },
+                        {
+                            label: "{$lang.statistics.visits}",
+                            data: [{?= implode(',', $visitors.chart.visits) ?}],
+                            backgroundColor: "rgba(255, 87, 34, 0.2)",
+                            borderColor: "rgba(255, 87, 34, 1)"
+                        }
+                    ]'></canvas>
+              </div>
+        </div>
+</article>
+<article class="row">
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.os}</h3>
+              </div>
+              <div class="panel-body">
+                    <canvas id="popularOS"
+                    data-chart="pie"
+                    data-labels='[{?= implode(',', $visitors.platform.labels) ?}]'
+                    data-datasets='[
+                        {
+                            data: [{?= implode(',', $visitors.platform.data) ?}]
+                        }
+                    ]'></canvas>
+              </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.browsers}</h3>
+              </div>
+              <div class="panel-body">
+                    <canvas id="browsers"
+                    data-chart="pie"
+                    data-labels='[{?= implode(',', $visitors.browsers.labels) ?}]'
+                    data-datasets='[
+                        {
+                            data: [{?= implode(',', $visitors.browsers.data) ?}]
+                        }
+                    ]'></canvas>
+              </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.countries}</h3>
+              </div>
+              <div class="panel-body">
+                    <canvas id="countries"
+                    data-chart="pie"
+                    data-labels='[{?= implode(',', $visitors.countries.labels) ?}]'
+                    data-datasets='[
+                        {
+                            data: [{?= implode(',', $visitors.countries.data) ?}]
+                        }
+                    ]'></canvas>
+              </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.statistics.target}</h3>
+              </div>
+              <div class="panel-body panel-body-nopadding">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>{$lang.statistics.url}</th>
+                            <th>{$lang.statistics.visits}</th>
+                            <th>{$lang.statistics.unique}</th>
+                        </tr>
+                        {loop: $visitors.referrers}
+                        <tr>
+                            {if: $value.url == NULL}
+                            <td><a href="#">({$lang.statistics.direct_visit})</a></td>
+                            {else}
+                            <td><a href="{?= url($value.url) ?}">{$value.url}</a></td>
+                            {/if}
+                            <td>{$value.count}</td>
+                            <td>{$value.count_unique}</td>
+                        </tr>
+                        {/loop}
+                    </table>
+              </div>
+        </div>
+    </div>
+</article>

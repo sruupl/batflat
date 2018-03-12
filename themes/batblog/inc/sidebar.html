@@ -1,0 +1,56 @@
+<!-- Sidebar -->
+<div class="col-sm-4">
+	<div class="sidebar">	
+		<ul class="sidebar-content">
+			<li class="widget profile">
+				<img src="{?= url($bat.theme.'/img/profile.jpg') ?}" />
+				<h3>
+					{$users.1.fullname}
+					<small>Photographer</small>
+				</h3>
+				<p>
+					{$users.1.description}
+				</p>
+				<div>
+					<a href="#">
+						<span class="fa-stack fa-lg">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+
+					<a href="#">
+						<span class="fa-stack fa-lg">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+
+					<a href="#">
+						<span class="fa-stack fa-lg">
+							<i class="fa fa-circle fa-stack-2x"></i>
+							<i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+						</span>
+					</a>
+				</div>
+			</li>
+			<li class="widget">
+				<h3>{$lang.blog.latest_posts}</h3>
+				<ul>
+					{loop: $latestPosts}
+					<li><a href="{?= url(['blog', 'post', $value.slug]) ?}">{$value.title}</a></li>
+					{/loop}
+				</ul>
+			</li>
+			<li class="widget">
+				<h3>{$lang.blog.categories}</h3>
+				<ul>
+					{loop: $allTags}
+					<li><a href="{?=url(['blog','tag', $value.slug]) ?}">{$value.name} ({$value.count})</a></li>
+					{/loop}
+				</ul>
+			</li>
+		</ul>
+	
+	</div>
+</div>

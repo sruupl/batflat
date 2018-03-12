@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="gallery">
+    {loop: $gallery.items}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                {* image sizes: lg - oryginal size, md - 600px, sm - 300px, xs - 150px *}
+                <a href="{?=url($value.src.lg)?}" class="gallery-{$gallery.slug}">
+                    <img src="{?=url($value.src.sm)?}" alt="{if: $value.title}{$value.title}{/if}" class="img-responsive">
+                </a>
+                {if: $value.title || $value.desc}
+                <div class="caption">
+                    {if: $value.title}<h3>{$value.title}</h3>{/if}
+                    {if: $value.desc}<p>{$value.desc}</p>{/if}
+                </div>
+                {/if}
+            </div>
+        </div>
+    {/loop}
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+	$('.gallery-{$gallery.slug}').lightbox();
+});
+</script>

@@ -1,0 +1,42 @@
+<article class="row">
+    <form action="{?=url(ADMIN.'/blog/saveSettings')?}" method="POST">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.settings.general}</h3>
+                </div>
+            	<div class="panel-body">
+                    <div class="form-group">
+                        <label>{$lang.blog.blog_title}</label>
+                        <input type="text" name="blog[title]" class="form-control" value="{$settings.title}" required />
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.blog.blog_desc}</label>
+                        <input type="text" name="blog[desc]" class="form-control" value="{$settings.desc}" required />
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.blog.perpage}</label>
+                        <input type="number" name="blog[perpage]" class="form-control" value="{$settings.perpage}" required />
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.blog.disqus_shortname}</label>
+                        <input type="text" name="blog[disqus]" class="form-control" value="{$settings.disqus}" />
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.blog.latest_posts_count}</label>
+                        <input type="number" name="blog[latestPostsCount]" class="form-control" value="{$settings.latestPostsCount}" />
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.blog.date_format}</label>
+                        <select name="blog[dateformat]" class="form-control" required>
+                            {loop: $settings.dateformats}
+                                <option value="{$value.value}" {?= $settings.dateformat == $value.value ? 'selected' : '' ?}>{$value.name}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                    <input type="submit" name="submit" class="btn btn-primary" value="{$lang.general.save}" />
+                </div>
+            </div>
+        </div>
+    </form>
+</article>

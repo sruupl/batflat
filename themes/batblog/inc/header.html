@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{if: $page.desc}{$page.desc}{else}{$settings.description}{/if}">
+    <meta name="keywords" content="{$settings.keywords}">
+    <title>{$page.title} | {$settings.title}</title>
+    <link rel="stylesheet" href="{$bat.path}/inc/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$bat.theme}/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/56fa629212.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="{$bat.path}/inc/jscripts/bootstrap.min.js"></script>
+    <script src="{$bat.theme}/js/theme.js"></script>
+    {loop: $bat.header}{$value}{/loop}
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{$bat.path}">{$settings.title}</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {$navigation.main}
+                    <li>{$langSwitcher}</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    

@@ -1,0 +1,48 @@
+<h3>{$lang.statistics.all_referrals}</h3>
+<article class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <canvas id="pagesVisits"
+                    style="width:100%; height:300px;"
+                    data-chart="bar"
+                    data-labels='[{?= implode(",", $referrers.chart.labels) ?}]'
+                    data-datasets='[
+                        {
+                            label: "{$lang.statistics.visits}",
+                            data: [{?= implode(',', $referrers.chart.data) ?}],
+                            backgroundColor: "rgba(248, 190, 18, 0.2)",
+                            borderColor: "rgba(248, 190, 18, 1)"
+                        }
+                    ]'></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+              <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">{$lang.statistics.from_address}</h3>
+              </div>
+              <div class="panel-body panel-body-nopadding">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>{$lang.statistics.url}</th>
+                            <th>{$lang.statistics.visits}</th>
+                            <th>{$lang.statistics.unique}</th>
+                        </tr>
+                        {loop: $referrers.list}
+                        <tr>
+                            {if: $value.referrer == NULL}
+                            <td><a href="#">({$lang.statistics.direct_visit})</a></td>
+                            {else}
+                            <td><a href="{?= url([ADMIN, 'statistics', 'referrer', base64_encode($value.referrer)]) ?}">{$value.referrer}</a></td>
+                            {/if}
+                            <td>{$value.count}</td>
+                            <td>{$value.count_unique}</td>
+                        </tr>
+                        {/loop}
+                    </table>
+              </div>
+        </div>
+    </div>
+</article>

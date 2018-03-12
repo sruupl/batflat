@@ -1,0 +1,107 @@
+{if: FILE_LOCK}
+<div class="alert alert-danger">{$lang.settings.file_lock}<span class="label pull-right">FILE_LOCK</span></div>
+{/if}
+<article class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.settings.translation}</h3>
+                <ul class="nav nav-tabs">
+                    {loop: $settings.langs}
+                    <li class="{$value.attr}"><a href="{?=url(ADMIN.'/settings/translation?lang='.$value['name'].'&source='.$_GET['source'])?}">{$value.name}</a></li>
+                    {/loop}
+                </ul>
+            </div>
+            <div class="panel-body">
+                <form name="selectModule" action="{?=url(ADMIN.'/settings/translation')?}" method="GET">
+        			<select name="source" class="form-control" onchange="document.selectModule.submit();" data-use-search="true">
+        				{loop: $translations}
+        					<option value="{$value}" {?=($value === $_GET['source']) ? 'selected' : '' ?}>{?= (is_numeric($value) ? 'General' : ucfirst($value)) ?}</option>
+        				{/loop}
+        			</select>
+        			<input type="hidden" name="lang" value="{$_GET['lang']}">
+        			<input type="hidden" name="t" value="{$_SESSION['token']}">
+        		</form>
+                <div class="table-responsive">
+                    <form method="post">
+                        <table class="table no-margin">
+                            <tbody>
+                                {loop: $translation as $type => $row}
+                                <tr>
+                                    <td colspan="2">
+                                        <h3>{?= (is_numeric($module) ? 'General' : ucfirst($module)) ?} <small>{?=($type == 'admin') ? 'Admin' : 'Front' ?}</small></h3>
+                                    </td>
+                                </tr>
+                                {loop: $row}
+                                <tr>
+                                    <td>{$value.key}</td>
+                                    <td class="{if: empty($value.value)}has-error{/if}">
+                                        <pre><code>{$value.english|e}</code></pre>
+                                        <input type="text" name="{$module}[{$type}][{$value.key}]" value="{$value.value|e}" class="form-control" placeholder="{$lang.settings.notranslation}" />
+                                    </td>
+                                </tr>
+                                {/loop}
+                                {/loop}
+                            </tbody>
+                        </table>
+                        <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}" {if: FILE_LOCK}disabled{/if}/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.settings.new_lang}</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="{?= url([ADMIN, 'settings', 'translation']) ?}">
+                    <div class="form-group">
+                        <label>{$lang.general.name}</label>
+                        <input type="text" name="language_name" class="form-control" placeholder="Example: en_english" required/>
+                    </div>
+                    <button type="submit" name="new_language" value="1" class="btn btn-primary" {if: FILE_LOCK}disabled{/if}>{$lang.general.add}</button>
+                </form> 
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.settings.lang_import}</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" action="{?= url([ADMIN, 'settings', 'translation']) ?}" enctype="multipart/form-data">
+                    <div class="well well-sm clearfix">
+                        {$lang.settings.lang_upload}
+                        <span class="label label-default pull-right">info</span>
+                    </div>
+                    <div class="form-group">
+                        <label>{$lang.general.file}</label>
+                        <input type="file" name="lang_package" class="form-control" required/>
+                    </div>
+                    <button type="submit" name="upload" value="1" class="btn btn-primary" {if: FILE_LOCK}disabled{/if}>{$lang.general.upload}</button>
+                </form> 
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.settings.lang_export}</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    {loop: $settings.langs}
+                    <tr>
+                        <td>{$value.name}</td>
+                        <td class="text-right">
+                            <a href="{?= url([ADMIN, 'settings', 'translation?export='.$value['name']]) ?}" class="btn btn-primary btn-xs"><i class="fa fa-download"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                </table>
+            </div>
+        </div>
+    </div>
+</article>

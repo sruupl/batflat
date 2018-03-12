@@ -1,0 +1,50 @@
+<article class="row">
+    <div class="col-md-8">
+        <div class="row">
+
+            {loop: $modules}
+            <div class="module">
+                <div class="panel panel-default">
+                    <a href="{$value.url}" class="panel-body text-center">
+                        <div class="panel-thumb">
+                            <i class="fa fa-{$value.icon}"></i>
+                        </div>
+                        <h4>{$value.name}</h4>
+                    </a>
+                </div>
+            </div>
+            {/loop}
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default hidden-xs">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.dashboard.news}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="news">
+                    {loop: $news}
+                    <div class="news-item">
+                        <div class="news-header">
+                            <div class="title">
+                                <a href="{$value.link}" target="_blank">{$value.title}</a>
+                            </div>
+                            <time>{$value.date}</time>
+                        </div>
+                        <div class="news-content">
+                            <p>{$value.desc}</p>
+                        </div>
+                        {if: isset($value.image)}
+                        <a href="{$value.link}" target="_blank" class="news-image">
+                            <img src="{$value.image}" title="{$value.title}" class="img-responsive">
+                        </a>
+                        {/if}
+                    </div>
+                    {/loop}
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,1 @@
+Paste `{$langSwitcher}` in a template file to display select box with available languages.

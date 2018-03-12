@@ -1,0 +1,109 @@
+<article class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.galleries.edit}</h3>
+            </div>
+
+            <div class="panel-body">
+                {if: !empty($gallery.images)}
+                <form action="{?=url([ADMIN, 'galleries', 'saveImages', $gallery['id'], $gallery['page']])?}" method="POST">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>{$lang.galleries.thumbnail}</th>
+                                <th>{$lang.galleries.data}</th>
+                                <th>{$lang.general.actions}</th>
+                            </thead>
+                            <tbody>
+                                {loop: $gallery.images}
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="{?=url($value.src.lg)?}" class="gallery">
+                                            <img src="{?=url($value.src.sm)?}" class="img-responsive" alt="" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" name="img[{$value.id}][title]" placeholder="{$lang.galleries.title}..." class="form-control" value="{$value.title}" />
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="img[{$value.id}][desc]" placeholder="{$lang.galleries.description}..." class="form-control">{$value.desc}</textarea>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{?=url(ADMIN.'/galleries/deleteImage/'.$value.id)?}" class="btn btn-xs btn-danger" data-confirm="{$lang.galleries.delete_confirm}">
+                                            <i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {/loop}
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="{$lang.general.save}" />
+                </form>
+                {$gallery.pagination}
+                {else}
+                <div class="text-center text-muted">
+                    <i class="fa fa-file-image-o" style="font-size:256px;"></i>
+                    <h3>{$lang.general.empty_array}</h3>
+                </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.galleries.settings}</h3>
+            </div>
+            <div class="panel-body">
+        		<form action="{?=url(ADMIN.'/galleries/saveSettings/'.$gallery.id)?}" method="POST">
+                     <div class="form-group">
+                         <label>{$lang.general.name}</label>
+                         <input type="text" name="name" required class="form-control" value="{$gallery.settings.name}" />
+                     </div>
+                     <!--
+                     <div class="form-group">
+                         <label>{$lang.galleries.img_per_page}</label>
+                         <input type="number" name="img_per_page" min="0" class="form-control" required value="{$gallery.settings.img_per_page}"/>
+                     </div>
+                     -->
+                     <div class="form-group">
+                         <label>{$lang.galleries.sort}</label>
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="sort" value="DESC" {if: $gallery.settings.sort == 'DESC'}checked{/if} /> {$lang.galleries.desc}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="sort" value="ASC" {if: $gallery.settings.sort == 'ASC'}checked{/if} /> {$lang.galleries.asc}
+                                </label>
+                            </div>
+                     </div>
+                     <input type="submit" class="btn btn-primary" value="{$lang.general.save}" />
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.galleries.add_images}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{?=url(ADMIN.'/galleries/upload/'.@$gallery.id)?}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="files[]" accept="image/*" multiple class="form-control" />
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="{$lang.general.upload}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</article>
+
+<script>
+$('.gallery').lightbox();
+$('form').areYouSure( {'message':'{$lang.general.unsaved_warning}'} );
+</script>

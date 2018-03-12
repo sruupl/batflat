@@ -1,0 +1,80 @@
+{template: inc/header.html}
+
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('{$bat.theme}/img/default-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>{$blog.title}</h1>
+                    <hr class="small">
+                    <span class="subheading">{$blog.desc}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 posts">
+            {if: $bat.notify}
+            <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
+            {/if}
+            <!-- Post Content -->
+            {loop: $blog.posts}
+            <article>
+                <div class="post-header">
+                    <h2>
+                        <a href="{$value.url}">{$value.title}</a>
+                    </h2>
+                </div>
+                <div class="post-meta">
+                    {?= sprintf($lang.blog.posted, $value.author.name, $value.published_at) ?} | <a href="{$value.url}#disqus_thread" data-disqus-identifier="{$value.disqus_identifier}">{$lang.blog.no_comments}</a> | {loop: $value.tags as $tag}{if: $key != 0}, {/if}<a href="{$tag.url}">{$tag.name}</a>{/loop}
+                </div>
+                {if: $value.cover_photo}
+                <div class="post-image">
+                    <a href="{$value.url}">
+                        <img src="{$value.cover_url}" alt="{$value.title}">
+                    </a>
+                </div>
+                {/if}
+                <div class="post-content">
+                    {$value.content}
+                </div>
+                <div class="post-footer clearfix">
+                    <div class="pull-left">
+                        {$lang.blog.share}: 
+                        <a href="http://twitter.com/home?status={?= urlencode($value.url) ?}">
+                            <i class="fa fa-twitter" data-toggle="tooltip" title="" data-original-title="Twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer.php?u={?= urlencode($value.url) ?}">
+                            <i class="fa fa-facebook" data-toggle="tooltip" title="" data-original-title="Facebook"></i>
+                        </a>
+                        <a href="http://plus.google.com/share?url={?= urlencode($value.url) ?}">
+                            <i class="fa fa-google-plus" data-toggle="tooltip" title="" data-original-title="Google-plus"></i>
+                        </a>
+                    </div>
+                    <a href="{$value.url}" class="pull-right">{$lang.blog.readmore} <i class="fa fa-angle-right"></i></a>
+                </div>
+            </article>
+            {/loop}
+            <!-- Pager -->
+            <ul class="pager">
+                {if: isset($prev)}
+                <li class="previous">
+                    <a href="{$prev.url}">&larr; {$lang.blog.newer}</a>
+                </li>
+                {/if} {if: isset($next)}
+                <li class="next">
+                    <a href="{$next.url}">{$lang.blog.older} &rarr;</a>
+                </li>
+                {/if}
+            </ul>
+        </div>
+        {template: inc/sidebar.html}
+    </div>
+</div>
+
+{template: inc/footer.html}

@@ -1,0 +1,7 @@
+<form name="langSwitcher" method="GET">
+<select name="lang" class="form-control" onchange="document.langSwitcher.submit();">
+    {loop: $languages}
+    <option value="{$value.dir}" {$value.attr}>{$value.name}</option>
+    {/loop}
+</select>
+</form>

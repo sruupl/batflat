@@ -1,0 +1,84 @@
+<article class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.general.manage}</h3>
+                <ul class="nav nav-tabs">
+                    <li class="{if: $tab == 'active'}active{/if}">
+                        <a href="{?=url(ADMIN.'/modules/manage/active')?}" role="tab">{$lang.modules.active}</a>
+                    </li>
+                    <li class="{if: $tab == 'inactive'}active{/if}">
+                        <a href="{?=url(ADMIN.'/modules/manage/inactive')?}" role="tab">{$lang.modules.inactive}</a>
+                    </li>
+				</ul>
+            </div>
+            <div class="panel-body">
+                {if: !empty($modules)}
+				<div class="table-responsive no-margin">
+					<table class="table table-striped no-margin">
+						<thead>
+							<tr>
+								<th colspan="2">{$lang.modules.module}</th>
+								<th>{$lang.modules.version}</th>
+                                <th>{$lang.modules.status}</th>
+								<th class="text-right">{$lang.general.actions}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop: $modules}
+                                {loop: $value}
+                                <tr>
+                                    <td class="text-center"><i class="fa fa-{$value.icon} fa-2x"></i></td>
+                                    <td>
+                                        <a href="{$value.detailsUrl}" data-toggle="modal" data-target="#moduleModal">
+                                            <strong>{$value.name}</strong>
+                                        </a>
+                                        <p>{$value.description|cut:54}</p>
+                                    </td>
+                                    <td>{$value.version}</td>
+                                    <td>
+                                        {if: !$value.compatible}
+                                            <span class="label label-danger">{$lang.modules.outdated}</span>
+                                        {else}
+                                            <span class="label label-primary">{$lang.modules.compatible}</span>    
+                                        {/if}
+                                    </td>
+                                    <td class="text-right">
+                                        <a href="{$value.detailsUrl}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#moduleModal">
+                                            <i class="fa fa-search"></i> <span class="hidden-xs">{$lang.modules.details}</span>
+                                        </a>
+                                        {if: $value.installed}
+                                            <a href="{$value.uninstallUrl}" class="btn btn-danger btn-xs {if: $value.basic}disabled{/if}" data-confirm="{$lang.modules.deactivate_confirm}">
+                                                <i class="fa fa-times"></i> <span class="hidden-xs">{$lang.modules.deactivate}</span>
+                                            </a>
+                                        {else}
+                                            <a href="{$value.installUrl}" class="btn btn-success btn-xs {if: !$value.compatible}disabled{/if}">
+                                                <i class="fa fa-check"></i> <span class="hidden-xs">{$lang.modules.activate}</span>
+                                            </a>
+                                            <a href="{$value.removeUrl}" class="btn btn-danger btn-xs {if: $value.basic}disabled{/if}" data-confirm="{$lang.modules.remove_confirm}">
+                                                <i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+                                            </a>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/loop}
+							{/loop}
+						</tbody>
+					</table>
+				</div>
+                {else}
+                <p class="no-margin">{$lang.general.empty_array}</p>
+                {/if}
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Modal -->
+<div class="modal fade" id="moduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
+</div>

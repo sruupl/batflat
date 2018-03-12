@@ -1,0 +1,75 @@
+{template: inc/header.html}
+
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url('{$bat.theme}/img/default-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>{$blog.title}</h1>
+                    <hr class="small">
+                    <span class="subheading">{$blog.desc}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 posts">
+            {if: $bat.notify}
+            <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
+            {/if}
+            <!-- Post Content -->
+            <article>
+                <div class="post-header">
+                    <h2>
+                        <a href="{?= url('blog') ?}">{$post.title}</a>
+                    </h2>
+                </div>
+                <div class="post-meta">
+                    {?= sprintf($lang.blog.posted, $post.author.name, $post.published_at) ?} | {loop: $post.tags}{if: $key != 0}, {/if}<a href="{$value.url}">{$value.name}</a>{/loop}
+                </div>
+                {if: $post.cover_photo}
+                <div class="post-image">
+                    <a href="{?= url('blog') ?}">
+                        <img src="{$post.cover_url}" alt="{$post.title}">
+                    </a>
+                </div>
+                {/if}
+                <div class="post-content">
+                    {$post.content}
+                </div>
+                <div class="post-profile">
+                    <div class="profile-header clearfix">
+                        <img src="{?= $post.author.avatar ?}" class="profile-picture" />
+                        <h2>{$post.author.name}</h2>
+                    </div>
+                    <blockquote>{$post.author.description}</blockquote>
+                </div>
+                <div class="post-footer clearfix">
+                    <div class="pull-left">
+                        {$lang.blog.share}: 
+                        <a href="http://twitter.com/home?status={?= urlencode($post.url) ?}">
+                            <i class="fa fa-twitter" data-toggle="tooltip" title="" data-original-title="Twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer.php?u={?= urlencode($post.url) ?}">
+                            <i class="fa fa-facebook" data-toggle="tooltip" title="" data-original-title="Facebook"></i>
+                        </a>
+                        <a href="http://plus.google.com/share?url={?= urlencode($post.url) ?}">
+                            <i class="fa fa-google-plus" data-toggle="tooltip" title="" data-original-title="Google-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="post-comments">
+                    <div id="disqus_thread"></div>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                </div>
+            </article>
+        </div>
+        {template: inc/sidebar.html}
+    </div>
+</div>
+
+{template: inc/footer.html}

@@ -1,0 +1,42 @@
+<article class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.general.manage}</h3>
+            </div>
+            <div class="panel-body">
+                {if: !empty($snippets)}
+				<div class="table-responsive no-margin">
+					<table class="table table-striped no-margin">
+						<thead>
+							<tr>
+								<th>{$lang.general.name}</th>
+								<th>Tag</th>
+								<th class="text-right">{$lang.general.actions}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop: $snippets}
+							<tr>
+								<td><a href="{$value.editURL}">{$value.name}</a></td>
+								<td><code>{$value.tag}</code></td>
+								<td class="text-right">
+									<a href="{$value.editURL}" class="btn btn-xs btn-success">
+										<i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span>
+									</a>
+									<a href="{$value.delURL}" class="btn btn-xs btn-danger" data-confirm="{$lang.snippets.delete_confirm}">
+										<i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+									</a>
+								</td>
+							</tr>
+							{/loop}
+						</tbody>
+					</table>
+				</div>
+                {else}
+                <p class="no-margin">{$lang.general.empty_array}</p>
+                {/if}
+            </div>
+        </div>
+    </div>
+</article>

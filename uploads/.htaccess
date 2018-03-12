@@ -1,0 +1,4 @@
+Options -Indexes
+
+SetHandler default-handler
+AddType text/plain php

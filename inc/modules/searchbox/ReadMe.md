@@ -1,0 +1,2 @@
+Use the `{$searchBox}` tag to display search form.
+By default, module uses the `index.html` template to display search results. If you want to change this, create a `search.html` template inside your theme.

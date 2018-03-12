@@ -1,0 +1,68 @@
+<article class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.general.manage}</h3>
+                <ul class="nav nav-tabs">
+                    {loop: $navigation.langs}
+                    <li class="{$value.attr}"><a href="{?=url(ADMIN.'/navigation/manage?lang='.$value.name)?}">{$value.name}</a></li>
+                    {/loop}
+                </ul>
+            </div>
+            <div class="panel-body">
+        		{if: isset($navigation.navs)}
+                    {loop: $navigation.navs}
+                    <div class="table-responsive">
+                        <table class="table table-striped no-margin">
+                            <thead>
+                                <tr>
+                                    <th>{$value.name}</th>
+                                    <th></th>
+                                    <th class="text-right">
+                                        <a href="{$value.editURL}" class="btn btn-xs btn-success {if: $value.id==1}disabled{/if}">
+                                            <i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span>
+                                        </a>
+                                        <a href="{$value.delURL}" class="btn btn-xs btn-danger {if: $value.id==1}disabled{/if}" data-confirm="{$lang.navigation.delete_link_confirm}">
+                                            <i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if: is_array($value.items)}
+                                    {loop: $value.items}
+                                    <tr>
+                                        <td><a href="{$value.editURL}">{$value.name}</a></td>
+                                        <td>{$value.fullURL}</td>
+                                        <td class="text-right">
+                                            <a href="{$value.upURL}" class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i></a>
+                                            <a href="{$value.downURL}" class="btn btn-xs btn-primary"><i class="fa fa-arrow-down"></i></a>
+                                            <a href="{$value.editURL}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span></a>
+                                            <a href="{$value.delURL}" class="btn btn-xs btn-danger" data-confirm="{$lang.navigation.delete_link_confirm}"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span></a>
+                                        </td>
+                                    </tr>
+                                        {if: isset($value.children)}
+                                            {loop: $value.children}
+                                            <tr>
+                                                <td><i class="fa fa-long-arrow-right"></i> <a href="{$value.editURL}">{$value.name}</a></td>
+                                                <td>{$value.fullURL}</td>
+                                                <td class="text-right">
+                                                    <a href="{$value.upURL}" class="btn btn-xs btn-primary"><i class="fa fa-arrow-up"></i></a>
+                                                    <a href="{$value.downURL}" class="btn btn-xs btn-primary"><i class="fa fa-arrow-down"></i></a>
+                                                    <a href="{$value.editURL}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span></a>
+                                                    <a href="{$value.delURL}" class="btn btn-xs btn-danger" data-confirm="{$lang.navigation.delete_link_confirm}"><i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span></a>
+                                                </td>
+                                            </tr>
+                                            {/loop}
+                                        {/if}
+                                    {/loop}
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                    {/loop}
+        		{/if}
+            </div>
+        </div>
+    </div>
+</article>

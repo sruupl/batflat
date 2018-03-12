@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Batflat</title>
+    <link href="{$bat.path}/inc/css/bootstrap.min.css?v={$bat.version}" rel="stylesheet">
+    <link href="{$bat.path}/inc/css/bootstrap-theme.min.css?v={$bat.version}" rel="stylesheet">
+    <link href="{?= url(THEMES.'/admin/css/style.css?v='.$bat.version) ?}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/56fa629212.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="{?=url(THEMES.'/admin/js/kalypto.min.js?v='.$bat.version) ?}"></script>
+</head>
+
+<body style="background: #222;">
+
+	<section id="login">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <img src="{?= url(THEMES.'/admin/img/logo.svg') ?}" alt="logo"> <h2>bat<span>flat</span></h2>
+            </div>
+            <div class="panel-body">
+        		<form action="{$_SERVER['REQUEST_URI']}" method="POST">
+                  	<div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                            <input type="text" name="username" class="form-control" placeholder="{$lang.general.username}" required />
+                        </div>
+                  	</div>
+                  	<div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                            <input type="password" name="password" class="form-control" placeholder="{$lang.general.password}" required />
+                        </div>
+                  	</div>
+                    <div class="form-group">
+                        <label class="remember-me pull-left">
+                            <input type="checkbox" name="remember_me" />
+                            {$lang.general.remember_me}
+                        </label>
+                        <button type="submit" name="login" class="btn btn-warning pull-right">{$lang.general.sign_in}</button>
+                    </div>
+        		</form>
+            </div>
+        </div>
+		{if: $bat.notify}
+		<div id="notify" class="alert-{$bat.notify.type} animated shake">{$bat.notify.text}</div>
+		{/if}
+	</section>
+
+    <script>
+    $(':checkbox').kalypto();
+    </script>
+</body>
+</html>

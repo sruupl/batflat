@@ -1,0 +1,19 @@
+{loop: $navigation.list}
+    {if: !isset($value.children)}
+    <li class="{if: $value.active || $value.class}{?= trim($value.active.' '.$value.class) ?}{/if}">
+        <a href="{$value.url}" >{$value.name}</a>
+    </li>
+    {else}
+    <li class="dropdown {if: $value.active || $value.class}{?= trim($value.active.' '.$value.class) ?}{/if}">
+        <a href="{$value.url}" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {$value.name}
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            {loop: $value.children}
+            <li {if: $value.active || $value.class}class="{?= trim($value.active.' '.$value.class) ?}"{/if}><a href="{$value.url}">{$value.name}</a></li>
+            {/loop}
+        </ul>
+    </li>
+    {/if}
+{/loop}

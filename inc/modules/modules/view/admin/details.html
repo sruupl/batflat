@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title"><i class="fa fa-{$module.icon}"></i> {$module.name} {$module.version}</h4>
+</div>
+<div class="modal-body">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">{$lang.modules.details}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{$lang.modules.created_by}</td>
+                    <td>{$module.author}</td>
+                </tr>
+                <tr>
+                    <td>{$lang.modules.compatible_with}</td>
+                    <td>Batflat {$module.compatibility}</td>
+                </tr>
+                <tr>
+                    <td>{$lang.modules.last_modified}</td>
+                    <td>{$module.last_modified}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table {if: !isset($module.readme)}no-bottom-margin{/if}">
+            <thead>
+                <tr>
+                    <th>{$lang.modules.short_description}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {$module.description}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        {if: isset($module.readme)}
+        <table class="table no-bottom-margin">
+            <thead>
+                <tr>
+                    <th>{$lang.modules.full_description}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        {$module.readme}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {/if}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">{$lang.general.close}</button>
+</div>

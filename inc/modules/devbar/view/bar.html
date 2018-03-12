@@ -1,0 +1,97 @@
+<section id="devbar">
+    <ul class="navbar clearfix">
+        <li class="logo" data-toggle="tooltip" title="Batflat {$devbar.version}">
+            <img src="{?= url(THEMES.'/admin/img/logo.svg') ?}" alt="logo">
+        </li>
+        <li data-toggle="tooltip" title="Status code">
+            <a href="#info" data-toggle="tab">
+                <i class="fa fa-eye"></i> {?= $_SERVER['REQUEST_METHOD'].' '.http_response_code() ?}
+            </a>
+        </li>
+        <li data-toggle="tooltip" title="Execution time">
+            <span>
+                <i class="fa fa-clock-o"></i> {$devbar.timer}ms
+            </span>
+        </li>
+        <li data-toggle="tooltip" title="Memory usage">
+            <span>
+                <i class="fa fa-server"></i> {$devbar.memory}MB
+            </span>
+        </li>
+        <li data-toggle="tooltip" title="Database queries">
+            <a href="#database" data-toggle="tab"><i class="fa fa-database"></i> {?= count($devbar.database) ?}</a>
+        </li>
+        <li data-toggle="tooltip" title="Requests">
+            <a href="#requests" data-toggle="tab"><i class="fa fa-rocket"></i> {?= array_sum(array_column($devbar.requests, 'count')) ?}</a>
+        </li>
+        <li data-toggle="tooltip" title="Dump">
+            <a href="#dump" data-toggle="tab"><i class="fa fa-crosshairs"></i> {?= count($devbar.dump) ?}</a>
+        </li>
+        <li class="show-hide" data-toggle="collapse" data-target="#devbar-content">
+            <i class="fa"></i>
+        </li>
+    </ul>
+    <div id="devbar-content" class="tab-content collapse">
+        <div id="info" class="tab-pane active">
+            <ul>
+                <li>HTTP status: {?= http_response_code() ?} {?= http_response_status() ?}</li>
+                <li>Route: /{?= implode('/', parseURL()) ?}</li>
+                <li>Batflat version: {$devbar.version}</li>
+                <li>PHP version: {?= phpversion() ?}</li>
+                <li>SQLite version: {?= $devbar.sqlite ?}</li>
+                <li>Batflat modules: {?= implode(', ', $devbar.modules) ?}</li>
+                <li>PHP extensions: {?= implode(', ', get_loaded_extensions()) ?}</li>
+            </ul>
+        </div>
+        <div id="database" class="tab-pane">
+            <ul>
+                {loop: $devbar.database}
+                <li>{$value}</li>
+                {/loop}
+            </ul>
+        </div>
+        <div id="requests" class="tab-pane">
+            <ul>
+                {loop: $devbar.requests}
+                <li>
+                    <dl class="dl-horizontal">
+                        <dt>{$key}</dt>
+                        <dd><pre class="truncate active">{$value.print}</pre></dd>
+                    </dl>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div id="dump" class="tab-pane">
+            <ul>
+                {loop: $devbar.dump}
+                <li>
+                    + {$value.trace}
+                    <pre class="truncate active">{$value.value}</pre>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+</section>
+<script>
+$('#devbar [data-toggle="tooltip"]').tooltip();
+$('#devbar .tab-pane').on('mousewheel DOMMouseScroll', function(e) { 
+    var e0 = e.originalEvent;
+    var delta = e0.wheelDelta || -e0.detail;
+
+    this.scrollTop += ( delta < 0 ? 1 : -1 ) * 50;
+    e.preventDefault();  
+});
+$("#devbar a[data-toggle=tab]").click(function() {
+    if(!$('#devbar .show-hide[aria-expanded="true"]').length || $(this).parent().hasClass('active'))
+        $("#devbar .show-hide").click();
+});
+$("#devbar .show-hide").click(function() {
+    var devbar = $(this).parent();
+    $(devbar).addClass('active');
+});
+$("#devbar .truncate").click(function() {
+    $(this).toggleClass('active');
+});
+</script>

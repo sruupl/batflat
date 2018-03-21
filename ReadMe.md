@@ -18,11 +18,11 @@ https://batflat.org
 ## Supported languages
 * English
 * Polish
-* [French](https://github.com/Eztharia/batflat)
-* [Turkish](https://github.com/pppedant/batflat)
-* [Swedish](https://github.com/sruupl/batflat-se)
-* [Russian](https://github.com/sruupl/batflat-ru)
-* [Italian](https://github.com/gpmdev/batflat-it)
+* French
+* Turkish
+* Swedish
+* Russian
+* Italian
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
@@ -39,9 +39,9 @@ We are looking for human resources, especially translators who will help us reac
 
 ## Credits
 
-* **Eztharia** - French translation of website and CMS
-* **Ladeyshchikov Valery** - Russian translation of CMS
+* **[Eztharia](https://github.com/Eztharia)** - French translation of website and CMS
+* **[Ladeyshchikov Valery](hizimart@gmail.com)** - Russian translation of CMS
 * **Artem Sharovatov** - Russian translation of website
-* **Birkan Ergüç** - Turkish translation of CMS
-* **Michael Thell** - Swedish translation of CMS
-* **Giuseppe Marino** - Italian translation of CMS
+* **[Birkan Ergüç](https://github.com/pppedant)** - Turkish translation of CMS
+* **[Michael Thell](michael.silverunit@gmail.com)** - Swedish translation of CMS
+* **[Giuseppe Marino](info@gpmdev.it)** - Italian translation of CMS

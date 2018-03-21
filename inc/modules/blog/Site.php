@@ -354,7 +354,7 @@ class Site extends SiteModule
                     $row['content'] = $row['intro'];
                 }
 
-                $row['content'] = preg_replace('/{(.*?)}/', '', strip_tags($row['content']));
+                $row['content'] = preg_replace('/{(.*?)}/', '', html_entity_decode(strip_tags($row['content'])));
                 $row['url'] = url('blog/post/'.$row['slug']);
                 $row['cover_url'] = url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'];
                 $row['published_at'] = (new \DateTime(date("YmdHis", $row['published_at'])))->format('D, d M Y H:i:s O');

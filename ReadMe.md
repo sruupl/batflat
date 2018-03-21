@@ -40,8 +40,8 @@ We are looking for human resources, especially translators who will help us reac
 ## Credits
 
 * **[Eztharia](https://github.com/Eztharia)** - French translation of website and CMS
-* **[Ladeyshchikov Valery](hizimart@gmail.com)** - Russian translation of CMS
+* **[Ladeyshchikov Valery](mailto:hizimart@gmail.com)** - Russian translation of CMS
 * **Artem Sharovatov** - Russian translation of website
 * **[Birkan Ergüç](https://github.com/pppedant)** - Turkish translation of CMS
-* **[Michael Thell](michael.silverunit@gmail.com)** - Swedish translation of CMS
-* **[Giuseppe Marino](info@gpmdev.it)** - Italian translation of CMS
+* **[Michael Thell](mailto:michael.silverunit@gmail.com)** - Swedish translation of CMS
+* **[Giuseppe Marino](mailto:info@gpmdev.it)** - Italian translation of CMS

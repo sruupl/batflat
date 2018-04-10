@@ -59,7 +59,7 @@ class Admin extends Main
     {
         $username = $this->getUserInfo('fullname');
 
-        $this->assign['username']   = !empty($username) ? $username : $this->getUserInfo('username');
+        $this->assign['username']   = !empty($username) ? $username : $this->getUserInfo('username', null, true);
         $this->assign['notify']     = $this->getNotify();
         $this->assign['path']       = url();
         $this->assign['version']    = $this->settings->get('settings.version');

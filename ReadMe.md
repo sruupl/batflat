@@ -23,6 +23,7 @@ https://batflat.org
 * Swedish
 * Russian
 * Italian
+* Spanish
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
@@ -45,3 +46,4 @@ We are looking for human resources, especially translators who will help us reac
 * **[Birkan Ergüç](https://github.com/pppedant)** - Turkish translation of CMS
 * **[Michael Thell](mailto:michael.silverunit@gmail.com)** - Swedish translation of CMS
 * **[Giuseppe Marino](mailto:info@gpmdev.it)** - Italian translation of CMS
+* **[Javier Igal](mailto:javier@igal.es)** - Spanish translation of website and CMS

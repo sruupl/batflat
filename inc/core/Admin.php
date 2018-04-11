@@ -57,9 +57,9 @@ class Admin extends Main
     */
     public function drawTheme($file)
     {
-        $username = $this->getUserInfo('fullname');
+        $username = $this->getUserInfo('fullname', null, true);
 
-        $this->assign['username']   = !empty($username) ? $username : $this->getUserInfo('username', null, true);
+        $this->assign['username']   = !empty($username) ? $username : $this->getUserInfo('username');
         $this->assign['notify']     = $this->getNotify();
         $this->assign['path']       = url();
         $this->assign['version']    = $this->settings->get('settings.version');

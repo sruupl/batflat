@@ -2,7 +2,7 @@
 Options -Indexes
 
 # Prevent visitors from viewing files directly
-<FilesMatch "\.(sdb|md|html|txt)$">
+<Files "\.(sdb|md|html|txt)$">
     <IfModule !mod_authz_core.c>
         Order allow,deny
         Deny from all
@@ -11,7 +11,7 @@ Options -Indexes
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
-</FilesMatch>
+</Files>
 
 # URL rewrites
 <IfModule mod_rewrite.c>

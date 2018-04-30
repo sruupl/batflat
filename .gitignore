@@ -1,4 +1,4 @@
 admin/tmp/
 tmp/
 uploads/
-inc/data/database.sdb
+inc/data/*.sdb

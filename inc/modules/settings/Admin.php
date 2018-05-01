@@ -267,31 +267,38 @@ class Admin extends AdminModule
             
         if (isset($_POST['upload']) && FILE_LOCK === false) {
             $zip = new ZipArchive();
-            $error = false;
+            $allowedDest = '/(.*?inc\/)((jscripts|lang|modules).*$)/';
+            $count = 0;
             $file = !empty($_FILES['lang_package']['tmp_name']) ? $_FILES['lang_package']['tmp_name'] : '/';
             $open = $zip->open($file);
             if ($open === true) {
                 for ($i = 0; $i < $zip->numFiles; $i++) {
                     $filename = pathinfo($zip->getNameIndex($i));
+                    if (isset($filename['extension'])
+                            && ($filename['extension'] == 'ini' || $filename['extension'] == 'js')
+                        ) {
+                        preg_match($allowedDest, $filename['dirname'], $matches);
+                        $dest = realpath(BASE_DIR) . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . $matches[2];
+                        if (!file_exists($dest)) {
+                            mkdir($dest, 0755, true);
+                        }
 
-                    if (strpos($filename['dirname'].'/', '/lang/') === false) {
-                        $error = true;
-                        break;
-                    }
-
-                    if ($filename['extension'] != 'ini') {
-                        $error = true;
-                        break;
+                        copy(
+                            'zip://' . $file . '#' . $filename['dirname']
+                                . DIRECTORY_SEPARATOR . $filename['basename'],
+                            $dest . DIRECTORY_SEPARATOR . $filename['basename']
+                        );
+                        $count++;
                     }
                 }
-
-                if (!$error) {
-                    $zip->extractTo(BASE_DIR);
-                    $zip->close();
+                
+                if ($count > 0) {
                     $this->notify('success', $this->lang('lang_import_success'));
                 } else {
                     $this->notify('failure', $this->lang('lang_import_error'));
                 }
+                
+                $zip->close();
             }
         }
 

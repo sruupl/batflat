@@ -1,0 +1,4 @@
+admin/tmp/
+tmp/
+uploads/
+inc/data/*.sdb

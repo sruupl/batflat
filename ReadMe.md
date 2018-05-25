@@ -24,6 +24,7 @@ https://batflat.org
 * Russian
 * Italian
 * Spanish
+* Dutch
 
 ## Modules
 * [Counter](https://github.com/michu2k/Counter): Shows the number of visits.

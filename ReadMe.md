@@ -48,3 +48,4 @@ We are looking for human resources, especially translators who will help us reac
 * **[Michael Thell](mailto:michael.silverunit@gmail.com)** - Swedish translation of CMS
 * **[Giuseppe Marino](mailto:info@gpmdev.it)** - Italian translation of CMS
 * **[Javier Igal](mailto:javier@igal.es)** - Spanish translation of website and CMS
+* **[RJ Adriaansen](https://github.com/rjadr)** - Dutch translation of CMS

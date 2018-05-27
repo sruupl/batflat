@@ -415,8 +415,10 @@ class Admin extends AdminModule
             $this->notify('failure', $this->lang('lang_delete_failure'));
         }
         else {
-            if (deleteDir(BASE_DIR.'/inc/lang/'.$name)) {
+            if (unlink(BASE_DIR.'/inc/lang/'.$name.'/.lock') && deleteDir(BASE_DIR.'/inc/lang/'.$name)) {
                 $this->notify('success', $this->lang('lang_delete_success'));
+            } else {
+                $this->notify('failure', $this->lang('lang_delete_failure'));    
             }
         }
 

@@ -60,13 +60,13 @@ class Site extends SiteModule
         return $this->draw('switcher.html', ['languages' => $this->_getLanguages()]);
     }
 
-    protected function _getLanguages($selected = null, $attr = 'selected')
+    protected function _getLanguages($selected = null, $attr = 'selected', $all = false)
     {
         $langs = glob('inc/lang/*', GLOB_ONLYDIR);
 
         $result = [];
         foreach ($langs as $lang) {
-            if (file_exists($lang.'/.lock')) {
+            if (!$all & file_exists($lang.'/.lock')) {
                 continue;
             }
             $lang = basename($lang);

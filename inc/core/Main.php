@@ -156,6 +156,7 @@ abstract class Main
     {
         ini_set('session.use_only_cookies', 1);
         session_name('bat');
+        session_set_cookie_params(0, '/' . (!batflat_dir() ? '' : batflat_dir().'/'));
         session_start();
     }
 

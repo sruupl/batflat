@@ -379,7 +379,9 @@ footer {
 .toggleR.disabled {
     opacity: .7;
 }
+.checkbox .toggle,
 .checkbox-inline .toggle,
+.radio .toggleR,
 .radio-inline .toggleR {
     margin-left: -20px;
 }

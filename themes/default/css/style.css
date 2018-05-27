@@ -378,6 +378,12 @@ input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
     color: #AAB2BD !important
 }
+form .checkbox {
+    padding-left: 15px;
+}
+form .checkbox small {
+    font-size: 12px;
+}
 .btn {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-transform: uppercase;

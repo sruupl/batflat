@@ -207,7 +207,7 @@ switch ($version) {
     case '1.3.4':
         $this->rcopy(BASE_DIR.'/tmp/update/themes/admin/css', BASE_DIR.'/themes/admin/css');
         $this->core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('contact', 'checkbox.switch', '0')");
-        $this->core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('contact', 'checkbox.content', 'I agree to the processing of personal data...'')");
+        $this->core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('contact', 'checkbox.content', 'I agree to the processing of personal data...')");
         $return = '1.3.5';
 }
 

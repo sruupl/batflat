@@ -88,15 +88,29 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">{$lang.settings.lang_export}</h3>
+                <h3 class="panel-title">{$lang.settings.lang_list}</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-striped">
-                    {loop: $settings.langs}
+                    {loop: $settings.langs_all}
                     <tr>
                         <td>{$value.name}</td>
                         <td class="text-right">
-                            <a href="{?= url([ADMIN, 'settings', 'translation?export='.$value['name']]) ?}" class="btn btn-primary btn-xs"><i class="fa fa-download"></i></a>
+                            <a href="{?= url([ADMIN, 'settings', 'deleteLanguage', $value.name]) ?}" class="btn btn-danger btn-xs {if: $value.attr || $value.active}disabled{/if}" data-toggle="tooltip" data-placement="top" title="{$lang.general.delete}">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            {if: $value.active}
+                            <a href="{?= url([ADMIN, 'settings', 'deactivateLanguage', $value.name]) ?}" class="btn btn-warning btn-xs {if: $value.attr}disabled{/if}" data-toggle="tooltip" data-placement="top" title="{$lang.modules.deactivate}">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                            {else}
+                            <a href="{?= url([ADMIN, 'settings', 'activateLanguage', $value.name]) ?}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="{$lang.modules.activate}">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                            {/if}
+                            <a href="{?= url([ADMIN, 'settings', 'translation?export='.$value['name']]) ?}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="{$lang.settings.lang_export}">
+                                <i class="fa fa-download"></i>
+                            </a>
                         </td>
                     </tr>
                     {/loop}

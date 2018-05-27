@@ -13,8 +13,8 @@ return [
     'name'          =>  $core->lang['langswitcher']['module_name'],
     'description'   =>  $core->lang['langswitcher']['module_desc'],
     'author'        =>  'Sruu.pl',
-    'version'       =>  '1.1',
-    'compatibility'    =>    '1.3.*',
+    'version'       =>  '1.2',
+    'compatibility' =>  '1.3.*',
     'icon'          =>  'flag',
     'install'       =>  function () use ($core) {
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'autodetectlang', 0)");

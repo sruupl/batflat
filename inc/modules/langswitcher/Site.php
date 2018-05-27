@@ -66,8 +66,10 @@ class Site extends SiteModule
 
         $result = [];
         foreach ($langs as $lang) {
+            if (file_exists($lang.'/.lock')) {
+                continue;
+            }
             $lang = basename($lang);
-            
             $result[] = [
                 'dir'   => $lang,
                 'name'  => mb_strtoupper(preg_replace('/_[a-z]+/', null, $lang)),

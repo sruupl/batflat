@@ -95,21 +95,30 @@ class BaseModule
     /**
     * Languages list
     * @param string $selected
-    * @param string $active ('active' or 'selected')
+    * @param string $currentAttr ('active' or 'selected')
     * @return array
     */
-    protected function _getLanguages($selected = null, $active = 'active')
+    protected function _getLanguages($selected = null, $currentAttr = 'active', $all = false)
     {
         $langs = glob(BASE_DIR.'/inc/lang/*', GLOB_ONLYDIR);
         
         $result = [];
         foreach ($langs as $lang) {
+            if (file_exists($lang.'/.lock')) {
+                $active = false;
+
+                if (!$all) {
+                    continue;
+                }
+            } else {
+                $active = true;
+            }
             if ($selected == basename($lang)) {
-                $attr = $active;
+                $attr = $currentAttr;
             } else {
                 $attr = null;
             }
-            $result[] = ['name' => basename($lang), 'attr' => $attr];
+            $result[] = ['name' => basename($lang), 'attr' => $attr, 'active' => $active];
         }
         return $result;
     }

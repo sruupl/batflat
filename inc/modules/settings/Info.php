@@ -13,8 +13,8 @@ return [
     'name'          =>  $core->lang['settings']['module_name'],
     'description'   =>  $core->lang['settings']['module_desc'],
     'author'        =>  'Sruu.pl',
-    'version'       =>  '1.2',
-    'compatibility'    =>    '1.3.*',
+    'version'       =>  '1.3',
+    'compatibility' =>  '1.3.*',
     'icon'          =>  'wrench',
 
     'install'       =>  function () use ($core) {
@@ -35,7 +35,7 @@ return [
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'editor', 'wysiwyg')");
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'lang_site', 'en_english')");
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'lang_admin', 'en_english')");
-        $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'version', '1.3.4')");
+        $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'version', '1.3.5')");
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'update_check', '0')");
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'update_changelog', '')");
         $core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('settings', 'update_version', '0')");

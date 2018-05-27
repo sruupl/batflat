@@ -238,8 +238,11 @@ class Admin extends AdminModule
             $_GET['source'] = 0;
         }
 
-        $settings['langs'] = $this->_getLanguages($_GET['lang']);
-        $settings['selected'] = $_GET['lang'];
+        $settings = [
+            'langs'         => $this->_getLanguages($_GET['lang']),
+            'langs_all'     => $this->_getLanguages($_GET['lang'], 'active', true),
+            'selected'      => $_GET['lang'],
+        ];
 
         $translations = $this->_getAllTranslations($_GET['lang']);
         $translation = $translations[$_GET['source']];
@@ -401,6 +404,55 @@ class Admin extends AdminModule
         }
 
         redirect(url([ADMIN, 'settings', 'translation?lang='.$_GET['lang']]));
+    }
+
+    /**
+    * remove language from server
+    */
+    public function getDeleteLanguage($name)
+    {
+        if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
+            $this->notify('failure', $this->lang('lang_delete_failure'));
+        }
+        else {
+            if (deleteDir(BASE_DIR.'/inc/lang/'.$name)) {
+                $this->notify('success', $this->lang('lang_delete_success'));
+            }
+        }
+
+        redirect(url([ADMIN, 'settings', 'translation']));
+    }
+
+    /**
+    * activate language
+    */
+    public function getActivateLanguage($name)
+    {
+        if (unlink(BASE_DIR.'/inc/lang/'.$name.'/.lock')) {
+            $this->notify('success', $this->lang('lang_activate_success'));
+        } else {
+            $this->notify('failure', $this->lang('lang_activate_failure'));    
+        }
+
+        redirect(url([ADMIN, 'settings', 'translation']));
+    }
+
+    /**
+    * deactivate language
+    */
+    public function getDeactivateLanguage($name)
+    {
+        if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
+            $this->notify('failure', $this->lang('lang_deactivate_failure'));
+        } else {
+            if (touch(BASE_DIR.'/inc/lang/'.$name.'/.lock')) {
+                $this->notify('success', $this->lang('lang_deactivate_success'));
+            } else {
+                $this->notify('failure', $this->lang('lang_deactivate_failure'));    
+            }
+        }
+
+        redirect(url([ADMIN, 'settings', 'translation']));
     }
 
     public function anyUpdates()

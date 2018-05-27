@@ -96,7 +96,7 @@
                     <tr>
                         <td>{$value.name}</td>
                         <td class="text-right">
-                            <a href="{?= url([ADMIN, 'settings', 'deleteLanguage', $value.name]) ?}" class="btn btn-danger btn-xs {if: $value.attr || $value.active}disabled{/if}" data-toggle="tooltip" data-placement="top" title="{$lang.general.delete}">
+                            <a href="{?= url([ADMIN, 'settings', 'deleteLanguage', $value.name]) ?}" class="btn btn-danger btn-xs {if: $value.attr || $value.active}disabled{/if}" data-confirm="{$lang.settings.lang_delete_confirm}" data-toggle="tooltip" data-placement="top" title="{$lang.general.delete}">
                                 <i class="fa fa-trash"></i>
                             </a>
                             {if: $value.active}

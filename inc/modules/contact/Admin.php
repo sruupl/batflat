@@ -34,6 +34,11 @@ class Admin extends AdminModule
             $assign['email'] = $value['email'];
         }
         
+        $assign['checkbox'] = [
+            'switch' => $value['checkbox.switch'],
+            'content' => $this->tpl->noParse($value['checkbox.content']),
+        ];
+
         $assign['driver'] = $value['driver'];
         $assign['phpmailer'] = [
             'server' => $value['phpmailer.server'],
@@ -50,6 +55,8 @@ class Admin extends AdminModule
     {
         $update = [
             'email' => ($_POST['user'] > 0 ? $_POST['user'] : $_POST['email']),
+            'checkbox.switch' => $_POST['checkbox']['switch'],
+            'checkbox.content' => $_POST['checkbox']['content'],
             'driver' => $_POST['driver'],
             'phpmailer.server' => $_POST['phpmailer']['server'],
             'phpmailer.port' => $_POST['phpmailer']['port'],

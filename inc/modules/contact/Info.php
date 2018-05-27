@@ -13,8 +13,8 @@ return [
     'name'          =>  $core->lang['contact']['module_name'],
     'description'   =>  $core->lang['contact']['module_desc'],
     'author'        =>  'Sruu.pl',
-    'version'       =>  '1.1',
-    'compatibility'    =>    '1.3.*',
+    'version'       =>  '1.2',
+    'compatibility' =>  '1.3.*',
     'icon'          =>  'envelope',
     
     'install'   => function () use ($core) {
@@ -27,7 +27,9 @@ return [
         ('contact', 'phpmailer.port', '587'),
         ('contact', 'phpmailer.username', 'login@example.com'),
         ('contact', 'phpmailer.name', 'Batflat contact'),
-        ('contact', 'phpmailer.password', 'yourpassword')");
+        ('contact', 'phpmailer.password', 'yourpassword'),
+        ('contact', 'checkbox.switch', '0'),
+        ('contact', 'checkbox.content', 'I agree to the processing of personal data...')");
     },
     'uninstall' => function () use ($core) {
         $core->db()->pdo()->exec("DELETE FROM `settings` WHERE `module` = 'contact'");

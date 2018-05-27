@@ -15,6 +15,13 @@
         <label for="inputMessage">{$lang.contact.message}</label>
         <textarea rows="5" id="inputMessage" class="form-control" name="message" placeholder="{$lang.contact.message}" required></textarea>
     </div>
+    {if: $checkbox.switch > 0}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="agreement" required> <small>{$checkbox.content}</small>
+        </label>
+    </div>
+    {/if}
 
     <!-- antispam field -->
     <div class="form-group" id="antispam">
@@ -22,7 +29,7 @@
     </div>
     <script>
         (function () {
-            var e = document.getElementById("antispam");
+            var e = document.getElementById('antispam');
             e.parentNode.removeChild(e);
         })();
     </script>

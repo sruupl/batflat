@@ -43,7 +43,12 @@ class Site extends SiteModule
 
     private function _insertForm()
     {
-        return $this->draw('form.html');
+        return $this->draw('form.html', [
+            'checkbox' => [
+                'switch'    => $this->settings('contact', 'checkbox.switch'),
+                'content'   => $this->settings('contact', 'checkbox.content'),
+            ]
+        ]);
     }
 
     private function _initDriver()

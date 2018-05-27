@@ -15,15 +15,37 @@
         	        </div>
                     <div class="form-group collapse" id="mail">
     	                <label>{$lang.contact.or_mail}</label>
-                        <input class="form-control" type="email" name="email" value="{$contact.email|e}" placeholder="{$lang.contact.example}" />
-    	            </div>
+                        <input class="form-control" type="email" name="email" value="{$contact.email|e}" placeholder="{$lang.contact.example}">
+                    </div>
+        			<div class="form-group">
+    	                <label>{$lang.contact.checkbox}</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="checkbox[switch]" value="0" {if: !$contact.checkbox.switch}checked{/if}> {$lang.general.say_no}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="checkbox[switch]" value="1" {if: $contact.checkbox.switch}checked{/if}> {$lang.general.say_yes}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group collapse" id="checkbox">
+                        <label>{$lang.contact.checkbox_content}</label>
+                        <textarea class="form-control" name="checkbox[content]" rows="4">{$contact.checkbox.content|e}</textarea>
+                    </div>
                     <div class="form-group">
                         <label>{$lang.contact.driver}</label>
-                        <p>
-                            <label style="font-weight:normal;"><input type="radio" name="driver" value="mail" {if: $contact.driver == 'mail'}checked{/if}/> {$lang.contact.mail}</label>
-                            <br />
-                            <label style="font-weight:normal;"><input type="radio" name="driver" value="phpmailer" {if: $contact.driver == 'phpmailer'}checked{/if}/> {$lang.contact.phpmailer}</label>
-                        </p>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="driver" value="mail" {if: $contact.driver == 'mail'}checked{/if}> {$lang.contact.mail}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="driver" value="phpmailer" {if: $contact.driver == 'phpmailer'}checked{/if}> {$lang.contact.phpmailer}
+                            </label>
+                        </div>
                         <div id="phpmailer" class="well well-sm clearfix collapse" style="margin: 15px 0 0 0;">
                             {if: !class_exists("PHPMailer")}
                             <div class="alert alert-danger">{$lang.contact.phpmailer_error}</div>
@@ -32,29 +54,29 @@
                                 <div class="row">
                                     <div class="col-xs-10">
                                         <label>{$lang.contact.server}</label>
-                                        <input type="text" class="form-control" name="phpmailer[server]" value="{$contact.phpmailer.server}" />
+                                        <input type="text" class="form-control" name="phpmailer[server]" value="{$contact.phpmailer.server}">
                                     </div>
                                     <div class="col-xs-2">
                                         <label>{$lang.contact.port}</label>
-                                        <input type="text" class="form-control" name="phpmailer[port]" value="{$contact.phpmailer.port}" />
+                                        <input type="text" class="form-control" name="phpmailer[port]" value="{$contact.phpmailer.port}">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>{$lang.contact.name}</label>
-                                <input type="text" class="form-control" name="phpmailer[name]" value="{$contact.phpmailer.name}" />
+                                <input type="text" class="form-control" name="phpmailer[name]" value="{$contact.phpmailer.name}">
                             </div>
                             <div class="form-group">
                                 <label>{$lang.contact.username}</label>
-                                <input type="text" class="form-control" name="phpmailer[username]" value="{$contact.phpmailer.username}" />
+                                <input type="text" class="form-control" name="phpmailer[username]" value="{$contact.phpmailer.username}">
                             </div>
                             <div class="form-group">
                                 <label>{$lang.contact.password}</label>
-                                <input type="password" class="form-control" name="phpmailer[password]" value="{$contact.phpmailer.password}" />
+                                <input type="password" class="form-control" name="phpmailer[password]" value="{$contact.phpmailer.password}">
                             </div>
                         </div>
                     </div>
-        	        <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}" />
+        	        <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}">
                 </form>
                 <div class="well well-sm clearfix" style="margin: 15px 0 0 0;">
                     {$lang.contact.info} <strong>{noparse}{$contact.form}{/noparse}</strong>.
@@ -66,21 +88,30 @@
 </article>
 
 <script>
-$("form select[name='user']").change(function()
+$('form select[name="user"]').change(function()
 {
-    var page = $(this).find("option:selected").val();
-    if(page > 0)
+    if($(this).find('option:selected').val() > 0)
         $('form #mail').slideUp();
     else
         $('form #mail').slideDown();
 }).change();
-$("form input[name='driver']").change(function()
+
+$('form input[name="checkbox[switch]"]').change(function()
 {
     if($(this).is(':checked'))
     {
-        var val = $(this).val();
-        console.log(val);
-        if(val == "phpmailer")
+        if(this.value == 0)
+            $('form #checkbox').slideUp();
+        else
+            $('form #checkbox').slideDown();
+    }
+}).change();
+
+$('form input[name="driver"]').change(function()
+{
+    if($(this).is(':checked'))
+    {
+        if(this.value == 'phpmailer')
             $('form #phpmailer').slideDown();
         else
             $('form #phpmailer').slideUp();

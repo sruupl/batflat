@@ -31,7 +31,7 @@
     	                <input type="email" name="email" class="form-control" required value="{$users.form.email}" />
     	            </div>
     	            <div class="form-group">
-    	                <label>{$lang.general.password} {if: isset($users.form.id)}<a href="#" id="passwordChange">({$lang.general.change})</a>{/if}</label>
+    	                <label>{$lang.general.password} {if: isset($users.form.id)}<a href="#" id="passwordChange" class="btn btn-default btn-xs">{$lang.general.change}</a>{/if}</label>
     	                <input type="password" name="password" class="form-control" pattern=".{5,}" title="{$lang.users.too_short_pswd}" {if: isset($users.form.id)}value="********" placeholder="{$lang.users.new_password}" disabled {else}required{/if}/>
     	            </div>
     	            <div class="form-group">

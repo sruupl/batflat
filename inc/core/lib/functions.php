@@ -262,6 +262,15 @@ function domain($with_protocol = true)
 }
 
 /**
+ * Batflat dir name
+ *
+ * @return string
+ */
+function batflat_dir() {
+    return basename(str_replace(ADMIN, null, getcwd()));
+}
+
+/**
  * toggle empty variable
  *
  * @param mixed $var

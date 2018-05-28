@@ -12,7 +12,7 @@ Wymagania
 Wymagania systemowe dla Batflata są skromne, zatem powinien je spełnić każdy nowoczesny serwer WWW:
 
 + Apache 2.2+ z trybem `mod_rewrite`
-+ PHP w wersji 5.5+
++ PHP w wersji 5.6+
 + Dostęp do SQLite
 
 Konfiguracja PHP musi posiadać następujące rozszerzenia:

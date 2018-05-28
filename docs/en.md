@@ -12,7 +12,7 @@ Requirements
 System requirements for Batflat are modest, so every modern server should suffice.
 
 + Apache 2.2+ with `mod_rewrite`
-+ PHP version 5.5+
++ PHP version 5.6+
 + Access to SQLite
 
 PHP configuration must have the following extensions:

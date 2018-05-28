@@ -13,7 +13,7 @@ Pré-requis
 Les pré-requis système pour Batflat sont modeste, donc tous les serveurs modernes peuvent suffirent.
 
 + Apache 2.2+ with `mod_rewrite`
-+ PHP version 5.5+
++ PHP version 5.6+
 + Access to SQLite
 
 La configuration PHP doit avoir les extentions suivantes :

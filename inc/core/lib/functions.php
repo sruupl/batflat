@@ -267,7 +267,7 @@ function domain($with_protocol = true)
  * @return string
  */
 function batflat_dir() {
-    return basename(str_replace(ADMIN, null, getcwd()));
+    return dirname(str_replace(ADMIN, null, $_SERVER['SCRIPT_NAME']));
 }
 
 /**

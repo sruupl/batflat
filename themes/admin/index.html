@@ -54,7 +54,7 @@
                         <a href="#" class="navbar-brand" id="sidebar-toggle"><i class="fa fa-bars"></i></a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
-                        {if: $bat.has_update}
+                        {if: $bat.has_update && $bat.update_access}
                         <li class="hidden-sm hidden-xs"><a href="{?= url([ADMIN, 'settings', 'updates']) ?}" class="small"><span class="label label-danger">{$lang.general.update_available}</span></a></li>
                         {/if}
                         <li class="hello hidden-sm hidden-xs"><a href="#"><i class="fa fa-fw fa-user"></i> <span>{?= sprintf($lang.general.hello, $bat.username) ?}</span></a></li>

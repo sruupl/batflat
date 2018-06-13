@@ -33,7 +33,7 @@ class License
             return License::FREE;
         }
 
-        if ($license[0] == md5($license[1].$license[2].$license[3].domain(false))) {
+        if ($license[0] == md5($license[1].$license[2].$license[3].domain(false, true))) {
             if (time() < $license[4] || strtotime("-48 hours") > $license[4]) {
                 if (self::remoteCheck($license)) {
                     self::update($license);

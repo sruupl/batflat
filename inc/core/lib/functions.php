@@ -250,15 +250,21 @@ function url($data = null)
  *
  * @return string
  */
-function domain($with_protocol = true)
+function domain($with_protocol = true, $cut_www = false)
 {
     $url = parse_url(url());
 
-    if ($with_protocol) {
-        return $url['scheme'].'://'.$url['host'];
+    if ($cut_www) {
+        $host = str_replace('www.', null, $url['host']);
+    } else {
+        $host = $url['host'];
     }
 
-    return $url['host'];
+    if ($with_protocol) {
+        return $url['scheme'].'://'.$host;
+    }
+
+    return $host;
 }
 
 /**

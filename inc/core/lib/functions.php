@@ -254,7 +254,7 @@ function domain($with_protocol = true, $cut_www = false)
 {
     $url = parse_url(url());
 
-    if ($cut_www) {
+    if ($cut_www && strpos($url['host'], 'www.') === 0) {
         $host = str_replace('www.', null, $url['host']);
     } else {
         $host = $url['host'];

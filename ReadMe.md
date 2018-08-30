@@ -27,7 +27,7 @@ https://batflat.org
 * Dutch
 
 ## Modules
-* [Counter](https://github.com/michu2k/Counter): Shows the number of visits.
+* [Prism.js](https://github.com/piotr-placzek/Prism.js-module-for-BatFlat-cms.): Syntax highlighter.
 * This is place for link to your module on GitHub ;-)
 
 ## Themes

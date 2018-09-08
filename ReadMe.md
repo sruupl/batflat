@@ -25,6 +25,7 @@ https://batflat.org
 * Italian
 * Spanish
 * Dutch
+* Indonesian
 
 ## Modules
 * [Prism.js](https://github.com/piotr-placzek/Prism.js-module-for-BatFlat-cms.): Syntax highlighter.

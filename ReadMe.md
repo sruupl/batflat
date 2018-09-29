@@ -31,7 +31,6 @@ https://batflat.org
 * [SyntaxHighlighter](https://github.com/piotr-placzek/BatFlat-SyntaxHighlighter): Simple module based at Prism.js.
 * [FilesToDownload](https://github.com/piotr-placzek/BatFlat-FilesToDownload): Allows you to create a section of files to download on the page or post.
 * [EmbededVideoPlayer](https://github.com/piotr-placzek/BatFlat-EmbededVideoPlayer): Allows you to upload the video and its playback in the HTML5 player.
-
 * This is place for link to your module on GitHub ;-)
 
 ## Themes

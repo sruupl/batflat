@@ -874,7 +874,7 @@ class QueryBuilder
         $st = static::$db->prepare($sql);
         foreach ($binds as $key => $bind) {
             $pdo_param = \PDO::PARAM_STR;
-            if (is_numeric($bind)) {
+            if (is_int($bind)) {
                 $pdo_param = \PDO::PARAM_INT;
             }
             $st->bindValue($key+1, $bind, $pdo_param);

@@ -130,7 +130,7 @@ class Admin extends AdminModule
                 $row['src'] = unserialize($row['src']);
 
                 if (!isset($row['src']['sm'])) {
-                    $row['src']['sm'] = $row['src']['xs'];
+                    $row['src']['sm'] = isset($row['src']['xs']) ? $row['src']['xs'] : $row['src']['lg'];
                 }
 
                 $assign['images'][] = $row;

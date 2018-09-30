@@ -53,3 +53,4 @@ We are looking for human resources, especially translators who will help us reac
 * **[Giuseppe Marino](mailto:info@gpmdev.it)** - Italian translation of CMS
 * **[Javier Igal](mailto:javier@igal.es)** - Spanish translation of website and CMS
 * **[RJ Adriaansen](https://github.com/rjadr)** - Dutch translation of CMS
+* **[Komputronika](https://github.com/komputronika)** - Indonesian translation of CMS

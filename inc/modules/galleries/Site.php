@@ -39,8 +39,9 @@ class Site extends SiteModule
                 if (count($items)) {
                     foreach ($items as &$item) {
                         $item['src'] = unserialize($item['src']);
+
                         if (!isset($item['src']['sm'])) {
-                            $item['src']['sm'] = $item['src']['xs'];
+                            $item['src']['sm'] = isset($item['src']['xs']) ? $item['src']['xs'] : $item['src']['lg'];
                         }
                     }
 

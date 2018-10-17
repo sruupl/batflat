@@ -38,6 +38,10 @@ class Admin extends AdminModule
         }
 
         foreach ($modules as $name) {
+            if ($name === 'dashboard') {
+                continue;
+            }
+
             $files = [
                 'info'  => MODULES.'/'.$name.'/Info.php',
                 'admin' => MODULES.'/'.$name.'/Admin.php',

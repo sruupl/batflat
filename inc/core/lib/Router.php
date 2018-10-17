@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Core\Lib;
 
@@ -21,18 +22,18 @@ class Router
      *
      * @var array
      */
-    private $routes = array();
+    private $routes = [];
 
     /**
      * Route patterns that converts to regexp style
      *
      * @var array
      */
-    private $patterns = array(
+    private $patterns = [
         ':any' => '.*',
         ':int' => '[0-9]+',
         ':str' => '[a-zA-Z0-9_-]+',
-    );
+    ];
 
     /**
      * Set route
@@ -67,7 +68,7 @@ class Router
             return $url;
         }
 
-        $patterns = '/('.implode('|', array_keys($this->patterns)).')/';
+        $patterns = '/(' . implode('|', array_keys($this->patterns)) . ')/';
         uksort($this->routes, function ($a, $b) use ($patterns) {
             $pointsA = preg_match_all('/(\/)/', $a);
             $pointsB = preg_match_all('/(\/)/', $b);
@@ -84,10 +85,10 @@ class Router
             if (strpos($pattern, ':') !== false) {
                 $pattern = str_replace(array_keys($this->patterns), array_values($this->patterns), $pattern);
             }
-            if (preg_match('#^'.$pattern.'$#', $url, $params) === 1) {
+            if (preg_match('#^' . $pattern . '$#', $url, $params) === 1) {
                 array_shift($params);
                 array_walk($params, function (&$val) {
-                    $val = $val ?: null;
+                    $val = $val ? : null;
                 });
 
                 return call_user_func_array($callback, array_values($params));

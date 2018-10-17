@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Batflat ~ the lightweight, fast and easy CMS
  *
@@ -12,19 +13,19 @@
 use Inc\Modules\Statistics\DB;
 
 return [
-    'name'          => $core->lang['statistics']['module_name'],
-    'description'   => $core->lang['statistics']['module_desc'],
-    'author'        => 'Sruu.pl',
-    'version'       => '1.0',
+    'name' => $core->lang['statistics']['module_name'],
+    'description' => $core->lang['statistics']['module_desc'],
+    'author' => 'Sruu.pl',
+    'version' => '1.0',
     'compatibility' => '1.3.*',
-    'icon'          => 'pie-chart',
+    'icon' => 'pie-chart',
 
-    'install'   => function () use ($core) {
-        if (file_exists(BASE_DIR.'/inc/data/statistics.sdb')) {
+    'install' => function () use ($core) {
+        if (file_exists(BASE_DIR . '/inc/data/statistics.sdb')) {
             return;
         }
-
-        DB::pdo()->exec("CREATE TABLE IF NOT EXISTS `statistics` (
+        $db = new DB;
+        $db::pdo()->exec("CREATE TABLE IF NOT EXISTS `statistics` (
             `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             `ip`	TEXT NOT NULL,
             `useragent`	TEXT,
@@ -39,9 +40,11 @@ return [
             `created_at`	INTEGER NOT NULL
         );");
 
-        DB::pdo()->exec("CREATE INDEX statistics_idx1 ON statistics(ip,useragent,country,platform,url,referrer,status_code,bot)");
+        $db::pdo()->exec("CREATE INDEX statistics_idx1 ON statistics (
+            ip,useragent,country,platform,url,referrer,status_code,bot
+        )");
     },
     'uninstall' => function () use ($core) {
-        unlink(BASE_DIR.'/inc/data/statistics.sdb');
+        unlink(BASE_DIR . '/inc/data/statistics.sdb');
     },
 ];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Image
  *
@@ -61,12 +62,12 @@ class Image
             return $this->{$what};
         }
 
-        return array(
+        return [
             'width' => $this->width,
             'height' => $this->height,
             'type' => $this->type,
             'resource' => $this->image,
-        );
+        ];
     }
 
     /**
@@ -83,9 +84,9 @@ class Image
 
         switch (strlen($hex)) {
             case 3:
-                $rgb['r'] = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
-                $rgb['g'] = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
-                $rgb['b'] = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
+                $rgb['r'] = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+                $rgb['g'] = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+                $rgb['b'] = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
                 break;
 
             case 6:
@@ -110,7 +111,7 @@ class Image
         if (empty($path)) {
             return false;
         }
-            
+
         $file = @fopen($path, 'r');
 
         if (!$file) {
@@ -148,14 +149,14 @@ class Image
     }
 
     /**
-    * Creates image resource with background
-    *
-    * @param integer $width Width of the image
-    * @param integer $height Height of the image
-    * @param string $background Background color in hexadecimal code
-    * @return boolean true if resource was created
-    * @access public
-    */
+     * Creates image resource with background
+     *
+     * @param integer $width Width of the image
+     * @param integer $height Height of the image
+     * @param string $background Background color in hexadecimal code
+     * @return boolean true if resource was created
+     * @access public
+     */
     public function create($width, $height, $background = null)
     {
         if ($width > 0 && $height > 0) {
@@ -175,7 +176,7 @@ class Image
             }
             return true;
         }
-        
+
         return false;
     }
 
@@ -192,9 +193,9 @@ class Image
         if ($width <= 0 && $height <= 0) {
             return false;
         } elseif ($width > 0 && $height <= 0) {
-            $height = $this->height*$width/$this->width;
+            $height = $this->height * $width / $this->width;
         } elseif ($width <= 0 && $height > 0) {
-            $width = $this->width*$height/$this->height;
+            $width = $this->width * $height / $this->height;
         }
 
         $image = imagecreatetruecolor($width, $height);
@@ -258,15 +259,15 @@ class Image
     }
 
     /**
-    * Creates rectangle
-    *
-    * @param integer $x1 X1-coordinate
-    * @param integer $y1 Y1-coordinate
-    * @param integer $x2 X2-coordinate
-    * @param integer $y2 Y2-coordinate
-    * @param string $color Color in hexadecimal code
-    * @access public
-    */
+     * Creates rectangle
+     *
+     * @param integer $x1 X1-coordinate
+     * @param integer $y1 Y1-coordinate
+     * @param integer $x2 X2-coordinate
+     * @param integer $y2 Y2-coordinate
+     * @param string $color Color in hexadecimal code
+     * @access public
+     */
     public function rectangle($x1, $y1, $x2, $y2, $color)
     {
         $rgb = $this->hex2rgb($color);
@@ -274,15 +275,15 @@ class Image
         imagefilledrectangle($this->image, $x1, $y1, $x2, $y2, $color);
     }
     /**
-    * Creates ellipse
-    *
-    * @param integer $x X-coordinate
-    * @param integer $y Y-coordinate
-    * @param integer $width Width of ellipse
-    * @param integer $height Height of ellipse
-    * @param string $color Color in hexadecimal code
-    * @access public
-    */
+     * Creates ellipse
+     *
+     * @param integer $x X-coordinate
+     * @param integer $y Y-coordinate
+     * @param integer $width Width of ellipse
+     * @param integer $height Height of ellipse
+     * @param string $color Color in hexadecimal code
+     * @access public
+     */
     public function ellipse($x, $y, $width, $height, $color)
     {
         $rgb = $this->hex2rgb($color);
@@ -290,26 +291,26 @@ class Image
         imagefilledellipse($this->image, $x, $y, $width, $height, $color);
     }
     /**
-    * Creates polygon
-    *
-    * @param array $points Coordinates of the vertices
-    * @param string $color Color in hexadecimal code
-    * @access public
-    */
+     * Creates polygon
+     *
+     * @param array $points Coordinates of the vertices
+     * @param string $color Color in hexadecimal code
+     * @access public
+     */
     public function polygon($points, $color)
     {
         $rgb = $this->hex2rgb($color);
         $color = imagecolorallocate($this->image, $rgb['r'], $rgb['g'], $rgb['b']);
-        $num = count($points)/2;
+        $num = count($points) / 2;
         imagefilledpolygon($this->image, $points, $num, $color);
     }
     /**
-    * Draws a line
-    *
-    * @param array $points Coordinates of the vertices
-    * @param string $color Color in hexadecimal code
-    * @access public
-    */
+     * Draws a line
+     *
+     * @param array $points Coordinates of the vertices
+     * @param string $color Color in hexadecimal code
+     * @access public
+     */
     public function line($points, $color)
     {
         $rgb = $this->hex2rgb($color);
@@ -354,7 +355,7 @@ class Image
                 break;
 
             case 'right':
-                $x = $this->width-$infos['width'];
+                $x = $this->width - $infos['width'];
                 break;
 
             default:
@@ -367,7 +368,7 @@ class Image
                 break;
 
             case 'bottom':
-                $y = $this->height-$infos['height'];
+                $y = $this->height - $infos['height'];
                 break;
 
             default:
@@ -428,7 +429,7 @@ class Image
 
         if ($type != 'gif' && $type != 'jpeg' && $type != 'jpg' && $type != 'png') {
             $type = $this->type;
-            $path .= '.'.$type;
+            $path .= '.' . $type;
         }
 
         switch ($type) {
@@ -436,7 +437,8 @@ class Image
                 imagegif($this->image, $path);
                 break;
 
-            case 'jpeg': case 'jpg':
+            case 'jpeg':
+            case 'jpg':
                 imagejpeg($this->image, $path, $quality);
                 break;
 

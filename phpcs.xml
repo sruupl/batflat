@@ -3,6 +3,7 @@
     <description>Batflat coding standard</description>
     <!-- Paths to check -->
     <file>inc/core</file>
+    <exclude-pattern>inc/core/lib/Parsedown.php</exclude-pattern>
     <file>inc/modules</file>
     <exclude-pattern>*/css/*</exclude-pattern>
     <exclude-pattern>*/img/*</exclude-pattern>

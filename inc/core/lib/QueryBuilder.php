@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Core\Lib;
 
@@ -47,10 +48,10 @@ class QueryBuilder
     protected $offset = '';
 
     /**
-    * constructor
-    *
-    * @param string $table
-    */
+     * constructor
+     *
+     * @param string $table
+     */
     public function __construct($table = null)
     {
         if ($table) {
@@ -59,43 +60,43 @@ class QueryBuilder
     }
 
     /**
-    * PDO instance
-    *
-    * @return PDO
-    */
+     * PDO instance
+     *
+     * @return PDO
+     */
     public static function pdo()
     {
         return static::$db;
     }
 
     /**
-    * last SQL queries
-    *
-    * @return array SQLs array
-    */
+     * last SQL queries
+     *
+     * @return array SQLs array
+     */
     public static function lastSqls()
     {
         return static::$last_sqls;
     }
 
     /**
-    * creates connection with database
-    *
-    * Qb::connect($dsn); // default user, password and options
-    * Qb::connect($dsn, $user); // default password and options
-    * Qb::connect($dsn, $user, $pass); // default options
-    * Qb::connect($dsn, $user, $pass, $options);
-    * Qb::connect($dsn, $options);
-    * Qb::connect($dsn, $user, $options);
-    *
-    * @param string $dsn
-    * @param string $user
-    * @param string $pass
-    * @param array $options
-    *   primary_key:  primary column name, default: 'id'
-    *   error_mode:   default: \PDO::ERRMODE_EXCEPTION
-    *   json_options: default: JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
-    */
+     * creates connection with database
+     *
+     * Qb::connect($dsn); // default user, password and options
+     * Qb::connect($dsn, $user); // default password and options
+     * Qb::connect($dsn, $user, $pass); // default options
+     * Qb::connect($dsn, $user, $pass, $options);
+     * Qb::connect($dsn, $options);
+     * Qb::connect($dsn, $user, $options);
+     *
+     * @param string $dsn
+     * @param string $user
+     * @param string $pass
+     * @param array $options
+     *   primary_key:  primary column name, default: 'id'
+     *   error_mode:   default: \PDO::ERRMODE_EXCEPTION
+     *   json_options: default: JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
+     */
     public static function connect($dsn, $user = '', $pass = '', $options = [])
     {
         if (is_array($user)) {
@@ -107,10 +108,10 @@ class QueryBuilder
             $pass = '';
         }
         static::$options = array_merge([
-            'primary_key'   => 'id',
-            'error_mode'    => \PDO::ERRMODE_EXCEPTION,
-            'json_options'  => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
-            ], $options);
+            'primary_key' => 'id',
+            'error_mode' => \PDO::ERRMODE_EXCEPTION,
+            'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+        ], $options);
         static::$db = new \PDO($dsn, $user, $pass);
         static::$db->setAttribute(\PDO::ATTR_ERRMODE, static::$options['error_mode']);
         if (strpos($dsn, 'sqlite') !== false) {
@@ -119,19 +120,19 @@ class QueryBuilder
     }
 
     /**
-    * close connection with database
-    */
+     * close connection with database
+     */
     public static function close()
     {
         static::$db = null;
     }
 
     /**
-    * get or set options
-    *
-    * @param string $name
-    * @param mixed $value
-    */
+     * get or set options
+     *
+     * @param string $name
+     * @param mixed $value
+     */
     public static function config($name, $value = null)
     {
         if ($value === null) {
@@ -142,20 +143,20 @@ class QueryBuilder
     }
 
     /**
-    * SELECT
-    *
-    * select('column1')->select('column2') // SELECT column1, column2
-    * select(['column1', 'column2', ...]) // SELECT column1, column2, ...
-    * select(['alias1' => 'column1', 'column2', ...]) // SELECT column1 AS alias1, column2, ...
-    *
-    * @param string|array $columns
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * SELECT
+     *
+     * select('column1')->select('column2') // SELECT column1, column2
+     * select(['column1', 'column2', ...]) // SELECT column1, column2, ...
+     * select(['alias1' => 'column1', 'column2', ...]) // SELECT column1 AS alias1, column2, ...
+     *
+     * @param string|array $columns
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function select($columns)
     {
         if (!is_array($columns)) {
-            $columns = array($columns);
+            $columns = [$columns];
         }
         foreach ($columns as $alias => $column) {
             if (!is_numeric($alias)) {
@@ -167,13 +168,13 @@ class QueryBuilder
     }
 
     /**
-    * INNER JOIN
-    *
-    * @param string $table
-    * @param string $condition
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * INNER JOIN
+     *
+     * @param string $table
+     * @param string $condition
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function join($table, $condition)
     {
         array_push($this->joins, "INNER JOIN $table ON $condition");
@@ -181,13 +182,13 @@ class QueryBuilder
     }
 
     /**
-    * LEFT OUTER JOIN
-    *
-    * @param string $table
-    * @param string $condition
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * LEFT OUTER JOIN
+     *
+     * @param string $table
+     * @param string $condition
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function leftJoin($table, $condition)
     {
         array_push($this->joins, "LEFT JOIN $table ON $condition");
@@ -195,16 +196,16 @@ class QueryBuilder
     }
 
     /**
-    * HAVING
-    *
-    * having(aggregate_function, operator, value) // HAVING aggregate_function (=, <, >, <=, >=, <>) value
-    * having(aggregate_function, value) // HAVING aggregate_function = value
-    *
-    * @param string $aggregate_function
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * HAVING
+     *
+     * having(aggregate_function, operator, value) // HAVING aggregate_function (=, <, >, <=, >=, <>) value
+     * having(aggregate_function, value) // HAVING aggregate_function = value
+     *
+     * @param string $aggregate_function
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function having($aggregate_function, $operator, $value = null, $ao = 'AND')
     {
         if ($value === null) {
@@ -239,20 +240,20 @@ class QueryBuilder
     }
 
     /**
-    * WHERE
-    *
-    * where(column, operator, value) // WHERE column (=, <, >, <=, >=, <>) value
-    * where(column, value) // WHERE column = value
-    * where(value) // WHERE id = value
-    * where(function($st) {
-    *	$st->where()...
-    * })
-    *
-    * @param mixed $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE
+     *
+     * where(column, operator, value) // WHERE column (=, <, >, <=, >=, <>) value
+     * where(column, value) // WHERE column = value
+     * where(value) // WHERE id = value
+     * where(function($st) {
+     *  $st->where()...
+     * })
+     *
+     * @param mixed $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function where($column, $operator = null, $value = null, $ao = 'AND')
     {
         // Where group
@@ -260,7 +261,7 @@ class QueryBuilder
             if (empty($this->conditions) || strpos(end($this->conditions), '(') !== false) {
                 array_push($this->conditions, '(');
             } else {
-                array_push($this->conditions, $ao.' (');
+                array_push($this->conditions, $ao . ' (');
             }
 
             call_user_func($column, $this);
@@ -303,7 +304,7 @@ class QueryBuilder
      * orWhere(column, value) // WHERE column = value
      * orWhere(value) // WHERE id = value
      * orWhere(function($st) {
-     *	$st->where()...
+     *    $st->where()...
      * })
      *
      * @param mixed $column
@@ -329,7 +330,7 @@ class QueryBuilder
             foreach ($column as $c) {
                 $this->isNull($c, $ao);
             }
-            
+
             return $this;
         }
 
@@ -355,7 +356,7 @@ class QueryBuilder
             foreach ($column as $c) {
                 $this->isNotNull($c, $ao);
             }
-            
+
             return $this;
         }
 
@@ -364,7 +365,7 @@ class QueryBuilder
         } else {
             array_push($this->conditions, "$ao $column IS NOT NULL");
         }
-        
+
         return $this;
     }
 
@@ -391,13 +392,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE LIKE
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE LIKE
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function like($column, $value)
     {
         $this->where($column, 'LIKE', $value);
@@ -405,13 +406,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE OR LIKE
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE OR LIKE
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function orLike($column, $value)
     {
         $this->where($column, 'LIKE', $value, 'OR');
@@ -419,13 +420,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE NOT LIKE
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE NOT LIKE
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function notLike($column, $value)
     {
         $this->where($column, 'NOT LIKE', $value);
@@ -433,13 +434,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE OR NOT LIKE
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE OR NOT LIKE
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function orNotLike($column, $value)
     {
         $this->where($column, 'NOT LIKE', $value, 'OR');
@@ -447,13 +448,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE IN
-    *
-    * @param string $column
-    * @param array $values
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE IN
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function in($column, $values)
     {
         $this->where($column, 'IN', $values);
@@ -461,13 +462,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE OR IN
-    *
-    * @param string $column
-    * @param array $values
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE OR IN
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function orIn($column, $values)
     {
         $this->where($column, 'IN', $values, 'OR');
@@ -475,13 +476,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE NOT IN
-    *
-    * @param string $column
-    * @param array $values
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE NOT IN
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function notIn($column, $values)
     {
         $this->where($column, 'NOT IN', $values);
@@ -489,13 +490,13 @@ class QueryBuilder
     }
 
     /**
-    * WHERE OR NOT IN
-    *
-    * @param string $column
-    * @param array $values
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * WHERE OR NOT IN
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function orNotIn($column, $values)
     {
         $this->where($column, 'NOT IN', $values, 'OR');
@@ -503,13 +504,13 @@ class QueryBuilder
     }
 
     /**
-    * get or set column value
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * get or set column value
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function set($column, $value = null)
     {
         if (is_array($column)) {
@@ -522,19 +523,19 @@ class QueryBuilder
     }
 
     /**
-    * UPDATE or INSERT
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return integer / boolean
-    */
+     * UPDATE or INSERT
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return integer / boolean
+     */
     public function save($column = null, $value = null)
     {
         if ($column) {
             $this->set($column, $value);
         }
-        $st = $this->_build();
+        $st = $this->build();
         if ($lid = static::$db->lastInsertId()) {
             return $lid;
         } else {
@@ -543,28 +544,28 @@ class QueryBuilder
     }
 
     /**
-    * UPDATE
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return boolean
-    */
+     * UPDATE
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return boolean
+     */
     public function update($column = null, $value = null)
     {
         if ($column) {
             $this->set($column, $value);
         }
-        return $this->_build(['only_update' => true]);
+        return $this->build(['only_update' => true]);
     }
 
     /**
-    * ORDER BY ASC
-    *
-    * @param string $column
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * ORDER BY ASC
+     *
+     * @param string $column
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function asc($column)
     {
         array_push($this->orders, "$column ASC");
@@ -572,12 +573,12 @@ class QueryBuilder
     }
 
     /**
-    * ORDER BY DESC
-    *
-    * @param string $column
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * ORDER BY DESC
+     *
+     * @param string $column
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function desc($column)
     {
         array_push($this->orders, "$column DESC");
@@ -585,12 +586,12 @@ class QueryBuilder
     }
 
     /**
-    * GROUP BY
-    *
-    * @param mixed $column
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * GROUP BY
+     *
+     * @param mixed $column
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function group($columns)
     {
         if (is_array($columns)) {
@@ -604,12 +605,12 @@ class QueryBuilder
     }
 
     /**
-    * LIMIT
-    *
-    * @param integer $num
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * LIMIT
+     *
+     * @param integer $num
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function limit($num)
     {
         $this->limit = " LIMIT $num";
@@ -617,12 +618,12 @@ class QueryBuilder
     }
 
     /**
-    * OFFSET
-    *
-    * @param integer $num
-    *
-    * @return \Inc\Core\Lib\QueryBuilder
-    */
+     * OFFSET
+     *
+     * @param integer $num
+     *
+     * @return \Inc\Core\Lib\QueryBuilder
+     */
     public function offset($num)
     {
         $this->offset = " OFFSET $num";
@@ -630,32 +631,32 @@ class QueryBuilder
     }
 
     /**
-    * create array with all rows
-    *
-    * @return array
-    */
+     * create array with all rows
+     *
+     * @return array
+     */
     public function toArray()
     {
-        $st = $this->_build();
+        $st = $this->build();
         return $st->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
-    * create object with all rows
-    *
-    * @return \stdObject[]
-    */
+     * create object with all rows
+     *
+     * @return \stdObject[]
+     */
     public function toObject()
     {
-        $st = $this->_build();
+        $st = $this->build();
         return $st->fetchAll(\PDO::FETCH_OBJ);
     }
 
     /**
-    * create JSON array with all rows
-    *
-    * @return string
-    */
+     * create JSON array with all rows
+     *
+     * @return string
+     */
     public function toJson()
     {
         $rows = $this->toArray();
@@ -663,47 +664,47 @@ class QueryBuilder
     }
 
     /**
-    * create array with one row
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return array
-    */
+     * create array with one row
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return array
+     */
     public function oneArray($column = null, $value = null)
     {
         if ($column !== null) {
             $this->where($column, $value);
         }
-        $st = $this->_build();
+        $st = $this->build();
         return $st->fetch(\PDO::FETCH_ASSOC);
     }
 
     /**
-    * create object with one row
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return \stdObject
-    */
+     * create object with one row
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return \stdObject
+     */
     public function oneObject($column = null, $value = null)
     {
         if ($column !== null) {
             $this->where($column, $value);
         }
-        $st = $this->_build();
+        $st = $this->build();
         return $st->fetch(\PDO::FETCH_OBJ);
     }
 
     /**
-    * create JSON array with one row
-    *
-    * @param string $column
-    * @param mixed $value
-    *
-    * @return string
-    */
+     * create JSON array with one row
+     *
+     * @param string $column
+     * @param mixed $value
+     *
+     * @return string
+     */
     public function oneJson($column = null, $value = null)
     {
         if ($column !== null) {
@@ -714,13 +715,13 @@ class QueryBuilder
     }
 
     /**
-    * returns rows count
-    *
-    * @return integer
-    */
+     * returns rows count
+     *
+     * @return integer
+     */
     public function count()
     {
-        $st = $this->_build('count');
+        $st = $this->build('count');
         return $st->fetchColumn();
     }
 
@@ -735,17 +736,17 @@ class QueryBuilder
     }
 
     /**
-    * DELETE
-    *
-    * @param string $column
-    * @param mixed $value
-    */
+     * DELETE
+     *
+     * @param string $column
+     * @param mixed $value
+     */
     public function delete($column = null, $value = null)
     {
         if ($column !== null) {
             $this->where($column, $value);
         }
-        $st = $this->_build('delete');
+        $st = $this->build('delete');
         return $st->rowCount();
     }
 
@@ -778,7 +779,7 @@ class QueryBuilder
         // if some columns have set value then UPDATE or INSERT
         if ($this->sets) {
             // get table columns
-            $table_cols = $this->_getColumns();
+            $table_cols = $this->getColumns();
 
             // Update updated_at column if exists
             if (in_array('updated_at', $table_cols) && !array_key_exists('updated_at', $this->sets)) {
@@ -794,9 +795,8 @@ class QueryBuilder
                 $sql .= $sql_where;
 
                 return $sql;
-            }
-            // if there aren't conditions, then INSERT
-            else {
+            } else {
+                // if there aren't conditions, then INSERT
                 // Update created_at column if exists
                 if (in_array('created_at', $table_cols) && !array_key_exists('created_at', $this->sets)) {
                     $this->set('created_at', time());
@@ -806,8 +806,8 @@ class QueryBuilder
                 $this->set_binds = array_values($this->sets);
                 $qs = implode(',', array_fill(0, count($this->sets), '?'));
                 $sql = "INSERT INTO $this->table($columns) VALUES($qs)";
-                $this->condition_binds = array();
-                
+                $this->condition_binds = [];
+
                 return $sql;
             }
         } else {
@@ -815,7 +815,7 @@ class QueryBuilder
                 // DELETE
                 $sql = "DELETE FROM $this->table";
                 $sql .= $sql_where;
-                
+
                 return $sql;
             } else {
                 // SELECT
@@ -842,7 +842,7 @@ class QueryBuilder
                 }
 
                 $sql .= $sql_where . $group_by . $order . $sql_having . $this->limit . $this->offset;
-                
+
                 return $sql;
             }
         }
@@ -850,25 +850,25 @@ class QueryBuilder
         return null;
     }
     /**
-    * build SQL query
-    *
-    * @param array $type `default`, `delete`, `count`
-    *
-    * @return PDOStatement
-    */
-    protected function _build($type = 'default')
+     * build SQL query
+     *
+     * @param array $type `default`, `delete`, `count`
+     *
+     * @return PDOStatement
+     */
+    protected function build($type = 'default')
     {
-        return $this->_query($this->toSql($type));
+        return $this->query($this->toSql($type));
     }
 
     /**
-    * execute SQL query
-    *
-    * @param string $sql
-    *
-    * @return PDOStatement
-    */
-    protected function _query($sql)
+     * execute SQL query
+     *
+     * @param string $sql
+     *
+     * @return PDOStatement
+     */
+    protected function query($sql)
     {
         $binds = array_merge($this->set_binds, $this->condition_binds);
         $st = static::$db->prepare($sql);
@@ -877,7 +877,7 @@ class QueryBuilder
             if (is_int($bind)) {
                 $pdo_param = \PDO::PARAM_INT;
             }
-            $st->bindValue($key+1, $bind, $pdo_param);
+            $st->bindValue($key + 1, $bind, $pdo_param);
         }
         $st->execute();
         static::$last_sqls[] = $sql;
@@ -889,9 +889,9 @@ class QueryBuilder
      *
      * @return array
      */
-    protected function _getColumns()
+    protected function getColumns()
     {
-        $q = $this->pdo()->query("PRAGMA table_info(".$this->table.")")->fetchAll();
+        $q = $this->pdo()->query("PRAGMA table_info(" . $this->table . ")")->fetchAll();
         return array_column($q, 'name');
     }
 }

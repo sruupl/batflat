@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Core\Lib;
 
@@ -29,11 +30,12 @@ class License
     {
         $license = self::unpack($license);
 
-        if ($license[0] === false && $license[1] === false && $license[2] === false && $license[3] === false && $license[4] === false) {
+        if ($license[0] === false && $license[1] === false && $license[2] === false &&
+            $license[3] === false && $license[4] === false) {
             return License::FREE;
         }
 
-        if ($license[0] == md5($license[1].$license[2].$license[3].domain(false, true))) {
+        if ($license[0] == md5($license[1] . $license[2] . $license[3] . domain(false, true))) {
             if (time() < $license[4] || strtotime("-48 hours") > $license[4]) {
                 if (self::remoteCheck($license)) {
                     self::update($license);
@@ -53,8 +55,14 @@ class License
 
     public static function getLicenseData($domainCode)
     {
-        $response = json_decode(HttpRequest::post(self::$feedURL.'/batflat/commercial/license/data', ['code' => $domainCode, 'domain' => domain(false)]), true);
-        
+        $response = json_decode(
+            HttpRequest::post(
+                self::$feedURL . '/batflat/commercial/license/data',
+                ['code' => $domainCode, 'domain' => domain(false)]
+            ),
+            true
+        );
+
         if (isset_or($response['status'], false) == 'verified') {
             return $response['data'];
         }
@@ -77,18 +85,28 @@ class License
     {
         $license[4] = time();
         $core = $GLOBALS['core'];
-        $core->db('settings')->where('module', 'settings')->where('field', 'license')->save(['value' => base64_encode(json_encode($license))]);
+        $core->db('settings')->where('module', 'settings')
+            ->where('field', 'license')
+            ->save(['value' => base64_encode(json_encode($license))]);
     }
 
     private static function remoteCheck($license)
     {
-        $output = HttpRequest::post(self::$feedURL.'/batflat/commercial/license/verify', ['pid' => $license[1], 'code' => $license[2], 'domain' => domain(false), 'domainCode' => $license[3]]);
+        $output = HttpRequest::post(
+            self::$feedURL . '/batflat/commercial/license/verify',
+            [
+                'pid' => $license[1],
+                'code' => $license[2],
+                'domain' => domain(false),
+                'domainCode' => $license[3]
+            ]
+        );
         $output = json_decode($output, true);
 
         if (isset_or($output['status'], false) == 'verified') {
             return true;
         }
-        
+
         return false;
     }
 }

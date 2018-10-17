@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://github.com/gajus/dindent for the canonical source repository
  * @license https://github.com/gajus/dindent/blob/master/LICENSE BSD 3-Clause
@@ -11,13 +12,16 @@ namespace Inc\Core\Lib;
  */
 class Indenter
 {
-    private $log = array();
-    private $options = array(
-            'indentation_character' => '    '
-        );
-    private $inline_elements = array('b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong', 'samp', 'var', 'a', 'bdo', 'br', 'img', 'span', 'sub', 'sup');
-    private $temporary_replacements_script = array();
-    private $temporary_replacements_inline = array();
+    private $log = [];
+    private $options = [
+        'indentation_character' => '    '
+    ];
+    private $inline_elements = [
+        'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em',
+        'kbd', 'strong', 'samp', 'var', 'a', 'bdo', 'br', 'img', 'span', 'sub', 'sup'
+    ];
+    private $temporary_replacements_script = [];
+    private $temporary_replacements_inline = [];
 
     const ELEMENT_TYPE_BLOCK = 0;
     const ELEMENT_TYPE_INLINE = 1;
@@ -30,7 +34,7 @@ class Indenter
     /**
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         foreach ($options as $name => $value) {
             if (!array_key_exists($name, $this->options)) {
@@ -49,7 +53,7 @@ class Indenter
     public function setElementType($element_name, $type)
     {
         if ($type === static::ELEMENT_TYPE_BLOCK) {
-            $this->inline_elements = array_diff($this->inline_elements, array($element_name));
+            $this->inline_elements = array_diff($this->inline_elements, [$element_name]);
         } elseif ($type === static::ELEMENT_TYPE_INLINE) {
             $this->inline_elements[] = $element_name;
         } else {
@@ -65,9 +69,10 @@ class Indenter
      */
     public function indent($input)
     {
-        $this->log = array();
+        $this->log = [];
 
-        // Dindent does not indent <script> body. Instead, it temporary removes it from the code, indents the input, and restores the script body.
+         // Dindent does not indent <script> body. Instead, it temporary removes it from the code,
+         // indents the input, and restores the script body.
         if (preg_match_all('/<script\b[^>]*>([\s\S]*?)<\/script>/mi', $input, $matches)) {
             $this->temporary_replacements_script = $matches[0];
             foreach ($matches[0] as $i => $match) {
@@ -80,7 +85,11 @@ class Indenter
         // $input = preg_replace('/\s{2,}/', ' ', $input);
 
         // Remove inline elements and replace them with text entities.
-        if (preg_match_all('/<(' . implode('|', $this->inline_elements) . ')[^>]*>(?:[^<]*)<\/\1>/', $input, $matches)) {
+        if (preg_match_all(
+            '/<(' . implode('|', $this->inline_elements) . ')[^>]*>(?:[^<]*)<\/\1>/',
+            $input,
+            $matches
+        )) {
             $this->temporary_replacements_inline = $matches[0];
             foreach ($matches[0] as $i => $match) {
                 $input = str_replace($match, 'ᐃ' . ($i + 1) . 'ᐃ', $input);
@@ -96,7 +105,7 @@ class Indenter
         do {
             $indentation_level = $next_line_indentation_level;
 
-            $patterns = array(
+            $patterns = [
                 // block tag
                 '/^(<([a-z]+)(?:[^>]*)>(?:[^<]*)<\/(?:\2)>)/' => static::MATCH_INDENT_NO,
                 // DOCTYPE
@@ -113,17 +122,17 @@ class Indenter
                 '/^(\s+)/' => static::MATCH_DISCARD,
                 // text node
                 '/([^<]+)/' => static::MATCH_INDENT_NO
-            );
-            $rules = array('NO', 'DECREASE', 'INCREASE', 'DISCARD');
+            ];
+            $rules = ['NO', 'DECREASE', 'INCREASE', 'DISCARD'];
 
             foreach ($patterns as $pattern => $rule) {
                 if ($match = preg_match($pattern, $subject, $matches)) {
-                    $this->log[] = array(
+                    $this->log[] = [
                         'rule' => $rules[$rule],
                         'pattern' => $pattern,
                         'subject' => $subject,
                         'match' => $matches[0]
-                    );
+                    ];
 
                     $subject = mb_substr($subject, mb_strlen($matches[0]));
 
@@ -143,7 +152,10 @@ class Indenter
                         $indentation_level = 0;
                     }
 
-                    $output .= str_repeat($this->options['indentation_character'], $indentation_level) . $matches[0] . "\n";
+                    $output .= str_repeat(
+                        $this->options['indentation_character'],
+                        $indentation_level
+                    ) . $matches[0] . "\n";
 
                     break;
                 }

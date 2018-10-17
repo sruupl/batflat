@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Batflat ~ the lightweight, fast and easy CMS
  *
@@ -37,13 +38,13 @@ function checkEmptyFields(array $keys, array $array)
  */
 function deleteDir($path)
 {
-    return !empty($path) && is_file($path)
-        ? @unlink($path)
-        : (array_reduce(glob($path.'/*'),
-            function ($r, $i) {
-                return $r && deleteDir($i);
-            }, true))
-        && @rmdir($path);
+    return !empty($path) && is_file($path) ? @unlink($path) : (array_reduce(
+        glob($path . '/*'),
+        function ($r, $i) {
+            return $r && deleteDir($i);
+        },
+        true
+    )) && @rmdir($path);
 }
 
 /**
@@ -149,13 +150,13 @@ function getRedirectData()
 function currentURL($query = false)
 {
     if (isset_or($GLOBALS['core'], null) instanceof \Inc\Core\Admin) {
-        $url = url(ADMIN.'/'.implode('/', parseURL()));
+        $url = url(ADMIN . '/' . implode('/', parseURL()));
     } else {
         $url = url(implode('/', parseURL()));
     }
 
     if ($query) {
-        return $url.'?'.$_SERVER['QUERY_STRING'];
+        return $url . '?' . $_SERVER['QUERY_STRING'];
     } else {
         return $url;
     }
@@ -193,9 +194,9 @@ function addToken($url)
 {
     if (isset($_SESSION['token'])) {
         if (parse_url($url, PHP_URL_QUERY)) {
-            return $url.'&t='.$_SESSION['token'];
+            return $url . '&t=' . $_SESSION['token'];
         } else {
-            return $url.'?t='.$_SESSION['token'];
+            return $url . '?t=' . $_SESSION['token'];
         }
     }
 
@@ -221,24 +222,23 @@ function url($data = null)
 
     if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
         || isset_or($_SERVER['SERVER_PORT'], null) == 443
-        || isset_or($_SERVER['HTTP_X_FORWARDED_PORT'], null) == 443
-    ) {
+        || isset_or($_SERVER['HTTP_X_FORWARDED_PORT'], null) == 443) {
         $protocol = 'https://';
     } else {
         $protocol = 'http://';
     }
 
-    $url = trim($protocol.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']), '/\\');
-    $url = str_replace('/'.ADMIN, '', $url);
+    $url = trim($protocol . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']), '/\\');
+    $url = str_replace('/' . ADMIN, '', $url);
 
     if (is_array($data)) {
-        $url = $url.'/'.implode('/', $data);
+        $url = $url . '/' . implode('/', $data);
     } elseif ($data) {
-        $data = str_replace(BASE_DIR.'/', null, $data);
-        $url = $url.'/'.trim($data, '/');
+        $data = str_replace(BASE_DIR . '/', null, $data);
+        $url = $url . '/' . trim($data, '/');
     }
 
-    if (strpos($url, '/'.ADMIN.'/') !== false) {
+    if (strpos($url, '/' . ADMIN . '/') !== false) {
         $url = addToken($url);
     }
 
@@ -261,7 +261,7 @@ function domain($with_protocol = true, $cut_www = false)
     }
 
     if ($with_protocol) {
-        return $url['scheme'].'://'.$host;
+        return $url['scheme'] . '://' . $host;
     }
 
     return $host;
@@ -272,7 +272,8 @@ function domain($with_protocol = true, $cut_www = false)
  *
  * @return string
  */
-function batflat_dir() {
+function batflat_dir()
+{
     return dirname(str_replace(ADMIN, null, $_SERVER['SCRIPT_NAME']));
 }
 
@@ -344,7 +345,7 @@ function cmpver($a, $b)
 function str_limit($text, $limit = 100, $end = '...')
 {
     if (mb_strlen($text, 'UTF-8') > $limit) {
-        return mb_substr($text, 0, $limit, 'UTF-8').$end;
+        return mb_substr($text, 0, $limit, 'UTF-8') . $end;
     }
 
     return $text;

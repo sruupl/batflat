@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Batflat ~ the lightweight, fast and easy CMS
  *
@@ -37,10 +38,10 @@ class Admin extends AdminModule
         $this->statistics = new Statistics();
         $this->chart = new Chart();
 
-        $this->moduleDirectory = MODULES.'/statistics';
-        $this->core->addCSS(url($this->moduleDirectory.'/assets/css/style.css?v={$bat.version}'));
-        $this->core->addJS(url($this->moduleDirectory.'/assets/js/Chart.bundle.min.js'));
-        $this->core->addJS(url($this->moduleDirectory.'/assets/js/app.js?v={$bat.version}'));
+        $this->moduleDirectory = MODULES . '/statistics';
+        $this->core->addCSS(url($this->moduleDirectory . '/assets/css/style.css?v={$bat.version}'));
+        $this->core->addJS(url($this->moduleDirectory . '/assets/js/Chart.bundle.min.js'));
+        $this->core->addJS(url($this->moduleDirectory . '/assets/js/app.js?v={$bat.version}'));
     }
 
     public function navigation()

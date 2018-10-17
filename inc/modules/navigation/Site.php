@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Navigation;
 
@@ -17,13 +18,13 @@ class Site extends SiteModule
 {
     public function routes()
     {
-        $this->_insertMenu();
+        $this->insertMenu();
     }
 
     /**
-    * get nav data
-    */
-    private function _insertMenu()
+     * get nav data
+     */
+    private function insertMenu()
     {
         $assign = [];
         $homepage = $this->settings('settings', 'homepage');
@@ -39,7 +40,12 @@ class Site extends SiteModule
         $navs = $this->db('navs')->toArray();
         foreach ($navs as $nav) {
             // get nav children
-            $items = $this->db('navs_items')->leftJoin('pages', 'pages.id = navs_items.page')->where('navs_items.nav', $nav['id'])->where('navs_items.lang', $this->core->lang['name'])->asc('`order`')->select(['navs_items.*', 'pages.slug'])->toArray();
+            $items = $this->db('navs_items')->leftJoin('pages', 'pages.id = navs_items.page')
+                ->where('navs_items.nav', $nav['id'])
+                ->where('navs_items.lang', $this->core->lang['name'])
+                ->asc('`order`')
+                ->select(['navs_items.*', 'pages.slug'])
+                ->toArray();
 
             if (count($items)) {
                 // generate URL
@@ -54,14 +60,19 @@ class Site extends SiteModule
                         }
 
                         $url = parseURL();
-                        if ($url[0] == $item['slug'] || (preg_match('/^[a-z]{2}$/', $url[0]) && isset_or($url[1], $homepage) == $item['slug']) || $this->_isChildActive($item['id'], $url[0]) || ($url[0] == null && $homepage == $item['slug'])) {
+                        if ($url[0] == $item['slug'] || (preg_match('/^[a-z]{2}$/', $url[0])
+                            && isset_or($url[1], $homepage) == $item['slug'])
+                            || $this->isChildActive($item['id'], $url[0])
+                            || ($url[0] == null
+                            && $homepage == $item['slug'])) {
                             $item['active'] = 'active';
                         }
                     } else {
                         $item['url'] = url($item['url']);
                         $page = ['slug' => null];
 
-                        if (url(parseURL(1)) == $item['url'] || $this->_isChildActive($item['id'], parseURL(1)) || (parseURL(1) == null && url($homepage) == $item['url'])) {
+                        if (url(parseURL(1)) == $item['url'] || $this->isChildActive($item['id'], parseURL(1))
+                            || (parseURL(1) == null && url($homepage) == $item['url'])) {
                             $item['active'] = 'active';
                         }
 
@@ -72,7 +83,12 @@ class Site extends SiteModule
                 }
 
                 $navigation_admin = new Admin($this->core);
-                $assign[$nav['name']] = $this->draw('nav.html', ['navigation' => ['list' => $navigation_admin->buildTree($items)]]);
+                $assign[$nav['name']] = $this->draw(
+                    'nav.html',
+                    [
+                        'navigation' => ['list' => $navigation_admin->buildTree($items)]
+                    ]
+                );
             } else {
                 $assign[$nav['name']] = null;
             }
@@ -82,14 +98,14 @@ class Site extends SiteModule
     }
 
     /**
-    * check if parent's child is active
-    */
-    private function _isChildActive($itemID, $slug)
+     * check if parent's child is active
+     */
+    private function isChildActive($itemID, $slug)
     {
         $rows = $this->db('pages')
-                ->leftJoin('navs_items', 'pages.id = navs_items.page')
-                ->where('navs_items.parent', $itemID)
-                ->toArray();
+            ->leftJoin('navs_items', 'pages.id = navs_items.page')
+            ->where('navs_items.parent', $itemID)
+            ->toArray();
 
         if (count($rows)) {
             foreach ($rows as $row) {

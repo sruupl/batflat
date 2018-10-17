@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Blog;
 
@@ -20,15 +21,15 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add_new')              => 'add',
-            $this->lang('settings')                => 'settings'
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add_new') => 'add',
+            $this->lang('settings') => 'settings'
         ];
     }
-    
+
     /**
-    * list of posts
-    */
+     * list of posts
+     */
     public function anyManage($page = 1)
     {
         if (isset($_POST['delete'])) {
@@ -36,8 +37,8 @@ class Admin extends AdminModule
                 foreach ($_POST['post-list'] as $item) {
                     $row = $this->db('blog')->where('id', $item)->oneArray();
                     if ($this->db('blog')->delete($item) === 1) {
-                        if (!empty($row['cover_photo']) && file_exists(UPLOADS."/blog/".$row['cover_photo'])) {
-                            unlink(UPLOADS."/blog/".$row['cover_photo']);
+                        if (!empty($row['cover_photo']) && file_exists(UPLOADS . "/blog/" . $row['cover_photo'])) {
+                            unlink(UPLOADS . "/blog/" . $row['cover_photo']);
                         }
 
                         $this->notify('success', $this->lang('delete_success'));
@@ -69,24 +70,24 @@ class Admin extends AdminModule
         $this->assign['newURL'] = url([ADMIN, 'blog', 'add']);
         $this->assign['postCount'] = 0;
         $rows = $this->db('blog')
-                ->where('lang', $lang)
-                ->limit($pagination->offset().', '.$pagination->getRecordsPerPage())
-                ->desc('published_at')->desc('created_at')
-                ->toArray();
-            
+            ->where('lang', $lang)
+            ->limit($pagination->offset() . ', ' . $pagination->getRecordsPerPage())
+            ->desc('published_at')->desc('created_at')
+            ->toArray();
+
         $this->assign['posts'] = [];
         if ($totalRecords) {
             $this->assign['postCount'] = $totalRecords;
             foreach ($rows as $row) {
                 $row['editURL'] = url([ADMIN, 'blog', 'edit', $row['id']]);
-                $row['delURL']  = url([ADMIN, 'blog', 'delete', $row['id']]);
+                $row['delURL'] = url([ADMIN, 'blog', 'delete', $row['id']]);
                 $row['viewURL'] = url(['blog', 'post', $row['slug']]);
 
 
                 $fullname = $this->core->getUserInfo('fullname', $row['user_id'], true);
                 $username = $this->core->getUserInfo('username', $row['user_id'], true);
-                $row['user'] = !empty($fullname) ? $fullname.' ('.$username.')' : $username;
-                
+                $row['user'] = !empty($fullname) ? $fullname . ' (' . $username . ')' : $username;
+
                 $row['comments'] = $row['comments'] ? $this->lang('comments_on') : $this->lang('comments_off');
 
                 switch ($row['status']) {
@@ -100,7 +101,6 @@ class Admin extends AdminModule
                         $row['type'] = $this->lang('post_published');
                         break;
                     default:
-                        case 0:
                         $row['type'] = "Unknown";
                 }
 
@@ -112,29 +112,29 @@ class Admin extends AdminModule
             }
         }
 
-        $this->assign['langs'] = $this->_getLanguages($lang);
+        $this->assign['langs'] = $this->getLanguages($lang);
 
         return $this->draw('manage.html', ['blog' => $this->assign]);
     }
-    
+
     /**
-    * add new post
-    */
+     * add new post
+     */
     public function getAdd()
     {
         return $this->getEdit(null);
     }
-    
-    
+
+
     /**
-    * edit post
-    */
+     * edit post
+     */
     public function getEdit($id = null)
     {
         $this->assign['manageURL'] = url([ADMIN, 'blog', 'manage']);
         $this->assign['coverDeleteURL'] = url([ADMIN, 'blog', 'deleteCover', $id]);
         $this->assign['editor'] = $this->settings('settings.editor');
-        $this->_addHeaderFiles();
+        $this->addHeaderFiles();
 
         if ($id === null) {
             $blog = [
@@ -155,15 +155,19 @@ class Admin extends AdminModule
         } else {
             $blog = $this->db('blog')->where('id', $id)->oneArray();
         }
-        
+
         if (!empty($blog)) {
-            $this->assign['langs'] = $this->_getLanguages($blog['lang'], 'selected');
+            $this->assign['langs'] = $this->getLanguages($blog['lang'], 'selected');
             $this->assign['form'] = htmlspecialchars_array($blog);
-            $this->assign['form']['content'] =  $this->tpl->noParse($this->assign['form']['content']);
+            $this->assign['form']['content'] = $this->tpl->noParse($this->assign['form']['content']);
             $this->assign['form']['date'] = date("Y-m-d\TH:i", $blog['published_at']);
 
-            $tags_array = $this->db('blog_tags')->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')->where('blog_tags_relationship.blog_id', $blog['id'])->select(['blog_tags.name'])->toArray();
-            
+            $tags_array = $this->db('blog_tags')
+                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
+                ->where('blog_tags_relationship.blog_id', $blog['id'])
+                ->select(['blog_tags.name'])
+                ->toArray();
+
             $this->assign['form']['tags'] = $tags_array;
             $this->assign['users'] = $this->db('users')->toArray();
             $this->assign['author'] = $this->core->getUserInfo('id', $blog['user_id'], true);
@@ -175,7 +179,7 @@ class Admin extends AdminModule
             redirect(url([ADMIN, 'blog', 'manage']));
         }
     }
-    
+
     /**
      * Save post
      *
@@ -191,7 +195,7 @@ class Admin extends AdminModule
         } else {
             $tags = [];
         }
-            
+
         unset($_POST['tags']);
 
         // redirect location
@@ -224,7 +228,7 @@ class Admin extends AdminModule
         }
 
         while ($this->db('blog')->where('slug', $_POST['slug'])->where('id', '!=', $id)->oneArray()) {
-            $_POST['slug'] = $oldSlug.'-'.($i++);
+            $_POST['slug'] = $oldSlug . '-' . ($i++);
         }
 
         // format conversion date
@@ -247,10 +251,10 @@ class Admin extends AdminModule
                     $img->resize(600);
                 }
 
-                $_POST['cover_photo'] = $_POST['slug'].".".$img->getInfos('type');
+                $_POST['cover_photo'] = $_POST['slug'] . "." . $img->getInfos('type');
             }
         }
-        
+
         if (!$id) { // new
             $_POST['created_at'] = strtotime(date('Y-m-d H:i:s'));
 
@@ -285,12 +289,12 @@ class Admin extends AdminModule
         }
 
         if ($query) {
-            if (!file_exists(UPLOADS."/blog")) {
-                mkdir(UPLOADS."/blog", 0777, true);
+            if (!file_exists(UPLOADS . "/blog")) {
+                mkdir(UPLOADS . "/blog", 0777, true);
             }
 
             if ($p = $img->getInfos('width')) {
-                $img->save(UPLOADS."/blog/".$_POST['cover_photo']);
+                $img->save(UPLOADS . "/blog/" . $_POST['cover_photo']);
             }
 
             $this->notify('success', $this->lang('save_success'));
@@ -300,7 +304,7 @@ class Admin extends AdminModule
 
         redirect($location);
     }
-    
+
     /**
      * Remove post
      *
@@ -311,7 +315,7 @@ class Admin extends AdminModule
     {
         if ($post = $this->db('blog')->where('id', $id)->oneArray() && $this->db('blog')->delete($id)) {
             if ($post['cover_photo']) {
-                unlink(UPLOADS."/blog/".$post['cover_photo']);
+                unlink(UPLOADS . "/blog/" . $post['cover_photo']);
             }
             $this->notify('success', $this->lang('delete_success'));
         } else {
@@ -322,12 +326,12 @@ class Admin extends AdminModule
     }
 
     /**
-    * remove post cover
-    */
+     * remove post cover
+     */
     public function getDeleteCover($id)
     {
         if ($post = $this->db('blog')->where('id', $id)->oneArray()) {
-            unlink(UPLOADS."/blog/".$post['cover_photo']);
+            unlink(UPLOADS . "/blog/" . $post['cover_photo']);
             $this->db('blog')->where('id', $id)->save(['cover_photo' => null]);
             $this->notify('success', $this->lang('cover_deleted'));
 
@@ -341,31 +345,31 @@ class Admin extends AdminModule
         $assign['dateformats'] = [
             [
                 'value' => 'd-m-Y',
-                'name'  => '01-01-2016'
+                'name' => '01-01-2016'
             ],
             [
                 'value' => 'd/m/Y',
-                'name'  => '01/01/2016'
+                'name' => '01/01/2016'
             ],
             [
                 'value' => 'd Mx Y',
-                'name'  => '01 '.$this->lang('janx').' 2016'
+                'name' => '01 ' . $this->lang('janx') . ' 2016'
             ],
             [
                 'value' => 'M d, Y',
-                'name'  => $this->lang('jan').' 01, 2016'
+                'name' => $this->lang('jan') . ' 01, 2016'
             ],
             [
                 'value' => 'd-m-Y H:i',
-                'name'  => '01-01-2016 12:00'
+                'name' => '01-01-2016 12:00'
             ],
             [
                 'value' => 'd/m/Y H:i',
-                'name'  => '01/01/2016 12:00'
+                'name' => '01/01/2016 12:00'
             ],
             [
                 'value' => 'd Mx Y, H:i',
-                'name'  => '01 '.$this->lang('janx').' 2016, 12:00'
+                'name' => '01 ' . $this->lang('janx') . ' 2016, 12:00'
             ],
         ];
         return $this->draw('settings.html', ['settings' => $assign]);
@@ -381,13 +385,13 @@ class Admin extends AdminModule
     }
 
     /**
-    * image upload from WYSIWYG
-    */
+     * image upload from WYSIWYG
+     */
     public function postEditorUpload()
     {
         header('Content-type: application/json');
-        $dir    = UPLOADS.'/blog';
-        $error    = null;
+        $dir = UPLOADS . '/blog';
+        $error = null;
 
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
@@ -395,9 +399,9 @@ class Admin extends AdminModule
 
         if (isset($_FILES['file']['tmp_name'])) {
             $img = new \Inc\Core\Lib\Image;
-            
+
             if ($img->load($_FILES['file']['tmp_name'])) {
-                $imgPath = $dir.'/'.time().'.'.$img->getInfos('type');
+                $imgPath = $dir . '/' . time() . '.' . $img->getInfos('type');
                 $img->save($imgPath);
                 echo json_encode(['status' => 'success', 'result' => url($imgPath)]);
             } else {
@@ -412,12 +416,12 @@ class Admin extends AdminModule
     }
 
     /**
-    * module JavaScript
-    */
+     * module JavaScript
+     */
     public function getJavascript()
     {
         header('Content-type: text/javascript');
-        echo $this->draw(MODULES.'/blog/js/admin/blog.js');
+        echo $this->draw(MODULES . '/blog/js/admin/blog.js');
         exit();
     }
 
@@ -430,7 +434,7 @@ class Admin extends AdminModule
         }
 
         $query = urldecode($query);
-        $tags = $this->db('blog_tags')->like('name', $query.'%')->toArray();
+        $tags = $this->db('blog_tags')->like('name', $query . '%')->toArray();
 
         if (array_search($query, array_column($tags, 'name')) === false) {
             $tags[] = ['id' => 0, 'slug' => createSlug($query), 'name' => $query];
@@ -439,14 +443,14 @@ class Admin extends AdminModule
         exit(json_encode($tags));
     }
 
-    private function _addHeaderFiles()
+    private function addHeaderFiles()
     {
         // WYSIWYG
         $this->core->addCSS(url('inc/jscripts/wysiwyg/summernote.min.css'));
         $this->core->addJS(url('inc/jscripts/wysiwyg/summernote.min.js'));
 
         if ($this->settings('settings.lang_admin') != 'en_english') {
-            $this->core->addJS(url('inc/jscripts/wysiwyg/lang/'.$this->settings('settings.lang_admin').'.js'));
+            $this->core->addJS(url('inc/jscripts/wysiwyg/lang/' . $this->settings('settings.lang_admin') . '.js'));
         }
         
         // HTML & MARKDOWN EDITOR
@@ -467,6 +471,6 @@ class Admin extends AdminModule
         $this->core->addJS(url([ADMIN, 'blog', 'javascript']));
 
         // MODULE CSS
-        $this->core->addCSS(url(MODULES.'/blog/css/admin/blog.css'));
+        $this->core->addCSS(url(MODULES . '/blog/css/admin/blog.css'));
     }
 }

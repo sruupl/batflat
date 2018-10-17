@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Galleries;
 
@@ -17,10 +18,10 @@ class Site extends SiteModule
 {
     public function init()
     {
-        $this->_importGalleries();
+        $this->importGalleries();
     }
 
-    private function _importGalleries()
+    private function importGalleries()
     {
         $assign = [];
         $tempAssign = [];
@@ -33,7 +34,7 @@ class Site extends SiteModule
                 } else {
                     $items = $this->db('galleries_items')->where('gallery', $gallery['id'])->desc('id')->toArray();
                 }
-                        
+
                 $tempAssign = $gallery;
 
                 if (count($items)) {

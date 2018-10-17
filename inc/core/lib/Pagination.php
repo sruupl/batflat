@@ -20,10 +20,10 @@ class Pagination
 
     public function __construct($currentPage = 1, $totalRecords = 0, $recordsPerPage = 10, $url = '?page=%d')
     {
-        $this->_currentPage = (int)$currentPage;
-        $this->_totalRecords = (int)$totalRecords;
-        $this->_recordsPerPage = (int)$recordsPerPage;
-        $this->_url = $url;
+        $this->currentPage = (int)$currentPage;
+        $this->totalRecords = (int)$totalRecords;
+        $this->recordsPerPage = (int)$recordsPerPage;
+        $this->url = $url;
     }
 
     /**
@@ -35,7 +35,7 @@ class Pagination
      */
     public function offset()
     {
-        return ($this->_currentPage - 1) * $this->_recordsPerPage;
+        return ($this->currentPage - 1) * $this->recordsPerPage;
     }
 
     /**
@@ -44,7 +44,7 @@ class Pagination
      */
     public function getRecordsPerPage()
     {
-        return $this->_recordsPerPage;
+        return $this->recordsPerPage;
     }
 
     /**
@@ -52,7 +52,7 @@ class Pagination
      */
     private function totalPages()
     {
-        return ceil($this->_totalRecords / $this->_recordsPerPage);
+        return ceil($this->totalRecords / $this->recordsPerPage);
     }
 
     /**
@@ -61,7 +61,7 @@ class Pagination
      */
     private function previousPage()
     {
-        return $this->_currentPage - 1;
+        return $this->currentPage - 1;
     }
 
     /**
@@ -70,7 +70,7 @@ class Pagination
      */
     private function nextPage()
     {
-        return $this->_currentPage + 1;
+        return $this->currentPage + 1;
     }
 
     /**
@@ -107,10 +107,10 @@ class Pagination
 
             if ($this->hasPreviousPage()) {
                 if ($type == 'pagination') {
-                    $links .= '<li><a href="' . sprintf($this->_url, 1) . '">&laquo;</a></li>';
-                    $links .= '<li><a href="' . sprintf($this->_url, $this->previousPage()) . '">-</a></li>';
+                    $links .= '<li><a href="' . sprintf($this->url, 1) . '">&laquo;</a></li>';
+                    $links .= '<li><a href="' . sprintf($this->url, $this->previousPage()) . '">-</a></li>';
                 } else {
-                    $links .= '<li class="previous"><a href="' . sprintf($this->_url, $this->previousPage())
+                    $links .= '<li class="previous"><a href="' . sprintf($this->url, $this->previousPage())
                         . '">&larr;</a></li>';
                 }
             } else {
@@ -132,12 +132,12 @@ class Pagination
                 $middleLink = floor($totalLinks / 2);
 
                 // Find first link and last link
-                if ($this->_currentPage <= $middleLink) {
+                if ($this->currentPage <= $middleLink) {
                     $lastLink = $totalLinks;
                     $firstLink = 1;
                 } else {
-                    if (($this->_currentPage + $middleLink) <= $this->totalPages()) {
-                        $lastLink = $this->_currentPage + $middleLink;
+                    if (($this->currentPage + $middleLink) <= $this->totalPages()) {
+                        $lastLink = $this->currentPage + $middleLink;
                     } else {
                         $lastLink = $this->totalPages();
                     }
@@ -146,20 +146,20 @@ class Pagination
                 }
 
                 for ($i = $firstLink; $i <= $lastLink; $i++) {
-                    if ($this->_currentPage == $i) {
+                    if ($this->currentPage == $i) {
                         $links .= '<li class="active"><a href="#">' . $i . '</a></li>';
                     } else {
-                        $links .= '<li><a href="' . sprintf($this->_url, $i) . '">' . $i . '</a></li>';
+                        $links .= '<li><a href="' . sprintf($this->url, $i) . '">' . $i . '</a></li>';
                     }
                 }
             }
 
             if ($this->hasNextPage()) {
                 if ($type == 'pagination') {
-                    $links .= '<li><a href="' . sprintf($this->_url, $this->nextPage()) . '">+</a></li>';
-                    $links .= '<li><a href="' . sprintf($this->_url, $this->totalPages()) . '">&raquo;</a></li>';
+                    $links .= '<li><a href="' . sprintf($this->url, $this->nextPage()) . '">+</a></li>';
+                    $links .= '<li><a href="' . sprintf($this->url, $this->totalPages()) . '">&raquo;</a></li>';
                 } else {
-                    $links .= '<li class="next"><a href="' . sprintf($this->_url, $this->nextPage())
+                    $links .= '<li class="next"><a href="' . sprintf($this->url, $this->nextPage())
                         . '">&rarr;</a></li>';
                 }
             } else {

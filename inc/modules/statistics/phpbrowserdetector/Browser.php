@@ -165,7 +165,7 @@ class Browser
             BrowserDetector::detect($this, $this->getUserAgent());
         }
 
-        return (string) $this->version;
+        return (string)$this->version;
     }
 
     /**
@@ -245,7 +245,7 @@ class Browser
      */
     public function setIsFacebookWebView($isFacebookWebView)
     {
-        $this->isFacebookWebView = (bool) $isFacebookWebView;
+        $this->isFacebookWebView = (bool)$isFacebookWebView;
 
         return $this;
     }

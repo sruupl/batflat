@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Core;
 
@@ -93,18 +94,18 @@ class BaseModule
     }
 
     /**
-    * Languages list
-    * @param string $selected
-    * @param string $currentAttr ('active' or 'selected')
-    * @return array
-    */
-    protected function _getLanguages($selected = null, $currentAttr = 'active', $all = false)
+     * Languages list
+     * @param string $selected
+     * @param string $currentAttr ('active' or 'selected')
+     * @return array
+     */
+    protected function getLanguages($selected = null, $currentAttr = 'active', $all = false)
     {
-        $langs = glob(BASE_DIR.'/inc/lang/*', GLOB_ONLYDIR);
-        
+        $langs = glob(BASE_DIR . '/inc/lang/*', GLOB_ONLYDIR);
+
         $result = [];
         foreach ($langs as $lang) {
-            if (file_exists($lang.'/.lock')) {
+            if (file_exists($lang . '/.lock')) {
                 $active = false;
 
                 if (!$all) {
@@ -140,9 +141,9 @@ class BaseModule
 
         if (strpos($file, BASE_DIR) !== 0) {
             if ($this instanceof AdminModule) {
-                $file = MODULES.'/'.$this->name.'/view/admin/'.$file;
+                $file = MODULES . '/' . $this->name . '/view/admin/' . $file;
             } else {
-                $file = MODULES.'/'.$this->name.'/view/'.$file;
+                $file = MODULES . '/' . $this->name . '/view/' . $file;
             }
         }
 
@@ -199,12 +200,12 @@ class BaseModule
     }
 
     /**
-    * Create notification
-    * @param string $type ('success' or 'failure')
-    * @param string $text
-    * @param mixed $args [, mixed $... ]]
-    * @return void
-    */
+     * Create notification
+     * @param string $type ('success' or 'failure')
+     * @param string $text
+     * @param mixed $args [, mixed $... ]]
+     * @return void
+     */
     protected function notify()
     {
         call_user_func_array([$this->core, 'setNotify'], func_get_args());

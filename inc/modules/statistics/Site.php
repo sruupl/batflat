@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Batflat ~ the lightweight, fast and easy CMS
  *
@@ -35,7 +36,7 @@ class Site extends SiteModule
         $country = 'Unknown';
         $latest = $this->db('statistics')->where('ip', $ip)->desc('created_at')->limit(1)->oneArray();
         if (!$latest) {
-            $details = json_decode(HttpRequest::get('http://freegeoip.net/json/'.$ip), true);
+            $details = json_decode(HttpRequest::get('http://freegeoip.net/json/' . $ip), true);
             if (!empty($details['country_code'])) {
                 $country = $details['country_code'];
             }
@@ -55,16 +56,16 @@ class Site extends SiteModule
 
         // Add visitor record
         $this->db('statistics')->save([
-            'ip'          => $ip,
-            'browser'     => $browser->getName(),
-            'useragent'   => $browser->getUserAgent()->getUserAgentString(),
-            'uniqhash'    => md5($ip.$browser->getUserAgent()->getUserAgentString()),
-            'country'     => $country,
-            'platform'    => $os->getName(),
-            'url'         => '/'.implode('/', parseURL()),
-            'referrer'    => $referrer,
+            'ip' => $ip,
+            'browser' => $browser->getName(),
+            'useragent' => $browser->getUserAgent()->getUserAgentString(),
+            'uniqhash' => md5($ip . $browser->getUserAgent()->getUserAgentString()),
+            'country' => $country,
+            'platform' => $os->getName(),
+            'url' => '/' . implode('/', parseURL()),
+            'referrer' => $referrer,
             'status_code' => http_response_code(),
-            'bot'         => ($browser->isRobot() ? 1 : 0),
+            'bot' => ($browser->isRobot() ? 1 : 0),
         ]);
     }
 

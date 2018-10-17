@@ -1,23 +1,24 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 return [
-    'name'          =>  $core->lang['galleries']['module_name'],
-    'description'   =>  $core->lang['galleries']['module_desc'],
-    'author'        =>  'Sruu.pl',
-    'version'       =>  '1.0',
-    'compatibility' =>  '1.3.*',
-    'icon'          =>  'camera',
+    'name' => $core->lang['galleries']['module_name'],
+    'description' => $core->lang['galleries']['module_desc'],
+    'author' => 'Sruu.pl',
+    'version' => '1.0',
+    'compatibility' => '1.3.*',
+    'icon' => 'camera',
 
-    'install'       =>  function () use ($core) {
+    'install' => function () use ($core) {
         $core->db()->pdo()->exec("CREATE TABLE IF NOT EXISTS `galleries` (
             `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
             `name` text NOT NULL,
@@ -34,13 +35,13 @@ return [
             `desc` text NULL
         )");
 
-        if (!file_exists(UPLOADS.'/galleries')) {
-            mkdir(UPLOADS.'/galleries', 0755, true);
+        if (!file_exists(UPLOADS . '/galleries')) {
+            mkdir(UPLOADS . '/galleries', 0755, true);
         }
     },
-    'uninstall'     => function () use ($core) {
+    'uninstall' => function () use ($core) {
         $core->db()->pdo()->exec("DROP TABLE `galleries`");
         $core->db()->pdo()->exec("DROP TABLE `galleries_items`");
-        deleteDir(UPLOADS.'/galleries');
+        deleteDir(UPLOADS . '/galleries');
     }
 ];

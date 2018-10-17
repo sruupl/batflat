@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Modules;
 
@@ -18,23 +19,23 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('upload_new')            => 'upload'
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('upload_new') => 'upload'
         ];
     }
 
     /**
-    * list of active/inactive modules
-    */
+     * list of active/inactive modules
+     */
     public function getManage($type = 'active')
     {
-        $modules = $this->_modulesList($type);
+        $modules = $this->modulesList($type);
         return $this->draw('manage.html', ['modules' => array_chunk($modules, 2), 'tab' => $type]);
     }
 
     /**
-    * module upload
-    */
+     * module upload
+     */
     public function getUpload()
     {
         return $this->draw('upload.html');
@@ -51,7 +52,7 @@ class Admin extends AdminModule
 
             // Verify ZIP
             $zip = zip_open($file);
-            $modules = array();
+            $modules = [];
             while ($entry = zip_read($zip)) {
                 $entry = zip_entry_name($entry);
                 if (preg_match('/^(.*?)\/Info.php$/', $entry, $matches)) {
@@ -68,39 +69,40 @@ class Admin extends AdminModule
             $zip = new \ZipArchive;
             if ($zip->open($file) === true) {
                 foreach ($modules as $module) {
-                    if (file_exists(MODULES.'/'.$module['name'])) {
-                        $tmpName = md5(time().rand(1, 9999));
-                        file_put_contents('tmp/'.$tmpName, $zip->getFromName($module['path']));
-                        $info_new = include('tmp/'.$tmpName);
-                        $info_old = include(MODULES.'/'.$module['name'].'/Info.php');
-                        unlink('tmp/'.$tmpName);
+                    if (file_exists(MODULES . '/' . $module['name'])) {
+                        $tmpName = md5(time() . rand(1, 9999));
+                        file_put_contents('tmp/' . $tmpName, $zip->getFromName($module['path']));
+                        $info_new = include('tmp/' . $tmpName);
+                        $info_old = include(MODULES . '/' . $module['name'] . '/Info.php');
+                        unlink('tmp/' . $tmpName);
 
                         if (cmpver($info_new['version'], $info_old['version']) <= 0) {
                             $this->notify('failure', $this->lang('upload_bad_version'));
                             continue;
                         }
                     }
-                    $this->unzip($file, MODULES.'/'.$module['name'], $module['name']);
+                    $this->unzip($file, MODULES . '/' . $module['name'], $module['name']);
                 }
-                
+
                 $this->notify('success', $this->lang('upload_success'));
             } else {
                 $this->notify('failure', $this->lang('upload_bad_file'));
             }
         }
-        
+
         redirect($backURL);
     }
 
     public function getInstall($dir)
     {
         $files = [
-            'info'  => MODULES.'/'.$dir.'/Info.php',
-            'admin' => MODULES.'/'.$dir.'/Admin.php',
-            'site'  => MODULES.'/'.$dir.'/Site.php'
+            'info' => MODULES . '/' . $dir . '/Info.php',
+            'admin' => MODULES . '/' . $dir . '/Admin.php',
+            'site' => MODULES . '/' . $dir . '/Site.php'
         ];
 
-        if ((file_exists($files['info']) && file_exists($files['admin'])) || (file_exists($files['info']) && file_exists($files['site']))) {
+        if ((file_exists($files['info']) && file_exists($files['admin'])) || (file_exists($files['info'])
+            && file_exists($files['site']))) {
             $core = $this->core;
             $info = include($files['info']);
             if (!$this->checkCompatibility(isset_or($info['compatibility']))) {
@@ -130,7 +132,7 @@ class Admin extends AdminModule
 
         if ($this->db('modules')->delete('dir', $dir)) {
             $core = $this->core;
-            $info = include(MODULES.'/'.$dir.'/Info.php');
+            $info = include(MODULES . '/' . $dir . '/Info.php');
 
             if (isset($info['uninstall'])) {
                 $info['uninstall']();
@@ -151,7 +153,7 @@ class Admin extends AdminModule
             redirect(url([ADMIN, 'modules', 'manage', 'inactive']));
         }
 
-        $path = MODULES.'/'.$dir;
+        $path = MODULES . '/' . $dir;
         if (is_dir($path)) {
             if (deleteDir($path)) {
                 $this->notify('success', $this->lang('remove_success'), $dir);
@@ -165,8 +167,8 @@ class Admin extends AdminModule
     public function getDetails($dir)
     {
         $files = [
-            'info'      => MODULES.'/'.$dir.'/Info.php',
-            'readme'    => MODULES.'/'.$dir.'/ReadMe.md'
+            'info' => MODULES . '/' . $dir . '/Info.php',
+            'readme' => MODULES . '/' . $dir . '/ReadMe.md'
         ];
 
         $module = $this->core->getModuleInfo($dir);
@@ -180,21 +182,21 @@ class Admin extends AdminModule
         }
 
         $this->tpl->set('module', $module);
-        echo $this->tpl->draw(MODULES.'/modules/view/admin/details.html', true);
+        echo $this->tpl->draw(MODULES . '/modules/view/admin/details.html', true);
         exit();
     }
 
-    private function _modulesList($type)
+    private function modulesList($type)
     {
         $dbModules = array_column($this->db('modules')->toArray(), 'dir');
         $result = [];
 
-        foreach (glob(MODULES.'/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob(MODULES . '/*', GLOB_ONLYDIR) as $dir) {
             $dir = basename($dir);
             $files = [
-                'info'  => MODULES.'/'.$dir.'/Info.php',
-                'admin' => MODULES.'/'.$dir.'/Admin.php',
-                'site'  => MODULES.'/'.$dir.'/Site.php'
+                'info' => MODULES . '/' . $dir . '/Info.php',
+                'admin' => MODULES . '/' . $dir . '/Admin.php',
+                'site' => MODULES . '/' . $dir . '/Site.php'
             ];
 
             if ($type == 'active') {
@@ -203,17 +205,18 @@ class Admin extends AdminModule
                 $inArray = !in_array($dir, $dbModules);
             }
 
-            if (((file_exists($files['info']) && file_exists($files['admin'])) || (file_exists($files['info']) && file_exists($files['site']))) && $inArray) {
+            if (((file_exists($files['info']) && file_exists($files['admin'])) || (file_exists($files['info'])
+                && file_exists($files['site']))) && $inArray) {
                 $details = $this->core->getModuleInfo($dir);
                 $details['description'] = $this->tpl->noParse($details['description']);
                 $features = $this->core->getModuleNav($dir);
                 $other = [];
                 $urls = [
-                    'url'            => (is_array($features) ? url([ADMIN, $dir, array_shift($features)]) : '#'),
-                    'uninstallUrl'    => url([ADMIN, 'modules', 'uninstall', $dir]),
-                    'removeUrl'        => url([ADMIN, 'modules', 'remove', $dir]),
-                    'installUrl'    => url([ADMIN, 'modules', 'install', $dir]),
-                    'detailsUrl'    => url([ADMIN, 'modules', 'details', $dir])
+                    'url' => (is_array($features) ? url([ADMIN, $dir, array_shift($features)]) : '#'),
+                    'uninstallUrl' => url([ADMIN, 'modules', 'uninstall', $dir]),
+                    'removeUrl' => url([ADMIN, 'modules', 'remove', $dir]),
+                    'installUrl' => url([ADMIN, 'modules', 'install', $dir]),
+                    'detailsUrl' => url([ADMIN, 'modules', 'details', $dir])
                 ];
 
                 $other['installed'] = $type == 'active' ? true : false;
@@ -241,13 +244,13 @@ class Admin extends AdminModule
             $filename = $zip->getNameIndex($i);
 
             if (empty($path) || strpos($filename, $path) == 0) {
-                $file = $to.'/'.str_replace($path, null, $filename);
+                $file = $to . '/' . str_replace($path, null, $filename);
                 if (!file_exists(dirname($file))) {
                     mkdir(dirname($file), 0777, true);
                 }
 
                 if (substr($file, -1) != '/') {
-                    file_put_contents($to.'/'.str_replace($path, null, $filename), $zip->getFromIndex($i));
+                    file_put_contents($to . '/' . str_replace($path, null, $filename), $zip->getFromIndex($i));
                 }
             }
         }
@@ -259,6 +262,6 @@ class Admin extends AdminModule
     {
         $systemVersion = $this->settings('settings', 'version');
         $version = str_replace(['.', '*'], ['\\.', '[0-9]+'], $version);
-        return preg_match('/^'.$version.'[a-z]*$/', $systemVersion);
+        return preg_match('/^' . $version . '[a-z]*$/', $systemVersion);
     }
 }

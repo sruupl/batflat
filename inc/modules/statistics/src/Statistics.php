@@ -12,7 +12,7 @@ class Statistics
             ->select([
                 'referrer',
                 'count_unique' => 'COUNT(DISTINCT uniqhash)',
-                'count'        => 'COUNT(uniqhash)',
+                'count' => 'COUNT(uniqhash)',
             ])
             ->where('bot', $bot ? 1 : 0)
             ->group(['referrer'])
@@ -36,7 +36,7 @@ class Statistics
             ->select([
                 'url',
                 'count_unique' => 'COUNT(DISTINCT uniqhash)',
-                'count'        => 'COUNT(uniqhash)',
+                'count' => 'COUNT(uniqhash)',
             ])
             ->group(['url'])
             ->desc('count');

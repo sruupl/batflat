@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Galleries;
 
@@ -15,8 +16,8 @@ use Inc\Core\AdminModule;
 
 class Admin extends AdminModule
 {
-    private $_thumbs = ['md' => 600, 'sm' => 300, 'xs' => 150];
-    private $_uploads = UPLOADS.'/galleries';
+    private $thumbs = ['md' => 600, 'sm' => 300, 'xs' => 150];
+    private $uploads = UPLOADS . '/galleries';
 
     public function navigation()
     {
@@ -26,8 +27,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * galleries manage
-    */
+     * galleries manage
+     */
     public function getManage()
     {
         $assign = [];
@@ -36,9 +37,9 @@ class Admin extends AdminModule
         $rows = $this->db('galleries')->toArray();
         if (count($rows)) {
             foreach ($rows as $row) {
-                $row['tag']    = $this->tpl->noParse('{$gallery.'.$row['slug'].'}');
-                $row['editURL'] = url([ADMIN, 'galleries',  'edit', $row['id']]);
-                $row['delURL']  = url([ADMIN, 'galleries', 'delete', $row['id']]);
+                $row['tag'] = $this->tpl->noParse('{$gallery.' . $row['slug'] . '}');
+                $row['editURL'] = url([ADMIN, 'galleries', 'edit', $row['id']]);
+                $row['delURL'] = url([ADMIN, 'galleries', 'delete', $row['id']]);
 
                 $assign[] = $row;
             }
@@ -48,20 +49,20 @@ class Admin extends AdminModule
     }
 
     /**
-    * add new gallery
-    */
+     * add new gallery
+     */
     public function anyAdd()
     {
         $location = [ADMIN, 'galleries', 'manage'];
-        
+
         if (!empty($_POST['name'])) {
             $name = trim($_POST['name']);
             if (!$this->db('galleries')->where('slug', createSlug($name))->count()) {
                 $query = $this->db('galleries')->save(['name' => $name, 'slug' => createSlug($name)]);
 
                 if ($query) {
-                    $id     = $this->db()->lastInsertId();
-                    $dir    = $this->_uploads.'/'.$id;
+                    $id = $this->db()->lastInsertId();
+                    $dir = $this->uploads . '/' . $id;
 
                     if (mkdir($dir, 0755, true)) {
                         $this->notify('success', $this->lang('add_gallery_success'));
@@ -76,18 +77,18 @@ class Admin extends AdminModule
         } else {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
         }
-            
+
         redirect(url($location));
     }
 
     /**
-    * remove gallery
-    */
+     * remove gallery
+     */
     public function getDelete($id)
     {
         $query = $this->db('galleries')->delete($id);
 
-        deleteDir($this->_uploads.'/'.$id);
+        deleteDir($this->uploads . '/' . $id);
 
         if ($query) {
             $this->notify('success', $this->lang('delete_gallery_success'));
@@ -99,8 +100,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * edit gallery
-    */
+     * edit gallery
+     */
     public function getEdit($id, $page = 1)
     {
         $assign = [];
@@ -108,19 +109,24 @@ class Admin extends AdminModule
 
         // pagination
         $totalRecords = $this->db('galleries_items')->where('gallery', $id)->toArray();
-        $pagination = new \Inc\Core\Lib\Pagination($page, count($totalRecords), 10, url([ADMIN, 'galleries', 'edit', $id, '%d']));
+        $pagination = new \Inc\Core\Lib\Pagination(
+            $page,
+            count($totalRecords),
+            10,
+            url([ADMIN, 'galleries', 'edit', $id, '%d'])
+        );
         $assign['pagination'] = $pagination->nav();
         $assign['page'] = $page;
 
         // items
         if ($assign['settings']['sort'] == 'ASC') {
             $rows = $this->db('galleries_items')->where('gallery', $id)
-                    ->limit($pagination->offset().', '.$pagination->getRecordsPerPage())
-                    ->asc('id')->toArray();
+                ->limit($pagination->offset() . ', ' . $pagination->getRecordsPerPage())
+                ->asc('id')->toArray();
         } else {
             $rows = $this->db('galleries_items')->where('gallery', $id)
-                    ->limit($pagination->offset().', '.$pagination->getRecordsPerPage())
-                    ->desc('id')->toArray();
+                ->limit($pagination->offset() . ', ' . $pagination->getRecordsPerPage())
+                ->desc('id')->toArray();
         }
 
         if (count($rows)) {
@@ -142,13 +148,13 @@ class Admin extends AdminModule
         $this->core->addCSS(url('inc/jscripts/lightbox/lightbox.min.css'));
         $this->core->addJS(url('inc/jscripts/lightbox/lightbox.min.js'));
         $this->core->addJS(url('inc/jscripts/are-you-sure.min.js'));
-        
+
         return $this->draw('edit.html', ['gallery' => $assign]);
     }
 
     /**
-    * save gallery data
-    */
+     * save gallery data
+     */
     public function postSaveSettings($id)
     {
         if (checkEmptyFields(['name', 'sort'], $_POST)) {
@@ -165,12 +171,14 @@ class Admin extends AdminModule
     }
 
     /**
-    * save images data
-    */
+     * save images data
+     */
     public function postSaveImages($id, $page)
     {
         foreach ($_POST['img'] as $key => $val) {
-            $query = $this->db('galleries_items')->where($key)->save(['title' => $val['title'], 'desc' => $val['desc']]);
+            $query = $this->db('galleries_items')
+                ->where($key)
+                ->save(['title' => $val['title'], 'desc' => $val['desc']]);
         }
 
         if ($query) {
@@ -181,12 +189,12 @@ class Admin extends AdminModule
     }
 
     /**
-    * image uploading
-    */
+     * image uploading
+     */
     public function postUpload($id)
     {
-        $dir    = $this->_uploads.'/'.$id;
-        $cntr   = 0;
+        $dir = $this->uploads . '/' . $id;
+        $cntr = 0;
 
         if (!is_uploaded_file($_FILES['files']['tmp_name'][0])) {
             $this->notify('failure', $this->lang('no_files'));
@@ -195,20 +203,20 @@ class Admin extends AdminModule
                 $img = new \Inc\Core\Lib\Image();
 
                 if ($img->load($image)) {
-                    $imgName = time().$cntr++;
-                    $imgPath = $dir.'/'.$imgName.'.'.$img->getInfos('type');
-                    $src     = [];
+                    $imgName = time() . $cntr++;
+                    $imgPath = $dir . '/' . $imgName . '.' . $img->getInfos('type');
+                    $src = [];
 
                     // oryginal size
                     $img->save($imgPath);
-                    $src['lg'] = str_replace(BASE_DIR.'/', null, $imgPath);
+                    $src['lg'] = str_replace(BASE_DIR . '/', null, $imgPath);
 
                     // generate thumbs
-                    foreach ($this->_thumbs as $key => $width) {
+                    foreach ($this->thumbs as $key => $width) {
                         if ($img->getInfos('width') > $width) {
                             $img->resize($width);
                             $img->save($thumbPath = "{$dir}/{$imgName}-{$key}.{$img->getInfos('type')}");
-                            $src[$key] = str_replace(BASE_DIR.'/', null, $thumbPath);
+                            $src[$key] = str_replace(BASE_DIR . '/', null, $thumbPath);
                         }
                     }
 
@@ -227,8 +235,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * remove image
-    */
+     * remove image
+     */
     public function getDeleteImage($id)
     {
         $image = $this->db('galleries_items')->where($id)->oneArray();
@@ -236,8 +244,8 @@ class Admin extends AdminModule
             if ($this->db('galleries_items')->delete($id)) {
                 $images = unserialize($image['src']);
                 foreach ($images as $src) {
-                    if (file_exists(BASE_DIR.'/'.$src)) {
-                        if (!unlink(BASE_DIR.'/'.$src)) {
+                    if (file_exists(BASE_DIR . '/' . $src)) {
+                        if (!unlink(BASE_DIR . '/' . $src)) {
                             $this->notify('failure', $this->lang('delete_image_failure'));
                         } else {
                             $this->notify('success', $this->lang('delete_image_success'));

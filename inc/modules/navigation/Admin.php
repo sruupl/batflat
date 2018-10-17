@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Navigation;
 
@@ -19,15 +20,15 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add_link')                => 'newLink',
-            $this->lang('add_nav')                => 'newNav'
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add_link') => 'newLink',
+            $this->lang('add_nav') => 'newNav'
         ];
     }
 
     /**
-    * list of navs and their children
-    */
+     * list of navs and their children
+     */
     public function getManage()
     {
         // lang
@@ -40,16 +41,16 @@ class Admin extends AdminModule
             $lang = $this->settings('settings', 'lang_site');
         }
 
-        $this->assign['langs'] = $this->_getLanguages($lang, 'active');
+        $this->assign['langs'] = $this->getLanguages($lang, 'active');
 
         // list
         $rows = $this->db('navs')->toArray();
         if (count($rows)) {
             foreach ($rows as $row) {
-                $row['name'] = $this->tpl->noParse('{$navigation.'.$row['name'].'}');
+                $row['name'] = $this->tpl->noParse('{$navigation.' . $row['name'] . '}');
                 $row['editURL'] = url([ADMIN, 'navigation', 'editNav', $row['id']]);
                 $row['delURL'] = url([ADMIN, 'navigation', 'deleteNav', $row['id']]);
-                $row['items'] = $this->_getNavItems($row['id'], $lang);
+                $row['items'] = $this->getNavItems($row['id'], $lang);
 
                 $this->assign['navs'][] = $row;
             }
@@ -59,8 +60,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * add new link
-    */
+     * add new link
+     */
     public function getNewLink()
     {
         // lang
@@ -69,26 +70,26 @@ class Admin extends AdminModule
         } else {
             $lang = $this->settings('settings', 'lang_site');
         }
-        $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
+        $this->assign['langs'] = $this->getLanguages($lang, 'selected');
 
         $this->assign['link'] = ['name' => '', 'lang' => '', 'page' => '', 'url' => '', 'parent' => '', 'class' => ''];
 
         // list of pages
-        $this->assign['pages'] = $this->_getPages($lang);
+        $this->assign['pages'] = $this->getPages($lang);
         foreach ($this->core->getRegisteredPages() as $page) {
             $this->assign['pages'][] = array_merge($page, ['id' => $page['slug'], 'attr' => null]);
         }
 
         // list of parents
-        $this->assign['navs'] = $this->_getParents($lang);
+        $this->assign['navs'] = $this->getParents($lang);
 
         $this->assign['title'] = $this->lang('add_link');
         return $this->draw('form.link.html', ['navigation' => $this->assign]);
     }
 
     /**
-    * edit link
-    */
+     * edit link
+     */
     public function getEditLink($id)
     {
         $row = $this->db('navs_items')->oneArray($id);
@@ -100,19 +101,25 @@ class Admin extends AdminModule
             } else {
                 $lang = $row['lang'];
             }
-            $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
+            $this->assign['langs'] = $this->getLanguages($lang, 'selected');
 
             $this->assign['link'] = filter_var_array($row, FILTER_SANITIZE_SPECIAL_CHARS);
 
             // list of pages
-            $this->assign['pages'] = $this->_getPages($lang, $row['page']);
+            $this->assign['pages'] = $this->getPages($lang, $row['page']);
             foreach ($this->core->getRegisteredPages() as $page) {
-                $this->assign['pages'][] = array_merge($page, ['id' => $page['slug'], 'attr' => (($row['page'] == 0 && $row['url'] == $page['slug']) ? 'selected' : null)]);
+                $this->assign['pages'][] = array_merge(
+                    $page,
+                    [
+                        'id' => $page['slug'],
+                        'attr' => (($row['page'] == 0 && $row['url'] == $page['slug']) ? 'selected' : null)
+                    ]
+                );
             }
 
             // list of parents
-            $this->assign['navs'] = $this->_getParents($lang, $row['nav'], $row['parent'], $row['id']);
-            
+            $this->assign['navs'] = $this->getParents($lang, $row['nav'], $row['parent'], $row['id']);
+
             $this->assign['title'] = $this->lang('edit_link');
             return $this->draw('form.link.html', ['navigation' => $this->assign]);
         } else {
@@ -121,8 +128,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * save link data
-    */
+     * save link data
+     */
     public function postSaveLink($id = null)
     {
         unset($_POST['save']);
@@ -161,7 +168,7 @@ class Admin extends AdminModule
         }
 
         if (!$id) {
-            $_POST['"order"'] = $this->_getHighestOrder($_POST['nav'], $_POST['parent'], $_POST['lang']) + 1;
+            $_POST['"order"'] = $this->getHighestOrder($_POST['nav'], $_POST['parent'], $_POST['lang']) + 1;
             $query = $this->db('navs_items')->save($_POST);
         } else {
             $query = $this->db('navs_items')->where($id)->save($_POST);
@@ -180,8 +187,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * delete link
-    */
+     * delete link
+     */
     public function getDeleteLink($id)
     {
         if ($this->db('navs_items')->where('id', $id)->orWhere('parent', $id)->delete()) {
@@ -194,8 +201,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * add new nav
-    */
+     * add new nav
+     */
     public function getNewNav()
     {
         $this->assign['title'] = $this->lang('add_nav');
@@ -205,8 +212,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * edit nav
-    */
+     * edit nav
+     */
     public function getEditNav($id)
     {
         $this->assign['title'] = $this->lang('edit_nav');
@@ -223,8 +230,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * save nav
-    */
+     * save nav
+     */
     public function postSaveNav($id = null)
     {
         if (empty($_POST['name'])) {
@@ -260,8 +267,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * remove nav
-    */
+     * remove nav
+     */
     public function getDeleteNav($id)
     {
         if ($this->db('navs')->delete($id)) {
@@ -275,12 +282,12 @@ class Admin extends AdminModule
     }
 
     /**
-    * list of pages
-    * @param string $lang
-    * @param integer $selected
-    * @return array
-    */
-    private function _getPages($lang, $selected = null)
+     * list of pages
+     * @param string $lang
+     * @param integer $selected
+     * @return array
+     */
+    private function getPages($lang, $selected = null)
     {
         $rows = $this->db('pages')->where('lang', $lang)->toArray();
         if (count($rows)) {
@@ -297,18 +304,18 @@ class Admin extends AdminModule
     }
 
     /**
-    * list of parents
-    * @param string $lang
-    * @param integer $selected
-    * @return array
-    */
-    private function _getParents($lang, $nav = null, $page = null, $except = null)
+     * list of parents
+     * @param string $lang
+     * @param integer $selected
+     * @return array
+     */
+    private function getParents($lang, $nav = null, $page = null, $except = null)
     {
         $rows = $this->db('navs')->toArray();
         if (count($rows)) {
             foreach ($rows as &$row) {
-                $row['name'] = $this->tpl->noParse('{$navigation.'.$row['name'].'}');
-                $row['items'] = $this->_getNavItems($row['id'], $lang);
+                $row['name'] = $this->tpl->noParse('{$navigation.' . $row['name'] . '}');
+                $row['items'] = $this->getNavItems($row['id'], $lang);
 
                 if ($nav && !$page && ($nav == $row['id'])) {
                     $row['attr'] = 'selected';
@@ -335,12 +342,12 @@ class Admin extends AdminModule
     }
 
     /**
-    * list of nav items
-    * @param integer $nav
-    * @param string $lang
-    * @return array
-    */
-    private function _getNavItems($nav, $lang)
+     * list of nav items
+     * @param integer $nav
+     * @param string $lang
+     * @return array
+     */
+    private function getNavItems($nav, $lang)
     {
         $items = $this->db('navs_items')->where('nav', $nav)->where('lang', $lang)->asc('"order"')->toArray();
 
@@ -353,9 +360,10 @@ class Admin extends AdminModule
 
                 if ($item['page'] > 0) {
                     $page = $this->db('pages')->where('id', $item['page'])->oneArray();
-                    $item['fullURL'] = '/'.$page['slug'];
+                    $item['fullURL'] = '/' . $page['slug'];
                 } else {
-                    $item['fullURL'] = (parse_url($item['url'], PHP_URL_SCHEME) || strpos($item['url'], '#') === 0 ? '' : '/').trim($item['url'], '/');
+                    $item['fullURL'] = (parse_url($item['url'], PHP_URL_SCHEME)
+                        || strpos($item['url'], '#') === 0 ? '' : '/') . trim($item['url'], '/');
                 }
             }
             return $this->buildTree($items);
@@ -363,10 +371,10 @@ class Admin extends AdminModule
     }
 
     /**
-    * generate tree from array
-    * @param array $items
-    * @return array
-    */
+     * generate tree from array
+     * @param array $items
+     * @return array
+     */
     public function buildTree(array $items)
     {
         $children = [0 => []];
@@ -386,11 +394,11 @@ class Admin extends AdminModule
     }
 
     /**
-    * change order of nav item
-    * @param string $direction
-    * @param integer $id
-    * @return void
-    */
+     * change order of nav item
+     * @param string $direction
+     * @param integer $id
+     * @return void
+     */
     public function getChangeOrder($direction, $id)
     {
         $item = $this->db('navs_items')->oneArray($id);
@@ -419,17 +427,17 @@ class Admin extends AdminModule
                 $this->db('navs_items')->where('id', $nextItem['id'])->save(['"order"' => $item['order']]);
             }
         }
-        redirect(url(ADMIN.'/navigation/manage?lang='.$item['lang']));
+        redirect(url(ADMIN . '/navigation/manage?lang=' . $item['lang']));
     }
 
     /**
-    * get item with highest order
-    * @param integer $nav
-    * @param integer $parent
-    * @param string $lang
-    * @return integer
-    */
-    private function _getHighestOrder($nav, $parent, $lang)
+     * get item with highest order
+     * @param integer $nav
+     * @param integer $parent
+     * @param string $lang
+     * @return integer
+     */
+    private function getHighestOrder($nav, $parent, $lang)
     {
         $item = $this->db('navs_items')
             ->where('nav', $nav)

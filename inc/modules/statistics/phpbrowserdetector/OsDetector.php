@@ -22,9 +22,9 @@ class OsDetector implements DetectorInterface
 
         return (
             // Chrome OS before OS X
-            self::checkChromeOs($os, $userAgent) ||
+        self::checkChromeOs($os, $userAgent) ||
             // iOS before OS X
-            self::checkIOS($os, $userAgent) ||
+        self::checkIOS($os, $userAgent) ||
             self::checkOSX($os, $userAgent) ||
             self::checkSymbOS($os, $userAgent) ||
             self::checkWindows($os, $userAgent) ||
@@ -37,11 +37,10 @@ class OsDetector implements DetectorInterface
             self::checkOS2($os, $userAgent) ||
             self::checkBeOS($os, $userAgent) ||
             // Android before Linux
-            self::checkAndroid($os, $userAgent) ||
+        self::checkAndroid($os, $userAgent) ||
             self::checkLinux($os, $userAgent) ||
             self::checkNokia($os, $userAgent) ||
-            self::checkBlackBerry($os, $userAgent)
-        );
+            self::checkBlackBerry($os, $userAgent));
     }
 
     /**
@@ -57,9 +56,9 @@ class OsDetector implements DetectorInterface
         // Check for Opera Mini
         if (stripos($userAgent->getUserAgentString(), 'opera mini') !== false) {
             $os->setIsMobile(true);
-        } // Set is mobile for Pocket IE
-        elseif (stripos($userAgent->getUserAgentString(), 'mspie') !== false ||
-            stripos($userAgent->getUserAgentString(), 'pocket') !== false) {
+        } elseif (stripos($userAgent->getUserAgentString(), 'mspie') !== false
+            || stripos($userAgent->getUserAgentString(), 'pocket') !== false) {
+            // Set is mobile for Pocket IE
             $os->setIsMobile(true);
         }
     }
@@ -100,8 +99,7 @@ class OsDetector implements DetectorInterface
     private static function checkChromeOs(Os $os, UserAgent $userAgent)
     {
         if (stripos($userAgent->getUserAgentString(), ' CrOS') !== false ||
-            stripos($userAgent->getUserAgentString(), 'CrOS ') !== false
-        ) {
+            stripos($userAgent->getUserAgentString(), 'CrOS ') !== false) {
             $os->setName($os::CHROME_OS);
             if (preg_match('/Chrome\/([\d\.]*)/i', $userAgent->getUserAgentString(), $matches)) {
                 $os->setVersion($matches[1]);
@@ -185,12 +183,12 @@ class OsDetector implements DetectorInterface
             }
 
             return true;
-        } // Windows Me, Windows 98, Windows 95, Windows CE
-        elseif (preg_match(
+        } elseif (preg_match(
             '/(Windows 98; Win 9x 4\.90|Windows 98|Windows 95|Windows CE)/i',
             $userAgent->getUserAgentString(),
             $matches
         )) {
+            // Windows Me, Windows 98, Windows 95, Windows CE
             $os->setName($os::WINDOWS);
             switch (strtolower($matches[0])) {
                 case 'windows 98; win 9x 4.90':
@@ -212,7 +210,7 @@ class OsDetector implements DetectorInterface
 
         return false;
     }
-    
+
     /**
      * Determine if the user's operating system is Windows Phone.
      *
@@ -232,7 +230,7 @@ class OsDetector implements DetectorInterface
                     $os->setVersion((float)$matches[1]);
                 }
             }
-    
+
             return true;
         }
         return false;

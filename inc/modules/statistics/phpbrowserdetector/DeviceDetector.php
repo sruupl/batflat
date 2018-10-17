@@ -15,12 +15,10 @@ class DeviceDetector implements DetectorInterface
     {
         $device->setName($device::UNKNOWN);
 
-        return (
-            self::checkIpad($device, $userAgent) ||
+        return (self::checkIpad($device, $userAgent) ||
             self::checkIphone($device, $userAgent) ||
             self::checkWindowsPhone($device, $userAgent) ||
-            self::checkSamsungPhone($device, $userAgent)
-        );
+            self::checkSamsungPhone($device, $userAgent));
     }
 
     /**

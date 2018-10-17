@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Devbar;
 
@@ -26,7 +27,7 @@ class Admin extends AdminModule
     public function init()
     {
         if (DEV_MODE && strpos(get_headers_list('Content-Type'), 'text/html') !== false) {
-            $this->core->addCSS(url(MODULES.'/devbar/css/style.css?ver={?= time() ?}'));
+            $this->core->addCSS(url(MODULES . '/devbar/css/style.css?ver={?= time() ?}'));
         }
     }
 
@@ -37,12 +38,12 @@ class Admin extends AdminModule
             foreach (Dump::$data as &$d) {
                 $d['value'] = \htmlspecialchars($this->tpl->noParse($d['value']));
             }
-            
-            echo $this->draw(MODULES.'/devbar/view/bar.html', [
+
+            echo $this->draw(MODULES . '/devbar/view/bar.html', [
                 'devbar' => [
                     'version' => $this->settings('settings', 'version'),
-                    'timer' => round(($this->timer + microtime(true))*1000, 2),
-                    'memory' => round(memory_get_usage()/1024/1024, 2),
+                    'timer' => round(($this->timer + microtime(true)) * 1000, 2),
+                    'memory' => round(memory_get_usage() / 1024 / 1024, 2),
                     'database' => \Inc\Core\Lib\QueryBuilder::lastSqls(),
                     'requests' => [
                         '$_GET' => ['print' => print_r($_GET, true), 'count' => count($_GET)],
@@ -58,5 +59,3 @@ class Admin extends AdminModule
         }
     }
 }
-
-require_once('functions.php');

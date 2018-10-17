@@ -56,21 +56,21 @@ class Admin extends AdminModule
         }
 
         $settings['langs'] = [
-            'site' => $this->_getLanguages($settings['lang_site'], 'selected'),
-            'admin' => $this->_getLanguages($settings['lang_admin'], 'selected')
+            'site' => $this->getLanguages($settings['lang_site'], 'selected'),
+            'admin' => $this->getLanguages($settings['lang_admin'], 'selected')
         ];
-        $settings['themes'] = $this->_getThemes();
-        $settings['pages'] = $this->_getPages($lang);
-        $settings['timezones'] = $this->_getTimezones();
+        $settings['themes'] = $this->getThemes();
+        $settings['pages'] = $this->getPages($lang);
+        $settings['timezones'] = $this->getTimezones();
         $settings['system'] = [
             'php' => PHP_VERSION,
             'sqlite' => $this->db()->pdo()->query('select sqlite_version()')->fetch()[0],
             'sqlite_size' => $this->roundSize(filesize(BASE_DIR . '/inc/data/database.sdb')),
-            'system_size' => $this->roundSize($this->_directorySize(BASE_DIR)),
+            'system_size' => $this->roundSize($this->directorySize(BASE_DIR)),
         ];
 
         $settings['license'] = [];
-        $settings['license']['type'] = $this->_verifyLicense();
+        $settings['license']['type'] = $this->verifyLicense();
         switch ($settings['license']['type']) {
             case License::FREE:
                 $settings['license']['name'] = $this->lang('free');
@@ -110,7 +110,10 @@ class Admin extends AdminModule
             }
 
             foreach ($_POST as $field => $value) {
-                if (!$this->db('settings')->where('module', 'settings')->where('field', $field)->save(['value' => $value])) {
+                if (!$this->db('settings')
+                    ->where('module', 'settings')
+                    ->where('field', $field)
+                    ->save(['value' => $value])) {
                     $errors++;
                 }
             }
@@ -154,7 +157,7 @@ class Admin extends AdminModule
 
         if (empty($theme) && empty($file)) {
             $this->tpl->set('settings', $this->settings('settings'));
-            $this->tpl->set('themes', $this->_getThemes());
+            $this->tpl->set('themes', $this->getThemes());
             return $this->draw('themes.html');
         } else {
             if ($file == 'activate') {
@@ -172,7 +175,7 @@ class Admin extends AdminModule
             $this->core->addJS(url('/inc/jscripts/editor/markitup.highlight.min.js'));
             $this->core->addJS(url('/inc/jscripts/editor/sets/html/set.min.js'));
 
-            $this->assign['files'] = $this->_getThemeFiles($file, $theme);
+            $this->assign['files'] = $this->getThemeFiles($file, $theme);
 
             if ($file) {
                 $file = $this->assign['files'][$file]['path'];
@@ -194,7 +197,7 @@ class Admin extends AdminModule
             }
 
             $this->tpl->set('settings', $this->settings('settings'));
-            $this->tpl->set('theme', array_merge($this->_getThemes($theme), $this->assign));
+            $this->tpl->set('theme', array_merge($this->getThemes($theme), $this->assign));
             return $this->draw('theme.html');
         }
     }
@@ -224,7 +227,8 @@ class Admin extends AdminModule
                 $zip->close();
                 header('Content-Type: application/zip');
                 header('Content-Length: ' . filesize($file));
-                header('Content-Disposition: attachment; filename="Batflat_' . str_replace('.', '-', $this->settings('settings', 'version')) . '_' . $export . '.zip"');
+                header('Content-Disposition: attachment; filename="Batflat_'
+                    . str_replace('.', '-', $this->settings('settings', 'version')) . '_' . $export . '.zip"');
                 readfile($file);
                 unlink($file);
                 exit();
@@ -245,7 +249,7 @@ class Admin extends AdminModule
             'selected' => $_GET['lang'],
         ];
 
-        $translations = $this->_getAllTranslations($_GET['lang']);
+        $translations = $this->getAllTranslations($_GET['lang']);
         $translation = $translations[$_GET['source']];
         $translations = array_keys($translations);
 
@@ -254,7 +258,7 @@ class Admin extends AdminModule
         $this->tpl->set('module', $_GET['source']);
         $this->tpl->set('settings', $settings);
 
-        //unset($translations, $settings);
+        //unset( $translations,  $settings);
 
         return $this->draw('translation.html');
     }
@@ -368,7 +372,10 @@ class Admin extends AdminModule
 
                     $output = implode("\n", $output);
 
-                    if (file_put_contents(MODULES . '/' . $_GET['source'] . '/lang/' . $_GET['lang'] . '.ini', $output)) {
+                    if (file_put_contents(
+                        MODULES . '/' . $_GET['source'] . '/lang/' . $_GET['lang'] . '.ini',
+                        $output
+                    )) {
                         $this->notify('success', $this->lang('save_file_success'));
                     } else {
                         $this->notify('failure', $this->lang('save_file_failure'));
@@ -394,7 +401,10 @@ class Admin extends AdminModule
 
                     $output = implode("\n", $output);
 
-                    if (file_put_contents(MODULES . '/' . $_GET['source'] . '/lang/admin/' . $_GET['lang'] . '.ini', $output)) {
+                    if (file_put_contents(
+                        MODULES . '/' . $_GET['source'] . '/lang/admin/' . $_GET['lang'] . '.ini',
+                        $output
+                    )) {
                         $this->notify('success', $this->lang('save_file_success'));
                     } else {
                         $this->notify('failure', $this->lang('save_file_failure'));
@@ -411,7 +421,11 @@ class Admin extends AdminModule
      */
     public function getDeleteLanguage($name)
     {
-        if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
+        if (($this->settings(
+            'settings',
+            'lang_site'
+        ) == $name)
+            || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_delete_failure'));
         } else {
             if (unlink(BASE_DIR . '/inc/lang/' . $name . '/.lock') && deleteDir(BASE_DIR . '/inc/lang/' . $name)) {
@@ -443,7 +457,8 @@ class Admin extends AdminModule
      */
     public function getDeactivateLanguage($name)
     {
-        if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
+        if (($this->settings('settings', 'lang_site') == $name)
+            || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_deactivate_failure'));
         } else {
             if (touch(BASE_DIR . '/inc/lang/' . $name . '/.lock')) {
@@ -468,19 +483,19 @@ class Admin extends AdminModule
                 'domain' => url(),
             ]);
 
-            $this->_updateSettings('update_check', time());
+            $this->updateSettings('update_check', time());
 
             if (!is_array($request)) {
                 $this->tpl->set('error', $request);
             } elseif ($request['status'] == 'error') {
                 $this->tpl->set('error', $request['message']);
             } else {
-                $this->_updateSettings('update_version', $request['data']['version']);
-                $this->_updateSettings('update_changelog', $request['data']['changelog']);
+                $this->updateSettings('update_version', $request['data']['version']);
+                $this->updateSettings('update_changelog', $request['data']['changelog']);
                 $this->tpl->set('update_version', $request['data']['version']);
 
                 // if(DEV_MODE)
-                //     $this->tpl->set('request', $request);
+                //      $this->tpl->set('request',  $request);
             }
         } elseif (isset($_POST['update'])) {
             if (!class_exists("ZipArchive")) {
@@ -506,7 +521,15 @@ class Admin extends AdminModule
             define("UPGRADABLE", true);
             // Making backup
             $backup_date = date('YmdHis');
-            $this->rcopy(BASE_DIR, BASE_DIR . '/backup/' . $backup_date . '/', 0755, [BASE_DIR . '/backup', BASE_DIR . '/tmp/latest.zip', (isset($package) ? BASE_DIR . '/' . basename($package) : '')]);
+            $this->rcopy(
+                BASE_DIR,
+                BASE_DIR . '/backup/' . $backup_date . '/',
+                0755,
+                [
+                    BASE_DIR . '/backup', BASE_DIR . '/tmp/latest.zip', (isset($package)
+                        ? BASE_DIR . '/' . basename($package) : '')
+                ]
+            );
 
             // Unzip latest update
             $zip = new ZipArchive;
@@ -521,7 +544,10 @@ class Admin extends AdminModule
             $this->rcopy(BASE_DIR . '/tmp/update/inc/modules', BASE_DIR . '/inc/modules');
 
             // Restore defines
-            $this->rcopy(BASE_DIR . '/backup/' . $backup_date . '/inc/core/defines.php', BASE_DIR . '/inc/core/defines.php');
+            $this->rcopy(
+                BASE_DIR . '/backup/' . $backup_date . '/inc/core/defines.php',
+                BASE_DIR . '/inc/core/defines.php'
+            );
 
             // Run upgrade script
             $version = $settings['version'];
@@ -532,17 +558,17 @@ class Admin extends AdminModule
             unlink(BASE_DIR . '/tmp/latest.zip');
             deleteDir(BASE_DIR . '/tmp/update');
 
-            $this->_updateSettings('version', $new_version);
-            $this->_updateSettings('update_version', 0);
-            $this->_updateSettings('update_changelog', '');
-            $this->_updateSettings('update_check', time());
+            $this->updateSettings('version', $new_version);
+            $this->updateSettings('update_version', 0);
+            $this->updateSettings('update_changelog', '');
+            $this->updateSettings('update_check', time());
 
             sleep(2);
             redirect(url([ADMIN, 'settings', 'updates']));
         } elseif (isset($_GET['reset'])) {
-            $this->_updateSettings('update_version', 0);
-            $this->_updateSettings('update_changelog', '');
-            $this->_updateSettings('update_check', 0);
+            $this->updateSettings('update_version', 0);
+            $this->updateSettings('update_changelog', '');
+            $this->updateSettings('update_check', 0);
         } elseif (isset($_GET['manual'])) {
             $package = glob(BASE_DIR . '/batflat-*.zip');
             $version = false;
@@ -570,7 +596,7 @@ class Admin extends AdminModule
         exit();
     }
 
-    public function _checkUpdate()
+    public function checkUpdate()
     {
         $settings = $this->settings('settings');
         if (time() - $settings['update_check'] > 3600 * 6) {
@@ -582,11 +608,11 @@ class Admin extends AdminModule
 
             if (is_array($request) && $request['status'] != 'error') {
                 $settings['update_version'] = $request['data']['version'];
-                $this->_updateSettings('update_version', $request['data']['version']);
-                $this->_updateSettings('update_changelog', $request['data']['changelog']);
+                $this->updateSettings('update_version', $request['data']['version']);
+                $this->updateSettings('update_changelog', $request['data']['changelog']);
             }
 
-            $this->_updateSettings('update_check', time());
+            $this->updateSettings('update_check', time());
         }
 
         if (cmpver($settings['update_version'], $settings['version']) === 1) {
@@ -625,7 +651,7 @@ class Admin extends AdminModule
      * list of themes
      * @return array
      */
-    private function _getThemes($theme = null)
+    private function getThemes($theme = null)
     {
         $themes = glob(THEMES . '/*', GLOB_ONLYDIR);
         $return = [];
@@ -652,11 +678,11 @@ class Admin extends AdminModule
 
     /**
      * list of pages
-     * @param string $lang
-     * @param integer $selected
+     * @param string  $lang
+     * @param integer  $selected
      * @return array
      */
-    private function _getPages($lang)
+    private function getPages($lang)
     {
         $rows = $this->db('pages')->where('lang', $lang)->toArray();
         if (count($rows)) {
@@ -669,10 +695,10 @@ class Admin extends AdminModule
 
     /**
      * list of theme files (html, css & js)
-     * @param string $selected
+     * @param string  $selected
      * @return array
      */
-    private function _getThemeFiles($selected = null, $theme = null)
+    private function getThemeFiles($selected = null, $theme = null)
     {
         $theme = ($theme ? $theme : $this->settings('settings', 'theme'));
         $files = $this->rglob(THEMES . '/' . $theme . '/*.html');
@@ -687,13 +713,17 @@ class Admin extends AdminModule
                 $attr = null;
             }
 
-            $result[md5($file)] = ['name' => basename($file), 'path' => $file, 'short' => str_replace(BASE_DIR, null, $file), 'attr' => $attr];
+            $result[md5($file)] = [
+                'name' => basename($file),
+                'path' => $file, 'short' => str_replace(BASE_DIR, null, $file),
+                'attr' => $attr
+            ];
         }
 
         return $result;
     }
 
-    private function _updateSettings($field, $value)
+    private function updateSettings($field, $value)
     {
         return $this->settings('settings', $field, $value);
     }
@@ -728,14 +758,14 @@ class Admin extends AdminModule
                 continue;
             }
 
-            $this->rcopy("$source/$entry", "$dest/$entry", $permissions, $expect);
+            $this->rcopy(" $source/ $entry", " $dest/ $entry", $permissions, $expect);
         }
 
         $dir->close();
         return true;
     }
 
-    private function _verifyLicense()
+    private function verifyLicense()
     {
         $licenseArray = (array)json_decode(base64_decode($this->settings('settings', 'license')), true);
         $license = array_replace(array_fill(0, 5, null), $licenseArray);
@@ -752,9 +782,9 @@ class Admin extends AdminModule
         return License::ERROR;
     }
 
-    private function _getTimezones()
+    private function getTimezones()
     {
-        $regions = array(
+        $regions = [
             \DateTimeZone::AFRICA,
             \DateTimeZone::AMERICA,
             \DateTimeZone::ANTARCTICA,
@@ -765,14 +795,14 @@ class Admin extends AdminModule
             \DateTimeZone::INDIAN,
             \DateTimeZone::PACIFIC,
             \DateTimeZone::UTC,
-        );
+        ];
 
-        $timezones = array();
+        $timezones = [];
         foreach ($regions as $region) {
             $timezones = array_merge($timezones, \DateTimeZone::listIdentifiers($region));
         }
 
-        $timezone_offsets = array();
+        $timezone_offsets = [];
         foreach ($timezones as $timezone) {
             $tz = new \DateTimeZone($timezone);
             $timezone_offsets[$timezone] = $tz->getOffset(new \DateTime);
@@ -781,20 +811,20 @@ class Admin extends AdminModule
         // sort timezone by offset
         asort($timezone_offsets);
 
-        $timezone_list = array();
+        $timezone_list = [];
         foreach ($timezone_offsets as $timezone => $offset) {
             $offset_prefix = $offset < 0 ? '-' : '+';
             $offset_formatted = gmdate('H:i', abs($offset));
 
             $pretty_offset = "UTC${offset_prefix}${offset_formatted}";
 
-            $timezone_list[$timezone] = "(${pretty_offset}) $timezone";
+            $timezone_list[$timezone] = "(${pretty_offset})  $timezone";
         }
 
         return $timezone_list;
     }
 
-    private function _getAllTranslations($lang)
+    private function getAllTranslations($lang)
     {
         $modules = [];
 
@@ -866,12 +896,19 @@ class Admin extends AdminModule
         return $files;
     }
 
-    private function _directorySize($path)
+    private function directorySize($path)
     {
         $bytestotal = 0;
         $path = realpath($path);
         if ($path !== false) {
-            foreach (new RecursiveIteratorIterator(new RecursiveDotFilterIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS))) as $object) {
+            foreach (new RecursiveIteratorIterator(
+                new RecursiveDotFilterIterator(
+                    new RecursiveDirectoryIterator(
+                        $path,
+                        FilesystemIterator::SKIP_DOTS
+                    )
+                )
+            ) as $object) {
                 try {
                     $bytestotal += $object->getSize();
                 } catch (\Exception $e) {

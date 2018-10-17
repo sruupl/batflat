@@ -68,7 +68,7 @@ class Admin extends AdminModule
             }
         }
 
-        $this->assign['langs'] = $this->_getLanguages($lang);
+        $this->assign['langs'] = $this->getLanguages($lang);
         return $this->draw('manage.html', ['pages' => $this->assign]);
     }
 
@@ -92,7 +92,7 @@ class Admin extends AdminModule
         }
 
         $this->assign['title'] = $this->lang('new_page');
-        $this->assign['langs'] = $this->_getLanguages($this->settings('settings.lang_site'), 'selected');
+        $this->assign['langs'] = $this->getLanguages($this->settings('settings.lang_site'), 'selected');
         $this->assign['templates'] = $this->getTemplates(isset_or($e['template'], 'index.html'));
         $this->assign['manageURL'] = url([ADMIN, 'pages', 'manage']);
 
@@ -125,7 +125,7 @@ class Admin extends AdminModule
             $this->assign['form']['content'] = $this->tpl->noParse($this->assign['form']['content']);
 
             $this->assign['title'] = $this->lang('edit_page');
-            $this->assign['langs'] = $this->_getLanguages($page['lang'], 'selected');
+            $this->assign['langs'] = $this->getLanguages($page['lang'], 'selected');
             $this->assign['templates'] = $this->getTemplates($page['template']);
             $this->assign['manageURL'] = url([ADMIN, 'pages', 'manage']);
 

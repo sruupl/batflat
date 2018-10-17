@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Modules\Snippets;
 
@@ -18,20 +19,20 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add')                  => 'add',
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add') => 'add',
         ];
     }
 
     /**
-    * list of snippets
-    */
+     * list of snippets
+     */
     public function getManage()
     {
         $rows = $this->db('snippets')->toArray();
         if (count($rows)) {
             foreach ($rows as &$row) {
-                $row['tag'] = $this->tpl->noParse('{$snippet.'.$row['slug'].'}');
+                $row['tag'] = $this->tpl->noParse('{$snippet.' . $row['slug'] . '}');
                 $row['editURL'] = url([ADMIN, 'snippets', 'edit', $row['id']]);
                 $row['delURL'] = url([ADMIN, 'snippets', 'delete', $row['id']]);
             }
@@ -41,19 +42,19 @@ class Admin extends AdminModule
     }
 
     /**
-    * add new snippet
-    */
+     * add new snippet
+     */
     public function getAdd()
     {
         return $this->getEdit();
     }
 
     /**
-    * edit snippet
-    */
+     * edit snippet
+     */
     public function getEdit($id = null)
     {
-        $this->_add2header();
+        $this->add2header();
 
         if (!empty($redirectData = getRedirectData())) {
             $assign = $redirectData;
@@ -70,7 +71,7 @@ class Admin extends AdminModule
         }
 
         $assign = array_merge($assign, htmlspecialchars_array($row));
-        $assign['languages'] = $this->_getLanguages($this->settings('settings', 'lang_site'));
+        $assign['languages'] = $this->getLanguages($this->settings('settings', 'lang_site'));
 
         $assign['content'] = [];
         preg_match_all("/{lang: ([a-z]{2}_[a-z]+)}(.*?){\/lang}/ms", $row['content'], $matches);
@@ -84,8 +85,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * remove snippet
-    */
+     * remove snippet
+     */
     public function getDelete($id)
     {
         if ($this->db('snippets')->delete($id)) {
@@ -98,8 +99,8 @@ class Admin extends AdminModule
     }
 
     /**
-    * save snippet
-    */
+     * save snippet
+     */
     public function postSave($id = null)
     {
         unset($_POST['save']);
@@ -119,7 +120,7 @@ class Admin extends AdminModule
 
         $tmp = null;
         foreach ($_POST['content'] as $lang => $content) {
-            $tmp .= "{lang: $lang}".$content."{/lang}";
+            $tmp .= "{lang: $lang}" . $content . "{/lang}";
         }
 
         $_POST['content'] = $tmp;
@@ -146,30 +147,30 @@ class Admin extends AdminModule
             } else {
                 $this->notify('failure', $this->lang('already_exists'));
             }
-                
-            $location =  url([ADMIN, 'snippets', 'edit', $id]);
+
+            $location = url([ADMIN, 'snippets', 'edit', $id]);
         }
 
         redirect($location, $_POST);
     }
 
     /**
-    * module JavaScript
-    */
+     * module JavaScript
+     */
     public function getJavascript()
     {
         header('Content-type: text/javascript');
-        echo $this->draw(MODULES.'/snippets/js/admin/snippets.js');
+        echo $this->draw(MODULES . '/snippets/js/admin/snippets.js');
         exit();
     }
 
-    private function _add2header()
+    private function add2header()
     {
         // WYSIWYG
         $this->core->addCSS(url('inc/jscripts/wysiwyg/summernote.min.css'));
         $this->core->addJS(url('inc/jscripts/wysiwyg/summernote.min.js'));
         if ($this->settings('settings', 'lang_admin') != 'en_english') {
-            $this->core->addJS(url('inc/jscripts/wysiwyg/lang/'.$this->settings('settings', 'lang_admin').'.js'));
+            $this->core->addJS(url('inc/jscripts/wysiwyg/lang/' . $this->settings('settings', 'lang_admin') . '.js'));
         }
 
         // HTML EDITOR

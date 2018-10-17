@@ -12,5 +12,5 @@ class DB extends QueryBuilder
     protected static $db;
 }
 
-$database = BASE_DIR.'/inc/data/statistics.sdb';
-DB::connect("sqlite:{$database}");
+// $database = BASE_DIR . '/inc/data/statistics.sdb';
+// DB::connect("sqlite:{$database}");

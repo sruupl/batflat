@@ -8,11 +8,11 @@ class Chart
 {
     public function getVisitors($days = 14, $offset = 0, $url = null, $referrer = null)
     {
-        $time = strtotime(date("Ymd000000", strtotime("-".$days + $offset." days")));
+        $time = strtotime(date("Ymd000000", strtotime("-" . $days + $offset . " days")));
 
         $query = $this->db('statistics')
             ->select([
-                'count'        => 'COUNT(*)',
+                'count' => 'COUNT(*)',
                 'count_unique' => 'COUNT(DISTINCT uniqhash)',
                 'formatedDate' => "strftime('%Y-%m-%d', datetime(created_at, 'unixepoch', 'localtime'))",
             ])
@@ -32,14 +32,14 @@ class Chart
         $data = $query->toArray();
 
         $return = [
-            'labels'  => [],
+            'labels' => [],
             'uniques' => [],
-            'visits'  => [],
+            'visits' => [],
         ];
 
         while ($time < (time() - ($offset * 86400))) {
-            $return['labels'][] = '"'.date("Y-m-d", $time).'"';
-            $return['readable'][] = '"'.date("d M Y", $time).'"';
+            $return['labels'][] = '"' . date("Y-m-d", $time) . '"';
+            $return['readable'][] = '"' . date("d M Y", $time) . '"';
             $return['uniques'][] = 0;
             $return['visits'][] = 0;
 
@@ -47,7 +47,7 @@ class Chart
         }
 
         foreach ($data as $day) {
-            $index = array_search('"'.$day['formatedDate'].'"', $return['labels']);
+            $index = array_search('"' . $day['formatedDate'] . '"', $return['labels']);
             if ($index === false) {
                 continue;
             }
@@ -106,9 +106,9 @@ class Chart
 
         return [
             'labels' => array_map(function (&$value) {
-                return '"'.$value.'"';
+                return '"' . $value . '"';
             }, array_column($data, $group)),
-            'data'   => array_column($data, 'count'),
+            'data' => array_column($data, 'count'),
         ];
     }
 

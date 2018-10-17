@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset name="Batflat coding standard">
+    <description>Batflat coding standard</description>
+    <!-- Paths to check -->
+    <file>inc/core</file>
+    <file>inc/modules</file>
+    <exclude-pattern>*/css/*</exclude-pattern>
+    <exclude-pattern>*/img/*</exclude-pattern>
+    <exclude-pattern>*/js/*</exclude-pattern>
+    <exclude-pattern>*/lang/*</exclude-pattern>
+    <exclude-pattern>*/view/*</exclude-pattern>
+    
+    <!-- use colors in output -->
+    <arg name="colors"/>
+
+    <!-- inherit rules from: -->
+    <rule ref="PSR2"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Commenting.Todo" />
+</ruleset>

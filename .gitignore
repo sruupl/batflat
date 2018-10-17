@@ -1,4 +1,7 @@
 admin/tmp/
+composer.lock
+inc/**/.lock
+inc/data/*.sdb
 tmp/
 uploads/
-inc/data/*.sdb
+vendor/

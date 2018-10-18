@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Batflat ~ the lightweight, fast and easy CMS
  *
@@ -47,14 +48,14 @@ class Site extends SiteModule
     {
         $limit = $this->settings('blog.latestPostsCount');
         $rows = $this->db('blog')
-                ->leftJoin('users', 'users.id = blog.user_id')
-                ->where('status', 2)
-                ->where('published_at', '<=', time())
-                ->where('lang', $_SESSION['lang'])
-                ->desc('published_at')
-                ->limit($limit)
-                ->select(['blog.id', 'blog.title', 'blog.slug', 'blog.intro', 'blog.content', 'users.username', 'users.fullname'])
-                ->toArray();
+            ->leftJoin('users', 'users.id = blog.user_id')
+            ->where('status', 2)
+            ->where('published_at', '<=', time())
+            ->where('lang', $_SESSION['lang'])
+            ->desc('published_at')
+            ->limit($limit)
+            ->select(['blog.id', 'blog.title', 'blog.slug', 'blog.intro', 'blog.content', 'users.username', 'users.fullname'])
+            ->toArray();
 
         foreach ($rows as &$row) {
             $this->filterRecord($row);
@@ -66,21 +67,21 @@ class Site extends SiteModule
     public function _getAllTags()
     {
         $rows = $this->db('blog_tags')
-                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
-                ->leftJoin('blog', 'blog.id = blog_tags_relationship.blog_id')
-                ->where('blog.status', 2)
-                ->where('blog.lang', $_SESSION['lang'])
-                ->where('blog.published_at', '<=', time())
-                ->select(['blog_tags.name', 'blog_tags.slug', 'count' => 'COUNT(blog_tags.name)'])
-                ->group('blog_tags.name')
-                ->toArray();
+            ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
+            ->leftJoin('blog', 'blog.id = blog_tags_relationship.blog_id')
+            ->where('blog.status', 2)
+            ->where('blog.lang', $_SESSION['lang'])
+            ->where('blog.published_at', '<=', time())
+            ->select(['blog_tags.name', 'blog_tags.slug', 'count' => 'COUNT(blog_tags.name)'])
+            ->group('blog_tags.name')
+            ->toArray();
 
         return $rows;
     }
 
     /**
-    * get single post data
-    */
+     * get single post data
+     */
     public function _importPost($slug = null)
     {
         $assign = [];
@@ -90,25 +91,25 @@ class Site extends SiteModule
             } else {
                 $row = $this->db('blog')->where('status', '>=', 1)->where('published_at', '<=', time())->where('slug', $slug)->oneArray();
             }
-            
+
             if (!empty($row)) {
                 // get dependences
                 $row['author'] = $this->db('users')->where('id', $row['user_id'])->oneArray();
                 $row['author']['name'] = !empty($row['author']['fullname']) ? $row['author']['fullname'] : $row['author']['username'];
-                $row['author']['avatar'] = url(UPLOADS.'/users/'.$row['author']['avatar']);
-                $row['cover_url'] = url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'];
-                
-                $row['url'] = url('blog/post/'.$row['slug']);
-                $row['disqus_identifier'] = md5($row['id'].$row['url']);
+                $row['author']['avatar'] = url(UPLOADS . '/users/' . $row['author']['avatar']);
+                $row['cover_url'] = url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at'];
+
+                $row['url'] = url('blog/post/' . $row['slug']);
+                $row['disqus_identifier'] = md5($row['id'] . $row['url']);
 
                 // tags
                 $row['tags'] = $this->db('blog_tags')
-                                    ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
-                                    ->where('blog_tags_relationship.blog_id', $row['id'])
-                                    ->toArray();
+                    ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
+                    ->where('blog_tags_relationship.blog_id', $row['id'])
+                    ->toArray();
                 if ($row['tags']) {
                     array_walk($row['tags'], function (&$tag) {
-                        $tag['url'] = url('blog/tag/'.$tag['slug']);
+                        $tag['url'] = url('blog/tag/' . $tag['slug']);
                     });
                 }
 
@@ -125,10 +126,10 @@ class Site extends SiteModule
                 // Admin access only
                 if ($this->core->loginCheck()) {
                     if ($assign['published_at'] > time()) {
-                        $assign['content'] = '<div class="alert alert-warning">'.$this->lang('post_time').'</div>'.$assign['content'];
+                        $assign['content'] = '<div class="alert alert-warning">' . $this->lang('post_time') . '</div>' . $assign['content'];
                     }
                     if ($assign['status'] == 0) {
-                        $assign['content'] = '<div class="alert alert-warning">'.$this->lang('post_draft').'</div>'.$assign['content'];
+                        $assign['content'] = '<div class="alert alert-warning">' . $this->lang('post_draft') . '</div>' . $assign['content'];
                     }
                 }
 
@@ -150,32 +151,32 @@ class Site extends SiteModule
             }
         }
 
-        $this->core->append('<link rel="alternate" type="application/rss+xml" title="RSS" href="'.url(['blog', 'feed', $row['lang']]).'">', 'header');
-        $this->core->append('<meta property="og:url" content="'.url(['blog', 'post', $row['slug']]).'">', 'header');
+        $this->core->append('<link rel="alternate" type="application/rss+xml" title="RSS" href="' . url(['blog', 'feed', $row['lang']]) . '">', 'header');
+        $this->core->append('<meta property="og:url" content="' . url(['blog', 'post', $row['slug']]) . '">', 'header');
         $this->core->append('<meta property="og:type" content="article">', 'header');
-        $this->core->append('<meta property="og:title" content="'.$row['title'].'">', 'header');
-        $this->core->append('<meta property="og:description" content="'.trim(mb_strimwidth(htmlspecialchars(strip_tags(preg_replace('/\{(.*?)\}/', null, $assign['content']))), 0, 155, "...", "utf-8")).'">', 'header');
+        $this->core->append('<meta property="og:title" content="' . $row['title'] . '">', 'header');
+        $this->core->append('<meta property="og:description" content="' . trim(mb_strimwidth(htmlspecialchars(strip_tags(preg_replace('/\{(.*?)\}/', null, $assign['content']))), 0, 155, "...", "utf-8")) . '">', 'header');
         if (!empty($row['cover_photo'])) {
-            $this->core->append('<meta property="og:image" content="'.url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'].'">', 'header');
+            $this->core->append('<meta property="og:image" content="' . url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at'] . '">', 'header');
         }
 
         $this->core->append($this->draw('disqus.html', ['isPost' => true]), 'footer');
     }
 
     /**
-    * get array with all posts
-    */
+     * get array with all posts
+     */
     public function _importAllPosts($page = 1)
     {
         $page = max($page, 1);
         $perpage = $this->settings('blog.perpage');
         $rows = $this->db('blog')
-                            ->where('status', 2)
-                            ->where('published_at', '<=', time())
-                            ->where('lang', $_SESSION['lang'])
-                            ->limit($perpage)->offset(($page-1)*$perpage)
-                            ->desc('published_at')
-                            ->toArray();
+            ->where('status', 2)
+            ->where('published_at', '<=', time())
+            ->where('lang', $_SESSION['lang'])
+            ->limit($perpage)->offset(($page - 1) * $perpage)
+            ->desc('published_at')
+            ->toArray();
 
         $assign = [
             'title' => $this->settings('blog.title'),
@@ -186,17 +187,17 @@ class Site extends SiteModule
             // get dependences
             $row['author'] = $this->db('users')->where('id', $row['user_id'])->oneArray();
             $row['author']['name'] = !empty($row['author']['fullname']) ? $row['author']['fullname'] : $row['author']['username'];
-            $row['cover_url'] = url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'];
+            $row['cover_url'] = url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at'];
 
             // tags
             $row['tags'] = $this->db('blog_tags')
-                                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
-                                ->where('blog_tags_relationship.blog_id', $row['id'])
-                                ->toArray();
-                                
+                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
+                ->where('blog_tags_relationship.blog_id', $row['id'])
+                ->toArray();
+
             if ($row['tags']) {
                 array_walk($row['tags'], function (&$tag) {
-                    $tag['url'] = url('blog/tag/'.$tag['slug']);
+                    $tag['url'] = url('blog/tag/' . $tag['slug']);
                 });
             }
             
@@ -207,8 +208,8 @@ class Site extends SiteModule
             $row['published_at'] = str_replace($keys, $vals, strtolower($row['published_at']));
 
             // generating URLs
-            $row['url'] = url('blog/post/'.$row['slug']);
-            $row['disqus_identifier'] = md5($row['id'].$row['url']);
+            $row['url'] = url('blog/post/' . $row['slug']);
+            $row['disqus_identifier'] = md5($row['id'] . $row['url']);
 
             if (!empty($row['intro'])) {
                 $row['content'] = $row['intro'];
@@ -228,26 +229,26 @@ class Site extends SiteModule
         $count = $this->db('blog')->where('status', 2)->where('published_at', '<=', time())->where('lang', $_SESSION['lang'])->count();
 
         if ($page > 1) {
-            $prev['url'] = url('blog/'.($page-1));
+            $prev['url'] = url('blog/' . ($page - 1));
             $this->tpl->set('prev', $prev);
         }
-        if ($page < $count/$perpage) {
-            $next['url'] = url('blog/'.($page+1));
+        if ($page < $count / $perpage) {
+            $next['url'] = url('blog/' . ($page + 1));
             $this->tpl->set('next', $next);
         }
-        
+
         $this->setTemplate("blog.html");
 
         $this->tpl->set('page', ['title' => $assign['title'], 'desc' => $assign['desc']]);
         $this->tpl->set('blog', $assign);
 
-        $this->core->append('<link rel="alternate" type="application/rss+xml" title="RSS" href="'.url(['blog', 'feed', $_SESSION['lang']]).'">', 'header');
+        $this->core->append('<link rel="alternate" type="application/rss+xml" title="RSS" href="' . url(['blog', 'feed', $_SESSION['lang']]) . '">', 'header');
         $this->core->append($this->draw('disqus.html', ['isBlog' => true]), 'footer');
     }
 
     /**
-    * get array with all posts
-    */
+     * get array with all posts
+     */
     public function _importTagPosts($slug, $page = 1)
     {
         $page = max($page, 1);
@@ -258,17 +259,17 @@ class Site extends SiteModule
         }
 
         $rows = $this->db('blog')
-                        ->leftJoin('blog_tags_relationship', 'blog_tags_relationship.blog_id = blog.id')
-                        ->where('blog_tags_relationship.tag_id', $tag['id'])
-                        ->where('lang', $_SESSION['lang'])
-                        ->where('status', 2)->where('published_at', '<=', time())
-                        ->limit($perpage)
-                        ->offset(($page-1)*$perpage)
-                        ->desc('published_at')
-                        ->toArray();
+            ->leftJoin('blog_tags_relationship', 'blog_tags_relationship.blog_id = blog.id')
+            ->where('blog_tags_relationship.tag_id', $tag['id'])
+            ->where('lang', $_SESSION['lang'])
+            ->where('status', 2)->where('published_at', '<=', time())
+            ->limit($perpage)
+            ->offset(($page - 1) * $perpage)
+            ->desc('published_at')
+            ->toArray();
 
         $assign = [
-            'title' => '#'.$tag['name'],
+            'title' => '#' . $tag['name'],
             'desc' => $this->settings('blog.desc'),
             'posts' => []
         ];
@@ -276,18 +277,18 @@ class Site extends SiteModule
             // get dependences
             $row['author'] = $this->db('users')->where('id', $row['user_id'])->oneArray();
             $row['author']['name'] = !empty($row['author']['fullname']) ? $row['author']['fullname'] : $row['author']['username'];
-            
-            $row['cover_url'] = url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'];
+
+            $row['cover_url'] = url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at'];
 
             // tags
             $row['tags'] = $this->db('blog_tags')
-                                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
-                                ->where('blog_tags_relationship.blog_id', $row['id'])
-                                ->toArray();
-                                
+                ->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')
+                ->where('blog_tags_relationship.blog_id', $row['id'])
+                ->toArray();
+
             if ($row['tags']) {
                 array_walk($row['tags'], function (&$tag) {
-                    $tag['url'] = url('blog/tag/'.$tag['slug']);
+                    $tag['url'] = url('blog/tag/' . $tag['slug']);
                 });
             }
             
@@ -298,8 +299,8 @@ class Site extends SiteModule
             $row['published_at'] = str_replace($keys, $vals, strtolower($row['published_at']));
 
             // generating URLs
-            $row['url'] = url('blog/post/'.$row['slug']);
-            $row['disqus_identifier'] = md5($row['id'].$row['url']);
+            $row['url'] = url('blog/post/' . $row['slug']);
+            $row['disqus_identifier'] = md5($row['id'] . $row['url']);
 
             if (!empty($row['intro'])) {
                 $row['content'] = $row['intro'];
@@ -319,17 +320,17 @@ class Site extends SiteModule
         $count = $this->db('blog')->leftJoin('blog_tags_relationship', 'blog_tags_relationship.blog_id = blog.id')->where('status', 2)->where('lang', $_SESSION['lang'])->where('published_at', '<=', time())->where('blog_tags_relationship.tag_id', $tag['id'])->count();
 
         if ($page > 1) {
-            $prev['url'] = url('blog/tag/'.$slug.'/'.($page-1));
+            $prev['url'] = url('blog/tag/' . $slug . '/' . ($page - 1));
             $this->tpl->set('prev', $prev);
         }
-        if ($page < $count/$perpage) {
-            $next['url'] = url('blog/tag/'.$slug.'/'.($page+1));
+        if ($page < $count / $perpage) {
+            $next['url'] = url('blog/tag/' . $slug . '/' . ($page + 1));
             $this->tpl->set('next', $next);
         }
-        
+
         $this->setTemplate("blog.html");
 
-        $this->tpl->set('page', ['title' => $assign['title'] , 'desc' => $assign['desc']]);
+        $this->tpl->set('page', ['title' => $assign['title'], 'desc' => $assign['desc']]);
         $this->tpl->set('blog', $assign);
 
         $this->core->append($this->draw('disqus.html', ['isBlog' => true]), 'footer');
@@ -339,30 +340,52 @@ class Site extends SiteModule
     {
         header('Content-type: application/xml');
         $this->setTemplate(false);
+        $rss = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss></rss>');
+        $rss->addAttribute('version', '2.0');
+        $channel = $rss->addChild('channel');
+        $channel->addChild('title', $this->settings->get('settings.title'));
+        $channel->addChild('link', url());
+        $channel->addChild('description', $this->settings->get('settings.description'));
 
         $rows = $this->db('blog')
-                    ->where('status', 2)
-                    ->where('published_at', '<=', time())
-                    ->where('lang', $lang)
-                    ->limit(5)
-                    ->desc('published_at')
-                    ->toArray();
+            ->where('status', 2)
+            ->where('published_at', '<=', time())
+            ->where('lang', $lang)
+            ->limit(5)
+            ->desc('published_at')
+            ->toArray();
 
         if (!empty($rows)) {
             foreach ($rows as &$row) {
-                if (!empty($row['intro'])) {
-                    $row['content'] = $row['intro'];
+                $item = $channel->addChild('item');
+                $item->addChild('title', htmlspecialchars($row['title']));
+                $item->addChild('link', url('blog/post/' . $row['slug']));
+
+                $item->addChild('description', preg_replace(
+                    '/{(.*?)}/',
+                    '',
+                    html_entity_decode(
+                        str_limit(
+                            strip_tags(
+                                !empty($row['intro']) ? $row['intro'] : $row['content']
+                            ),
+                            250,
+                            '...'
+                        )
+                    )
+                ));
+
+                $item->addChild('pubDate', (new \DateTime(date("YmdHis", $row['published_at'])))
+                    ->format('D, d M Y H:i:s O'));
+                if ($row['cover_photo']) {
+                    $image = $item->addChild('image');
+                    $image->addChild('url', url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at']);
+                    $image->addChild('title', htmlspecialchars($row['title']));
+                    //TODO why image links to the root?
+                    $image->addChild('link', url());
                 }
-
-                $row['content'] = preg_replace('/{(.*?)}/', '', html_entity_decode(strip_tags($row['content'])));
-                $row['url'] = url('blog/post/'.$row['slug']);
-                $row['cover_url'] = url(UPLOADS.'/blog/'.$row['cover_photo']).'?'.$row['published_at'];
-                $row['published_at'] = (new \DateTime(date("YmdHis", $row['published_at'])))->format('D, d M Y H:i:s O');
-
-                $this->filterRecord($row);
             }
-
-            echo $this->draw('feed.xml', ['posts' => $rows]);
+            echo $rss->asXML();
         }
     }
 

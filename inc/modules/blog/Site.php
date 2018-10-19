@@ -342,10 +342,23 @@ class Site extends SiteModule
         $this->setTemplate(false);
         $rss = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8" ?><rss></rss>');
         $rss->addAttribute('version', '2.0');
+        $rss->addAttribute('xmlns:xmlns:atom', 'http://www.w3.org/2005/Atom');
         $channel = $rss->addChild('channel');
+
         $channel->addChild('title', $this->settings->get('settings.title'));
         $channel->addChild('link', url());
         $channel->addChild('description', $this->settings->get('settings.description'));
+
+        if (!empty($this->settings->get('settings.logo'))) {
+            $image = $channel->addChild('image');
+            $image->addChild('url', $this->settings->get('settings.rsslogo'));
+            $image->addChild('link', url());
+        }
+
+        $atom = $channel->addChild('atom:atom:link');
+        $atom->addAttribute('href', currentURL());
+        $atom->addAttribute('rel', 'self');
+        $atom->addAttribute('type', 'application/rss+xml');
 
         $rows = $this->db('blog')
             ->where('status', 2)
@@ -360,6 +373,7 @@ class Site extends SiteModule
                 $item = $channel->addChild('item');
                 $item->addChild('title', htmlspecialchars($row['title']));
                 $item->addChild('link', url('blog/post/' . $row['slug']));
+                $item->addChild('guid', url('blog/post/' . $row['slug']));
 
                 $item->addChild('description', preg_replace(
                     '/{(.*?)}/',
@@ -377,16 +391,10 @@ class Site extends SiteModule
 
                 $item->addChild('pubDate', (new \DateTime(date("YmdHis", $row['published_at'])))
                     ->format('D, d M Y H:i:s O'));
-                if ($row['cover_photo']) {
-                    $image = $item->addChild('image');
-                    $image->addChild('url', url(UPLOADS . '/blog/' . $row['cover_photo']) . '?' . $row['published_at']);
-                    $image->addChild('title', htmlspecialchars($row['title']));
-                    //TODO why image links to the root?
-                    $image->addChild('link', url());
-                }
             }
-            echo $rss->asXML();
         }
+
+        echo $rss->asXML();
     }
 
     protected function filterRecord(array &$post)

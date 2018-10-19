@@ -1,13 +1,14 @@
 <?php
+
 /**
-* This file is part of Batflat ~ the lightweight, fast and easy CMS
-*
-* @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
-* @author       Wojciech Król <krol@sruu.pl>
-* @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
-* @license      https://batflat.org/license
-* @link         https://batflat.org
-*/
+ * This file is part of Batflat ~ the lightweight, fast and easy CMS
+ *
+ * @author       Paweł Klockiewicz <klockiewicz@sruu.pl>
+ * @author       Wojciech Król <krol@sruu.pl>
+ * @copyright    2017 Paweł Klockiewicz, Wojciech Król <Sruu.pl>
+ * @license      https://batflat.org/license
+ * @link         https://batflat.org
+ */
 
 namespace Inc\Core\Lib;
 
@@ -69,7 +70,7 @@ class Settings
      *
      * @param string $module Example 'module' or shorter 'module.field'
      * @param string $field OPTIONAL
-     * @return string
+     * @return string|null
      */
     public function get($module, $field = false)
     {
@@ -80,8 +81,8 @@ class Settings
         if (empty($field)) {
             return $this->cache[$module];
         }
-        
-        return $this->cache[$module][$field];
+
+        return !empty($this->cache[$module][$field]) ? $this->cache[$module][$field] : null;
     }
 
     /**
@@ -102,7 +103,7 @@ class Settings
         if ($value === false) {
             throw new \Exception('Value cannot be empty');
         }
-        
+
         if ($this->core->db('settings')->where('module', $module)->where('field', $field)->save(['value' => $value])) {
             $this->cache[$module][$field] = $value;
             return true;

@@ -10,9 +10,8 @@
  * @link         https://batflat.org
  */
 
-if (!version_compare(PHP_VERSION, '5.5.0', '>=')) {
-    exit("Batflat requires at least <b>PHP 5.5</b>");
-}
+// Root of project
+define('BASE_DIR', dirname(dirname(__DIR__)));
 
 // Admin cat name
 define('ADMIN', 'admin');

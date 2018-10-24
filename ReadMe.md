@@ -39,6 +39,9 @@ https://batflat.org
 * [Frontiers](https://github.com/iskono/batflat-themes/tree/master/frontiers)
 * This is place for link to your theme on GitHub ;-)
 
+## Tutorials
+* [Setup Batflat on Ubuntu with Nginx](https://websiteforstudents.com/setup-batflat-on-ubuntu-18-04-16-04-18-10-with-nginx-mariadb-and-php-7-2-fpm/)
+
 ## Recruitment
 We are looking for human resources, especially translators who will help us reach other corners of the world.
 [Contact us if you want to help!](https://batflat.org/contact)

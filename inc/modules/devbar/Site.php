@@ -28,6 +28,7 @@ class Site extends SiteModule
     {
         if (DEV_MODE && strpos(get_headers_list('Content-Type'), 'text/html') !== false) {
             $this->core->addCSS(url(MODULES . '/devbar/css/style.css?ver={?= time() ?}'));
+            require_once('functions.php');
         }
     }
 

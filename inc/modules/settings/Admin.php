@@ -244,8 +244,8 @@ class Admin extends AdminModule
         }
 
         $settings = [
-            'langs' => $this->_getLanguages($_GET['lang']),
-            'langs_all' => $this->_getLanguages($_GET['lang'], 'active', true),
+            'langs' => $this->getLanguages($_GET['lang']),
+            'langs_all' => $this->getLanguages($_GET['lang'], 'active', true),
             'selected' => $_GET['lang'],
         ];
 

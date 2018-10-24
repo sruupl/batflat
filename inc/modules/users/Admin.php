@@ -249,7 +249,7 @@ class Admin extends AdminModule
 
     /**
      * check if user already exists
-     * @return array
+     * @return bool
      */
     private function userAlreadyExists($id = null)
     {

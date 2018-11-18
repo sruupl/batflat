@@ -47,7 +47,7 @@
                             </label>
                         </div>
                         <div id="phpmailer" class="well well-sm clearfix collapse" style="margin: 15px 0 0 0;">
-                            {if: !class_exists("PHPMailer")}
+                            {if: !class_exists("PHPMailer\PHPMailer\PHPMailer")}
                             <div class="alert alert-danger">{$lang.contact.phpmailer_error}</div>
                             {/if}
                             <div class="form-group">

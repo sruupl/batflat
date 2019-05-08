@@ -61,7 +61,7 @@ class Router
         }
 
         $url = rtrim(dirname($_SERVER["SCRIPT_NAME"]), '/');
-        $url = trim(str_replace($url, '', $_SERVER['PATH_INFO']), '/');
+        $url = trim(preg_replace('#'.$url.'#', '', $_SERVER['PATH_INFO'], 1), '/');
 
         if ($returnPath) {
             return $url;

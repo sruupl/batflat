@@ -34,6 +34,8 @@
         public function getSearch($phrase, $index = 1)
         {
             $phrase = urldecode($phrase);
+            $phrase = strip_tags ($phrase);
+            $phrase = htmlentities ($phrase);
             $searchTemplate = 'search.html';
             $phraseMinLength = 3;
 

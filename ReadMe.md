@@ -37,6 +37,7 @@ https://batflat.org
 * [Blue](https://github.com/michu2k/Blue): Simple and clean theme.
 * [Hello](https://github.com/michu2k/Hello): Light and clean theme based on flexbox grid.
 * [Frontiers](https://github.com/iskono/batflat-themes/tree/master/frontiers)
+* [matbatflat](https://github.com/mwasil/matbatflat)
 * This is place for link to your theme on GitHub ;-)
 
 ## Tutorials

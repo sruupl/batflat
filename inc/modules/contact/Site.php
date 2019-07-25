@@ -69,7 +69,7 @@ class Site extends SiteModule
 
         if ($settings['driver'] == 'mail') {
             $this->email['sender'] = $this->settings('settings', 'title')." <no-reply@{$_SERVER['HTTP_HOST']}>";
-        } elseif ($settings['driver'] == 'phpmailer' && class_exists('PHPMailer')) {
+        } elseif ($settings['driver'] == 'phpmailer' && class_exists('PHPMailer\PHPMailer\PHPMailer')) {
             $this->email['sender'] = [
                 $this->settings('contact', 'phpmailer.username'),
                 $this->settings('contact', 'phpmailer.name'),
@@ -135,14 +135,14 @@ class Site extends SiteModule
             $settings = $this->settings('contact');
 
             try {
-                $mail = new \PHPMailer(true);
+                $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
                 $mail->isSMTP();                                            // Set mailer to use SMTP
-                $mail->Host = $settings['phpmailer.server'];                             // Specify main and backup SMTP servers
-                $mail->SMTPAuth = true;                         // Enable SMTP authentication
-                $mail->Username = $settings['phpmailer.username'];                     // SMTP username
-                $mail->Password = $settings['phpmailer.password'];                     // SMTP password
-                $mail->SMTPSecure = 'TLS';                     // Enable TLS encryption, `ssl` also accepted
-                $mail->Port = $settings['phpmailer.port'];                             // TCP port to connect to
+                $mail->Host = $settings['phpmailer.server'];                // Specify main and backup SMTP servers
+                $mail->SMTPAuth = true;                                     // Enable SMTP authentication
+                $mail->Username = $settings['phpmailer.username'];          // SMTP username
+                $mail->Password = $settings['phpmailer.password'];          // SMTP password
+                $mail->SMTPSecure = 'TLS';                                  // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = $settings['phpmailer.port'];                  // TCP port to connect to
                 $mail->CharSet = 'UTF-8';
 
                 $mail->Subject = $this->email['subject'];
@@ -166,7 +166,7 @@ class Site extends SiteModule
                     $cookieParams = session_get_cookie_params();
                     setcookie("MailWasSend", 'BATFLAT', time()+360, $cookieParams["path"], $cookieParams["domain"], null, true);
                 }
-            } catch (\phpmailerException $e) {
+            } catch (\Exception $e) {
                 $this->_error = $e->errorMessage();
             } catch (\Exception $e) {
                 $this->_error = $e->getMessage();

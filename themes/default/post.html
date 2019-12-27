@@ -27,7 +27,7 @@
                 <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
                 {/if}
                 {$post.content}
-                <p><i class="fa fa-tags"></i> {loop: $post.tags}{if: $key != 0}, {/if}<a href="{$value.url}">{$value.name}</a>{/loop}</p>
+                <p><i class="fas fa-tags"></i> {loop: $post.tags}{if: $key != 0}, {/if}<a href="{$value.url}">{$value.name}</a>{/loop}</p>
             </div>
         </div>
         <div class="row">

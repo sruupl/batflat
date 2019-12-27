@@ -14,8 +14,9 @@ return [
     'description'   =>  $core->lang['sample']['module_desc'],
     'author'        =>  'Sruu.pl',
     'version'       =>  '1.0',
-    'compatibility'    =>    '1.3.*',                                // Compatibility with Batflat version
-    'icon'          =>  'code',                                 // Icon from http://fontawesome.io/icons/
+    'compatibility' =>  '1.3.*',                              // Compatibility with Batflat version
+    'icon'          =>  'code',                               // Icon from http://fontawesome.com/icons/
+    'icon-style'    =>  'solid',                              // FontAwesome 5.x+ icon styles. Can be 'solid', 'regular', 'light', 'duotone' or 'brand ('solid' applied if is not defined)
 
     // Registering page for possible use as a homepage
     'pages'            =>  ['Sample Page' => 'sample'],

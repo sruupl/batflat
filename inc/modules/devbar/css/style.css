@@ -4,6 +4,7 @@ body {
 #devbar {
   z-index: 1000;
   position: fixed;
+  display: block;
   bottom: 0;
   left: -2px;
   right: -2px;
@@ -45,17 +46,18 @@ body {
   color: #f8be12;
 }
 #devbar > ul > li.show-hide {
-  position: absolute;
+  display: block;
+  float: right;
   top: 0;
   right: 14px;
   bottom: 0;
-  padding: 3px 6px 0 6px;
+  padding: 3px 20px 0 6px;
   cursor: pointer;
 }
-#devbar > ul > li.show-hide i.fa:after {
+#devbar > ul > li.show-hide i.fas:after {
   content: '\f0d8';
 }
-#devbar > ul > li.show-hide[aria-expanded="true"] i.fa:after {
+#devbar > ul > li.show-hide[aria-expanded="true"] i.fas:after {
   content: '\f0d7';
 }
 #devbar > ul > li > span,

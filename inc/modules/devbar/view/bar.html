@@ -5,30 +5,30 @@
         </li>
         <li data-toggle="tooltip" title="Status code">
             <a href="#info" data-toggle="tab">
-                <i class="fa fa-eye"></i> {?= $_SERVER['REQUEST_METHOD'].' '.http_response_code() ?}
+                <i class="fas fa-eye"></i> {?= $_SERVER['REQUEST_METHOD'].' '.http_response_code() ?}
             </a>
         </li>
         <li data-toggle="tooltip" title="Execution time">
             <span>
-                <i class="fa fa-clock-o"></i> {$devbar.timer}ms
+                <i class="far fa-clock"></i> {$devbar.timer}ms
             </span>
         </li>
         <li data-toggle="tooltip" title="Memory usage">
             <span>
-                <i class="fa fa-server"></i> {$devbar.memory}MB
+                <i class="fas fa-server"></i> {$devbar.memory}MB
             </span>
         </li>
         <li data-toggle="tooltip" title="Database queries">
-            <a href="#database" data-toggle="tab"><i class="fa fa-database"></i> {?= count($devbar.database) ?}</a>
+            <a href="#database" data-toggle="tab"><i class="fas fa-database"></i> {?= count($devbar.database) ?}</a>
         </li>
         <li data-toggle="tooltip" title="Requests">
-            <a href="#requests" data-toggle="tab"><i class="fa fa-rocket"></i> {?= array_sum(array_column($devbar.requests, 'count')) ?}</a>
+            <a href="#requests" data-toggle="tab"><i class="fas fa-rocket"></i> {?= array_sum(array_column($devbar.requests, 'count')) ?}</a>
         </li>
         <li data-toggle="tooltip" title="Dump">
-            <a href="#dump" data-toggle="tab"><i class="fa fa-crosshairs"></i> {?= count($devbar.dump) ?}</a>
+            <a href="#dump" data-toggle="tab"><i class="fas fa-crosshairs"></i> {?= count($devbar.dump) ?}</a>
         </li>
         <li class="show-hide" data-toggle="collapse" data-target="#devbar-content">
-            <i class="fa"></i>
+            <i class="fas fa-caret-up"></i>
         </li>
     </ul>
     <div id="devbar-content" class="tab-content collapse">
@@ -88,8 +88,15 @@ $("#devbar a[data-toggle=tab]").click(function() {
         $("#devbar .show-hide").click();
 });
 $("#devbar .show-hide").click(function() {
-    var devbar = $(this).parent();
+    const devbar = $(this).parent();
+    const svg = $(this).children();
     $(devbar).addClass('active');
+    if (svg.hasClass('fa-caret-up')) {
+        $(svg).addClass('fa-caret-down');
+    }
+    if (svg.hasClass('fa-caret-down')) {
+        $(svg).addClass('fa-caret-up');
+    }
 });
 $("#devbar .truncate").click(function() {
     $(this).toggleClass('active');

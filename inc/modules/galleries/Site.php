@@ -39,9 +39,8 @@ class Site extends SiteModule
                 if (count($items)) {
                     foreach ($items as &$item) {
                         $item['src'] = unserialize($item['src']);
-
                         if (!isset($item['src']['sm'])) {
-                            $item['src']['sm'] = isset($item['src']['xs']) ? $item['src']['xs'] : $item['src']['lg'];
+                            $item['src']['sm'] = $item['src']['xs'];
                         }
                     }
 
@@ -53,7 +52,8 @@ class Site extends SiteModule
         }
         $this->tpl->set('gallery', $assign);
 
-        $this->core->addCSS(url('inc/jscripts/lightbox/lightbox.min.css'));
-        $this->core->addJS(url('inc/jscripts/lightbox/lightbox.min.js'));
+        $this->core->addCSS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css'));
+        $this->core->addJS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js'));
+        $this->core->addJS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js.map'));
     }
 }

@@ -101,7 +101,7 @@ $(function () {
 /* 7. TINYNAV
 --------------------------------------------------------- */
 $(function () {
-    $('.panel-heading .nav-tabs').tinyNav({
+    $('.card-header .nav-tabs').tinyNav({
         active: 'active'
     });
 });

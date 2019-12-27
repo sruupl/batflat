@@ -332,7 +332,7 @@ El fichero más importante para cada módulo. Contiene información básica e in
     ];
 ```
 
-Una lista de iconos que puede usar en este fichero esta disponible en [fontawesome.io](http://fontawesome.io/icons/). Asegúrese de que no se indica el nombre del icono con el prefijo `fa-`.
+Una lista de iconos que puede usar en este fichero esta disponible en [fontawesome.com](http://fontawesome.com/icons/). Asegúrese de que no se indica el nombre del icono con el prefijo `fa-`.
 
 Registrar un módulo como una página le permite, libremente, usar el enrutamiento y su selección como página de inicio.
 

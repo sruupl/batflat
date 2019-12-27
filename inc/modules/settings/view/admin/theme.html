@@ -1,15 +1,15 @@
 <article class="row">
     <div class="col-sm-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$theme.name}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$theme.name}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <div class="theme-preview">
                     <img src="{?= url(['themes', $theme.dir, $theme.thumb]) ?}" class="img-responsive">
                 </div>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 <table class="table">
                     <tr>
                         <th>{$lang.settings.author}</th>
@@ -29,11 +29,11 @@
         </div>
     </div>
     <div class="col-sm-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.general.edit}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.general.edit}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 {if: FILE_LOCK}
                 <div class="alert alert-danger">{$lang.settings.file_lock}<span class="label pull-right">FILE_LOCK</span></div>
                 {/if}

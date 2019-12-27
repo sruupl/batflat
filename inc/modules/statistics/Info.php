@@ -17,7 +17,7 @@ return [
     'author'        => 'Sruu.pl',
     'version'       => '1.0',
     'compatibility' => '1.3.*',
-    'icon'          => 'pie-chart',
+    'icon'          => 'chart-pie',
 
     'install'   => function () use ($core) {
         if (file_exists(BASE_DIR.'/inc/data/statistics.sdb')) {

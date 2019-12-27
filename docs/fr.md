@@ -330,7 +330,7 @@ The most important file for each module. It contains basic information and instr
     ];
 ```
 
-A list of icons that you can use in this file is available at [fontawesome.io](http://fontawesome.io/icons/). Be sure not to enter the icon name with the `fa-` prefix.
+A list of icons that you can use in this file is available at [fontawesome.com](http://fontawesome.com/icons/). Be sure not to enter the icon name with the `fa-` prefix.
 
 Registering a module as a page allows you to freely use the routing and select it as a homepage.
 

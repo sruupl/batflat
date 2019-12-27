@@ -1,16 +1,16 @@
 <article class="row">
     {loop: $themes}
     <div class="col-md-4 col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><a href="{?= url([ADMIN, 'settings', 'theme', $value.dir]) ?}">{$value.name}</a></h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><a href="{?= url([ADMIN, 'settings', 'theme', $value.dir]) ?}">{$value.name}</a></h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <a href="{?= url([ADMIN, 'settings', 'theme', $value.dir]) ?}" class="theme-preview">
                     <img src="{?= url(['themes', $value.dir, $value.thumb]) ?}" class="img-responsive">
                 </a>
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
                 {if: $settings.theme == $value.dir}
                 <a href="#" class="btn btn-primary btn-block btn-xs disabled">{$lang.settings.active}</a>
                 {else}

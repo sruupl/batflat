@@ -57,7 +57,7 @@ class Site extends Main
     {
         $assign = [];
         $assign['notify']   = $this->getNotify();
-        $assign['powered']  = 'Powered by <a href="https://batflat.org/">Batflat</a>';
+        $assign['powered']  = $this->lang['general']['powered_by'] . ' <a href="https://batflat.org/">Batflat</a>';
         $assign['path']     = url();
         $assign['theme']    = url(THEMES.'/'.$this->settings->get('settings.theme'));
         $assign['lang']     = $this->lang['name'];

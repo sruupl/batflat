@@ -1,8 +1,8 @@
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">{$lang.settings.updates}</div>
-            <div class="panel-body">
+        <div class="card">
+            <div class="card-header">{$lang.settings.updates}</div>
+            <div class="card-body">
                 {if: $allow_curl==0}
                 <div class="well well-sm clearfix" style="margin: 15px 0 15px 0;">
                     <span class="text-danger">{$lang.settings.update_curl_error} (curl does not exist)</span>

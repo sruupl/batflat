@@ -3,16 +3,16 @@
 {/if}
 <article class="row">
     <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.settings.translation}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.settings.translation}</h3>
                 <ul class="nav nav-tabs">
                     {loop: $settings.langs}
                     <li class="{$value.attr}"><a href="{?=url(ADMIN.'/settings/translation?lang='.$value['name'].'&source='.$_GET['source'])?}">{$value.name}</a></li>
                     {/loop}
                 </ul>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form name="selectModule" action="{?=url(ADMIN.'/settings/translation')?}" method="GET">
         			<select name="source" class="form-control" onchange="document.selectModule.submit();" data-use-search="true">
         				{loop: $translations}
@@ -52,11 +52,11 @@
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.settings.new_lang}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.settings.new_lang}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form method="post" action="{?= url([ADMIN, 'settings', 'translation']) ?}">
                     <div class="form-group">
                         <label>{$lang.general.name}</label>
@@ -67,11 +67,11 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.settings.lang_import}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.settings.lang_import}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form method="post" action="{?= url([ADMIN, 'settings', 'translation']) ?}" enctype="multipart/form-data">
                     <div class="well well-sm clearfix">
                         {$lang.settings.lang_upload}
@@ -86,30 +86,30 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.settings.lang_list}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.settings.lang_list}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <table class="table table-striped">
                     {loop: $settings.langs_all}
                     <tr>
                         <td>{$value.name}</td>
                         <td class="text-right">
                             <a href="{?= url([ADMIN, 'settings', 'deleteLanguage', $value.name]) ?}" class="btn btn-danger btn-xs {if: $value.attr || $value.active}disabled{/if}" data-confirm="{$lang.settings.lang_delete_confirm}" data-toggle="tooltip" data-placement="top" title="{$lang.general.delete}">
-                                <i class="fa fa-trash"></i>
+                                <i class="fas fa-trash"></i>
                             </a>
                             {if: $value.active}
                             <a href="{?= url([ADMIN, 'settings', 'deactivateLanguage', $value.name]) ?}" class="btn btn-warning btn-xs {if: $value.attr}disabled{/if}" data-toggle="tooltip" data-placement="top" title="{$lang.modules.deactivate}">
-                                <i class="fa fa-minus"></i>
+                                <i class="fas fa-minus"></i>
                             </a>
                             {else}
                             <a href="{?= url([ADMIN, 'settings', 'activateLanguage', $value.name]) ?}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="{$lang.modules.activate}">
-                                <i class="fa fa-plus"></i>
+                                <i class="fas fa-plus"></i>
                             </a>
                             {/if}
                             <a href="{?= url([ADMIN, 'settings', 'translation?export='.$value['name']]) ?}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="{$lang.settings.lang_export}">
-                                <i class="fa fa-download"></i>
+                                <i class="fas fa-download"></i>
                             </a>
                         </td>
                     </tr>

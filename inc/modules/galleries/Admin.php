@@ -130,7 +130,7 @@ class Admin extends AdminModule
                 $row['src'] = unserialize($row['src']);
 
                 if (!isset($row['src']['sm'])) {
-                    $row['src']['sm'] = isset($row['src']['xs']) ? $row['src']['xs'] : $row['src']['lg'];
+                    $row['src']['sm'] = $row['src']['xs'];
                 }
 
                 $assign['images'][] = $row;
@@ -139,8 +139,9 @@ class Admin extends AdminModule
 
         $assign['id'] = $id;
 
-        $this->core->addCSS(url('inc/jscripts/lightbox/lightbox.min.css'));
-        $this->core->addJS(url('inc/jscripts/lightbox/lightbox.min.js'));
+        $this->core->addCSS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css'));
+        $this->core->addJS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js'));
+        $this->core->addJS(url('https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js.map'));
         $this->core->addJS(url('inc/jscripts/are-you-sure.min.js'));
         
         return $this->draw('edit.html', ['gallery' => $assign]);

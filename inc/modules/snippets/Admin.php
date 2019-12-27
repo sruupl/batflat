@@ -166,8 +166,8 @@ class Admin extends AdminModule
     private function _add2header()
     {
         // WYSIWYG
-        $this->core->addCSS(url('inc/jscripts/wysiwyg/summernote.min.css'));
-        $this->core->addJS(url('inc/jscripts/wysiwyg/summernote.min.js'));
+        $this->core->addCSS(url('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css'));
+        $this->core->addJS(url('https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js'));
         if ($this->settings('settings', 'lang_admin') != 'en_english') {
             $this->core->addJS(url('inc/jscripts/wysiwyg/lang/'.$this->settings('settings', 'lang_admin').'.js'));
         }

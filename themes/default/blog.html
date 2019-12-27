@@ -36,7 +36,7 @@
                 <p class="post-meta">
                     {?= sprintf($lang.blog.posted, $value.author.name, $value.published_at) ?}
                     | <a href="{$value.url}#disqus_thread" data-disqus-identifier="{$value.disqus_identifier}">{$lang.blog.no_comments}</a>
-                    | <i class="fa fa-tags"></i> {loop: $value.tags as $tag}{if: $key != 0}, {/if}<a href="{$tag.url}">{$tag.name}</a>{/loop}
+                    | <i class="fas fa-tags"></i> {loop: $value.tags as $tag}{if: $key != 0}, {/if}<a href="{$tag.url}">{$tag.name}</a>{/loop}
                 </p>
             </div>
             <hr> {/loop}

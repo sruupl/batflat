@@ -1,11 +1,11 @@
-<article class="row">
-	<form name="page" action="{?=url(ADMIN.'/pages/save/'.@$pages.form.id)?}" method="POST">
+<article>
+	<form name="page" class="row" action="{?=url(ADMIN.'/pages/save/'.@$pages.form.id)?}" method="POST">
 		<div class="col-md-8">
-		    <div class="panel panel-default">
-                <div class="panel-heading">
-		            <h3 class="panel-title">{$pages.title}</h3>
+		    <div class="card">
+                <div class="card-header">
+		            <h3 class="card-title">{$pages.title}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="form-group">
                         <label>{$lang.general.title}</label>
                         <input type="text" name="title" class="form-control" value="{$pages.form.title}" required />
@@ -25,11 +25,11 @@
 	    </div>
         
 	    <div class="col-md-4">
-		    <div class="panel panel-default">
-                <div class="panel-heading">
-		    	    <h3 class="panel-title">SEO</h3>
+		    <div class="card">
+                <div class="card-header">
+		    	    <h3 class="card-title">SEO</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
 		            <div class="form-group">
 		                <label>{$lang.pages.slug}</label>
 		                <input type="text" name="slug" class="form-control" placeholder="{$lang.general.can_be_empty}" value="{$pages.form.slug}"/>
@@ -41,11 +41,11 @@
                 </div>
 		    </div>
 
-			<div class="panel panel-default">
-                <div class="panel-heading">
-		    	    <h3 class="panel-title">{$lang.general.settings}</h3>
+			<div class="card">
+                <div class="card-header">
+		    	    <h3 class="card-title">{$lang.general.settings}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
 		            <div class="form-group">
 		                <label>{$lang.general.lang}</label>
 		                <select name="lang" class="form-control">

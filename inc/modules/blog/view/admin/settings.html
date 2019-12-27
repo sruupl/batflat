@@ -1,11 +1,11 @@
 <article class="row">
     <form action="{?=url(ADMIN.'/blog/saveSettings')?}" method="POST">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.general}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{$lang.settings.general}</h3>
                 </div>
-            	<div class="panel-body">
+            	<div class="card-body">
                     <div class="form-group">
                         <label>{$lang.blog.blog_title}</label>
                         <input type="text" name="blog[title]" class="form-control" value="{$settings.title}" required />

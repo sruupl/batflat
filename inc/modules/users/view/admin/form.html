@@ -1,10 +1,10 @@
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$users.title}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$users.title}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
     		<form name="user" action="{?=url(ADMIN.'/users/save/'.@$users.form.id)?}" method="POST" enctype="multipart/form-data">
     			<fieldset>
     	            <div class="form-group">
@@ -19,7 +19,7 @@
     	                <label>{$lang.users.photo}</label>
 						<div>
 							<img src="{$users.avatarURL}" width="96" height="96" class="img-thumbnail" id="photoPreview" style="cursor:pointer;" onclick="$('input[name=photo]').click()" />
-							<input type="file" name="photo" class="form-control hidden" />
+							<input type="file" name="photo" class="form-control d-none" />
 						</div>
     	            </div>
 					<div class="form-group">
@@ -38,7 +38,7 @@
     	                <label>{$lang.users.access}</label>
     	                <select name="access[]" multiple class="form-control" data-keep-open="true" data-use-dimmer="false" data-options-height="126px" {if: isset_or($users.form.id, 0) == 1}disabled{/if} required>
     	                	{loop: $users.modules}
-    	                	<option value="{$value.dir}" data-left="<i class='fa fa-{$value.icon}'></i>" {$value.attr}>{$value.name}</option>
+    	                	<option value="{$value.dir}" data-left="<i class='{$value.icon-style} fa-{$value.icon}'></i>" {$value.attr}>{$value.name}</option>
     	                	{/loop}
     	                </select>
     	            </div>

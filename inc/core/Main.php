@@ -248,7 +248,7 @@ abstract class Main
         }
         $checkBuffer = preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
         $isHTML = strpos(get_headers_list('Content-Type'), 'text/html') !== false;
-        $hasBacklink = strpos($checkBuffer, 'Powered by <a href="https://batflat.org/">Batflat</a>') !== false;
+        $hasBacklink = strpos($checkBuffer, $core->lang['general']['powered_by'] . ' <a href="https://batflat.org/">Batflat</a>') !== false;
         $hasHeader = get_headers_list('X-Created-By') === 'Batflat <batflat.org>';
         $license = License::verify($core->settings->get('settings.license'));
         if (($license == License::FREE) && $isHTML && (!$hasBacklink || !$hasHeader)) {

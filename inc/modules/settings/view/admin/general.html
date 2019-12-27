@@ -1,11 +1,11 @@
-<article class="row">
-    <form action="{?=url(ADMIN.'/settings/saveGeneral')?}" method="POST">
+<article>
+    <form class="row" action="{?=url(ADMIN.'/settings/saveGeneral')?}" method="POST">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.general}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{$lang.settings.general}</h3>
                 </div>
-            	<div class="panel-body">
+            	<div class="card-body">
                     <div class="form-group">
                         <label>{$lang.settings.title}</label>
                         <input type="text" name="title" class="form-control" value="{$settings.title}" required />
@@ -36,11 +36,11 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.other}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{$lang.settings.other}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                      <div class="form-group">
                         <label>{$lang.settings.site_lang}</label>
                         <select name="lang_site" class="form-control">
@@ -83,21 +83,21 @@
 
 
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.license}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{$lang.settings.license}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div class="text-center">
                         {if: $settings.license.type == \Inc\Core\Lib\License::ERROR}
-                        <span class="fa-stack text-danger fa-5x">
-                            <i class="fa fa-circle-o fa-stack-2x"></i>
-                            <i class="fa fa-times fa-stack-1x"></i>
+                        <span class="text-danger fa-stack fa-2x">
+                            <i class="far fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-times fa-stack-1x"></i>
                         </span>
                         {else}
-                        <span class="fa-stack text-success fa-5x">
-                            <i class="fa fa-circle-o fa-stack-2x"></i>
-                            <i class="fa fa-check fa-stack-1x"></i>
+                        <span class="text-success fa-stack fa-2x">
+                            <i class="far fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-check fa-stack-1x"></i>
                         </span>
                         {/if}
                         <p>
@@ -114,11 +114,11 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.system_info}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{$lang.settings.system_info}</h3>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     <dl class="dl-horizontal no-margin">
                         <dt>{$lang.settings.version}</dt>
                         <dd>{$settings.version} <a href="{$updateurl}" class="small">({$lang.settings.check_updates})</a></dd>

@@ -1,11 +1,11 @@
 <article class="row">
     <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.galleries.edit}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.galleries.edit}</h3>
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 {if: !empty($gallery.images)}
                 <form action="{?=url([ADMIN, 'galleries', 'saveImages', $gallery['id'], $gallery['page']])?}" method="POST">
                     <div class="table-responsive">
@@ -19,7 +19,7 @@
                                 {loop: $gallery.images}
                                 <tr>
                                     <td class="text-center">
-                                        <a href="{?=url($value.src.lg)?}" class="gallery">
+                                        <a href="{?=url($value.src.lg)?}" data-toggle="lightbox">
                                             <img src="{?=url($value.src.sm)?}" class="img-responsive" alt="" />
                                         </a>
                                     </td>
@@ -33,7 +33,7 @@
                                     </td>
                                     <td>
                                         <a href="{?=url(ADMIN.'/galleries/deleteImage/'.$value.id)?}" class="btn btn-xs btn-danger" data-confirm="{$lang.galleries.delete_confirm}">
-                                            <i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+                                            <i class="fas fa-trash-alt"></i> <span class="d-none d-sm-block">{$lang.general.delete}</span>
                                         </a>
                                     </td>
                                 </tr>
@@ -46,7 +46,7 @@
                 {$gallery.pagination}
                 {else}
                 <div class="text-center text-muted">
-                    <i class="fa fa-file-image-o" style="font-size:256px;"></i>
+                    <i class="far fa-file-image" style="font-size:256px;"></i>
                     <h3>{$lang.general.empty_array}</h3>
                 </div>
                 {/if}
@@ -55,11 +55,11 @@
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.galleries.settings}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.galleries.settings}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
         		<form action="{?=url(ADMIN.'/galleries/saveSettings/'.$gallery.id)?}" method="POST">
                      <div class="form-group">
                          <label>{$lang.general.name}</label>
@@ -87,11 +87,11 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.galleries.add_images}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.galleries.add_images}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form action="{?=url(ADMIN.'/galleries/upload/'.@$gallery.id)?}" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="file" name="files[]" accept="image/*" multiple class="form-control" />
@@ -104,6 +104,9 @@
 </article>
 
 <script>
-$('.gallery').lightbox();
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
 $('form').areYouSure( {'message':'{$lang.general.unsaved_warning}'} );
 </script>

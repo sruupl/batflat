@@ -4,10 +4,10 @@
 
             {loop: $modules}
             <div class="module">
-                <div class="panel panel-default">
-                    <a href="{$value.url}" class="panel-body text-center">
-                        <div class="panel-thumb">
-                            <i class="fa fa-{$value.icon}"></i>
+                <div class="card">
+                    <a href="{$value.url}" class="card-body text-center">
+                        <div class="card-thumb">
+                            <i class="{$value.icon-style} fa-{$value.icon}"></i>
                         </div>
                         <h4>{$value.name}</h4>
                     </a>
@@ -19,11 +19,11 @@
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-default hidden-xs">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.dashboard.news}</h3>
+        <div class="card d-none d-sm-block">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.dashboard.news}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <div class="news">
                     {loop: $news}
                     <div class="news-item">

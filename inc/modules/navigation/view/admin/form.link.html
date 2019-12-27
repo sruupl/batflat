@@ -1,10 +1,10 @@
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$navigation.title}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$navigation.title}</h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form name="link" action="{?=url(ADMIN.'/navigation/saveLink/'.@$navigation.link.id)?}" method="POST">
     	            <div class="form-group">
     	                <label>{$lang.general.lang}</label>

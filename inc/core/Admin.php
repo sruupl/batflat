@@ -58,14 +58,12 @@ class Admin extends Main
     public function drawTheme($file)
     {
         $username = $this->getUserInfo('fullname', null, true);
-        $access = $this->getUserInfo('access');
 
-        $this->assign['username']      = !empty($username) ? $username : $this->getUserInfo('username');
-        $this->assign['notify']        = $this->getNotify();
-        $this->assign['path']          = url();
-        $this->assign['version']       = $this->settings->get('settings.version');
-        $this->assign['has_update']    = $this->module ? $this->module->settings->_checkUpdate() : false;
-        $this->assign['update_access'] = ($access == 'all') || in_array('settings', explode(',', $access)) ? true : false;
+        $this->assign['username']   = !empty($username) ? $username : $this->getUserInfo('username');
+        $this->assign['notify']     = $this->getNotify();
+        $this->assign['path']       = url();
+        $this->assign['version']    = $this->settings->get('settings.version');
+        $this->assign['has_update'] = $this->module ? $this->module->settings->_checkUpdate() : false;
 
         $this->assign['header'] = isset_or($this->appends['header'], ['']);
         $this->assign['footer'] = isset_or($this->appends['footer'], ['']);
@@ -189,6 +187,7 @@ class Admin extends Main
                     'dir'       => $dir,
                     'name'      => $details['name'],
                     'icon'      => $details['icon'],
+                    'icon-style'=> $details['icon-style'],
                     'url'       => $moduleURL,
                     'active'    => $activeElement,
                     'subnav'    => $subnavURLs,
@@ -201,7 +200,7 @@ class Admin extends Main
     /**
     * get module informations
     * @param string $dir
-    * @return array
+    * @return array|bool
     */
     public function getModuleInfo($dir)
     {
@@ -209,7 +208,31 @@ class Admin extends Main
         $core = $this;
         
         if (file_exists($file)) {
-            return include($file);
+            $details = include($file);
+
+            // FontAwesome 5.x+ icon styles
+            if (!isset($details['icon-style'])){
+                $details['icon-style'] = 'solid';
+            }
+            switch ($details['icon-style']) {
+                case 'regular':
+                    $details['icon-style'] = 'far';
+                    break;
+                case 'light':
+                    $details['icon-style'] = 'fal';
+                    break;
+                case 'duotone':
+                    $details['icon-style'] = 'fad';
+                    break;
+                case 'brand':
+                    $details['icon-style'] = 'fab';
+                    break;
+                case 'solid':
+                default:
+                    $details['icon-style'] = 'fas';
+            }
+
+            return $details;
         } else {
             return false;
         }
@@ -269,12 +292,12 @@ class Admin extends Main
         // Is IP blocked?
         if ((time() - $attempt['expires']) < 0) {
             $this->setNotify('failure', sprintf($this->lang['general']['login_attempts'], ceil(($attempt['expires']-time())/60)));
-            return false;
+           return false;
         }
 
         $row = $this->db('users')->where('username', $username)->oneArray();
 
-        if (count($row) && password_verify(trim($password), $row['password'])) {
+        if (!empty($row) && password_verify(trim($password), $row['password'])) {
             // Reset fail attempts for this IP
             $this->db('login_attempts')->where('ip', $_SERVER['REMOTE_ADDR'])->save(['attempts' => 0]);
 

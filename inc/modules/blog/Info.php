@@ -15,7 +15,7 @@ return [
     'author'        =>  'Sruu.pl',
     'version'       =>  '1.3',
     'compatibility'    =>    '1.3.*',
-    'icon'          =>  'pencil-square',
+    'icon'          =>  'pen-square',
 
     'pages'            =>  ['Blog' => 'blog'],
 

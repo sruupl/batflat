@@ -1,15 +1,15 @@
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$snippets.title}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$snippets.title}</h3>
                 <ul class="nav nav-tabs">
 					{loop: $snippets.languages}
                     <li class="{$value.attr}"><a href="#snippet_{$value.name}" role="tab" data-toggle="tab">{$value.name}</a></li>
                     {/loop}
 				</ul>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
         		<form name="snippets" action="{?=url(ADMIN.'/snippets/save/'.isset_or($snippets.id, null))?}" method="POST">
     	            <div class="form-group">
     	                <label>{$lang.general.name}</label>

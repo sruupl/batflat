@@ -329,7 +329,7 @@ Najważniejszy plik każdego modułu. To w nim zawarte są podstawowe informacje
     ];
 ```
 
-Lista ikon, które możesz użyć w tym pliku, znajduje się na stronie [fontawesome.io](http://fontawesome.io/icons/). Pamiętaj, by nie wprowadzać nazwy ikony z przedrostkiem `fa-`.
+Lista ikon, które możesz użyć w tym pliku, znajduje się na stronie [fontawesome.com](http://fontawesome.com/icons/). Pamiętaj, by nie wprowadzać nazwy ikony z przedrostkiem `fa-`.
 
 Rejestracja modułu jako strony pozwala na swobodniejsze stosowanie routingu oraz wybranie go jako stronę startową.
 

@@ -47,16 +47,16 @@
                     <div class="pull-left">
                         {$lang.blog.share}: 
                         <a href="http://twitter.com/home?status={?= urlencode($value.url) ?}">
-                            <i class="fa fa-twitter" data-toggle="tooltip" title="" data-original-title="Twitter"></i>
+                            <i class="fab fa-twitter" data-toggle="tooltip" title="" data-original-title="Twitter"></i>
                         </a>
                         <a href="https://www.facebook.com/sharer.php?u={?= urlencode($value.url) ?}">
-                            <i class="fa fa-facebook" data-toggle="tooltip" title="" data-original-title="Facebook"></i>
+                            <i class="fab fa-facebook" data-toggle="tooltip" title="" data-original-title="Facebook"></i>
                         </a>
                         <a href="http://plus.google.com/share?url={?= urlencode($value.url) ?}">
-                            <i class="fa fa-google-plus" data-toggle="tooltip" title="" data-original-title="Google-plus"></i>
+                            <i class="fab fa-google-plus" data-toggle="tooltip" title="" data-original-title="Google-plus"></i>
                         </a>
                     </div>
-                    <a href="{$value.url}" class="pull-right">{$lang.blog.readmore} <i class="fa fa-angle-right"></i></a>
+                    <a href="{$value.url}" class="pull-right">{$lang.blog.readmore} <i class="fas fa-angle-right"></i></a>
                 </div>
             </article>
             {/loop}

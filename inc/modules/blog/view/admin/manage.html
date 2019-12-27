@@ -1,8 +1,8 @@
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{$lang.general.manage}</h3>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{$lang.general.manage}</h3>
                 <ul class="nav nav-tabs">
 					{loop: $blog.langs}
 					<li class="{$value.attr}"><a href="{?=url(ADMIN.'/blog/manage?lang='.$value.name)?}">{$value.name}</a></li>
@@ -10,11 +10,11 @@
 				</ul>
             </div>
 
-            <div class="panel-body">
+            <div class="card-body">
                 <form method="post">
                     <div class="clearfix">
                         <h3 class="pull-left" style="margin-top:5px;">{$lang.blog.post_count} {$blog.postCount}</h3>
-                        <button type="submit" title="{$lang.general.delete}" name="delete" class="btn btn-danger pull-right" data-confirm="{$lang.blog.post_del_confirm}" disabled><i class="fa fa-trash"></i> {$lang.general.delete} (<span>0</span>)</button>
+                        <button type="submit" title="{$lang.general.delete}" name="delete" class="btn btn-danger pull-right" data-confirm="{$lang.blog.post_del_confirm}" disabled><i class="fas fa-trash"></i> {$lang.general.delete} (<span>0</span>)</button>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped no-margin">
@@ -37,11 +37,11 @@
                                     <td><a href="{$value.editURL}">{$value.title}</a></td>
                                     <td>
                                         {if: $value.status >= 2}
-                                        <i class="fa fa-circle text-success" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
+                                        <i class="fas fa-circle text-success" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
                                         {elseif: $value.status == 1}
-                                        <i class="fa fa-circle text-warning" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
+                                        <i class="fas fa-circle text-warning" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
                                         {else}
-                                        <i class="fa fa-circle text-danger" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
+                                        <i class="fas fa-circle text-danger" data-toggle="tooltip" data-placement="right" title="{$value.type}"></i>
                                         {/if}
                                     </td>
                                     <td>{$value.user}</td>
@@ -49,7 +49,7 @@
                                     <td>{$value.published_at}</td>
                                     <td class="text-right">
                                         <a href="{$value.viewURL}" target="_blank" class="btn btn-primary btn-xs">
-                                            <i class="fa fa-search"></i> <span class="hidden-xs">{$lang.pages.view}</span>
+                                            <i class="fas fa-search"></i> <span class="d-none d-sm-block">{$lang.pages.view}</span>
                                         </a>
                                     </td>
                                 </tr>

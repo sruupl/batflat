@@ -4,7 +4,7 @@
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
                 {* image sizes: lg - oryginal size, md - 600px, sm - 300px, xs - 150px *}
-                <a href="{?=url($value.src.lg)?}" class="gallery-{$gallery.slug}">
+                <a href="{?=url($value.src.lg)?}" data-toggle="lightbox" data-gallery="{$gallery.slug}">
                     <img src="{?=url($value.src.sm)?}" alt="{if: $value.title}{$value.title}{/if}" class="img-responsive">
                 </a>
                 {if: $value.title || $value.desc}
@@ -21,6 +21,10 @@
 
 <script>
 $(document).ready(function(){
-	$('.gallery-{$gallery.slug}').lightbox();
+	//$('.gallery-{$gallery.slug}').lightbox();
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
 });
 </script>

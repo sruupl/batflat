@@ -1,11 +1,11 @@
 <article class="row">
     <div class="col-sm-4">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.unique_today}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.unique_today}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.unique ?}</h1>
               </div>
         </div>
@@ -13,11 +13,11 @@
     </div>
     <div class="col-sm-4">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.today_visits}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.today_visits}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.visits.today ?}</h1>
               </div>
         </div>
@@ -25,11 +25,11 @@
     </div>
     <div class="col-sm-4">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.online}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.online}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.online ?}</h1>
               </div>
         </div>
@@ -39,8 +39,8 @@
 
 <article class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-              <div class="panel-body">
+        <div class="card">
+              <div class="card-body">
                     <canvas id="visits"
                     style="width:100%; height:300px;"
                     data-chart="line"
@@ -66,11 +66,11 @@
 <article class="row">
     <div class="col-sm-3">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.yesterday}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.yesterday}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.visits.yesterday ?}</h1>
               </div>
         </div>
@@ -79,11 +79,11 @@
 
     <div class="col-sm-3">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.7days}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.7days}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.visits.7days ?}</h1>
               </div>
         </div>
@@ -92,11 +92,11 @@
 
     <div class="col-sm-3">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.30days}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.30days}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.visits.30days ?}</h1>
               </div>
         </div>
@@ -105,11 +105,11 @@
 
     <div class="col-sm-3">
         
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.total}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.total}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <h1 class="text-center">{?= $visitors.visits.all ?}</h1>
               </div>
         </div>
@@ -119,11 +119,11 @@
 
 <article class="row">
     <div class="col-sm-4">
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.os}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.os}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <canvas id="popularOS"
                     data-chart="pie"
                     data-labels='[{?= implode(',', $visitors.platform.labels) ?}]'
@@ -136,11 +136,11 @@
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.browsers}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.browsers}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <canvas id="popularBrowsers"
                     data-chart="pie"
                     data-labels='[{?= implode(',', $visitors.browsers.labels) ?}]'
@@ -153,11 +153,11 @@
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="panel panel-default">
-              <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.statistics.countries}</h3>
+        <div class="card">
+              <div class="card-header">
+                    <h3 class="card-title">{$lang.statistics.countries}</h3>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                     <canvas id="countries"
                     data-chart="pie"
                     data-labels='[{?= implode(',', $visitors.countries.labels) ?}]'
@@ -172,12 +172,12 @@
 </article>
 <article class="row">
     <div class="col-sm-6">
-        <div class="panel panel-default">
-              <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">{$lang.statistics.referrals}</h3>
+        <div class="card">
+              <div class="card-header clearfix">
+                    <h3 class="card-title pull-left">{$lang.statistics.referrals}</h3>
                     <a href="{?= url([ADMIN, 'statistics', 'referrers']) ?}" class="pull-right">{$lang.statistics.show}</a>
               </div>
-              <div class="panel-body panel-body-nopadding">
+              <div class="card-body card-body-nopadding">
                     <table class="table table-striped">
                         <tr>
                             <th>{$lang.statistics.url}</th>
@@ -200,12 +200,12 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="panel panel-default">
-              <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">{$lang.statistics.pages}</h3>
+        <div class="card">
+              <div class="card-header clearfix">
+                    <h3 class="card-title pull-left">{$lang.statistics.pages}</h3>
                     <a href="{?= url([ADMIN, 'statistics', 'pages']) ?}" class="pull-right">{$lang.statistics.show}</a>
               </div>
-              <div class="panel-body panel-body-nopadding">
+              <div class="card-body card-body-nopadding">
                     <table class="table table-striped">
                         <tr>
                             <th>{$lang.statistics.url}</th>

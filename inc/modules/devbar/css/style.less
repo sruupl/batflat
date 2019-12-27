@@ -4,6 +4,7 @@ body {
 #devbar {
     z-index: 1000;
     position: fixed;
+    display: block;
     bottom: 0;
     left: -2px;
     right: -2px;
@@ -43,17 +44,17 @@ body {
                 }
             }
             &.show-hide {
-                position: absolute;
+                display: block;
                 top: 0;
                 right: 14px;
                 bottom: 0;
                 padding: 3px 6px 0 6px;
                 cursor: pointer;
 
-                i.fa:after {
+                i.fas:after {
                     content: '\f0d8';
                 }
-                &[aria-expanded="true"] i.fa:after {
+                &[aria-expanded="true"] i.fas:after {
                     content: '\f0d7';
                 }
             }

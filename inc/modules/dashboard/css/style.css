@@ -5,11 +5,11 @@
     padding-right: 15px;
     margin-right: -4px;
 }
-    .module .panel-body {
+    .module .card-body {
         display: block;
         padding: 0;
     }
-        .module .panel-body .panel-thumb {
+        .module .card-body .card-thumb {
             color: #222222;
             font-size: 48px;
             background: #F8BE12;
@@ -17,7 +17,7 @@
             position: relative;
             overflow: hidden;
         }
-            .module .panel-body .panel-thumb .fa {
+            .module .card-body .card-thumb .fa {
                 font-size: 48px;
                 position: absolute;
                 left: 50%;
@@ -26,19 +26,19 @@
                 -webkit-transform: translate(-50%, -50%) scale(1, 1);
                 transition: transform 0.2s; 
             }
-            .module .panel-body .panel-thumb:hover .fa {
+            .module .card-body .card-thumb:hover .fa {
                 transform: translate(-50%, -50%) scale(1.5, 1.5);
                 -webkit-transform: translate(-50%, -50%) scale(1.5, 1.5);
             }
-        .module .panel-body h4 {
+        .module .card-body h4 {
             color: #656565;
         }
         
-    .module:nth-child(-3n+5) .panel-thumb,
-    .module:nth-child(3n+4):nth-child(-3n+13) .panel-thumb,
-    .module:nth-child(3n+12):nth-child(-3n+18) .panel-thumb,
-    .module:nth-child(n+20):nth-child(-n+21) .panel-thumb,
-    .module:nth-child(2n+21) .panel-thumb {
+    .module:nth-child(-3n+5) .card-thumb,
+    .module:nth-child(3n+4):nth-child(-3n+13) .card-thumb,
+    .module:nth-child(3n+12):nth-child(-3n+18) .card-thumb,
+    .module:nth-child(n+20):nth-child(-n+21) .card-thumb,
+    .module:nth-child(2n+21) .card-thumb {
         background: #222222;
         color: #F8BE12; 
     }

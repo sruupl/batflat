@@ -9,6 +9,8 @@
         height: 'Hauteur',
         name: 'Nom',
         strikethrough: 'Barré',
+        superscript: 'Exposant',
+        subscript:  'Indice',
         size: 'Taille'
       },
       image: {
@@ -24,20 +26,21 @@
         shapeCircle: 'Forme cirulaire',
         shapeThumbnail: 'Forme Miniature',
         shapeNone: 'Aucune forme',
-        dragImageHere: 'Déplacez l\'image ici',
-        dropImage: 'Déposez l\'image ici',
+        dragImageHere: 'Déplacez l’image ici',
+        dropImage: 'Déposez l’image ici',
         selectFromFiles: 'Sélectionner le fichier',
         maximumFileSize: 'Limite de taille de fichier',
         maximumFileSizeError: 'Le fichier est trop lourd.',
         url: 'URL',
-        remove: 'Supprimer'
+        remove: 'Supprimer',
+        original: 'Original'
       },
       video: {
         video: 'Vidéo',
         videoLink: 'Lien de la vidéo',
         insert: 'Insérer',
         url: 'Adresse de la vidéo',
-        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion)'
+        providers: '(YouTube, Vimeo, Vine, Instagram, DailyMotion ou Youku)'
       },
       link: {
         link: 'Lien',
@@ -49,7 +52,14 @@
         openInNewWindow: 'Ouvrir dans une nouvelle fenêtre'
       },
       table: {
-        table: 'Tableau'
+        table: 'Tableau',
+        addRowAbove: 'Ajouter une ligne au-dessus',
+        addRowBelow: 'Ajouter une ligne en-dessous',
+        addColLeft: 'Ajouter une colonne à gauche',
+        addColRight: 'Ajouter une colonne à droite',
+        delRow: 'Supprimer une ligne',
+        delCol: 'Supprimer une colonne',
+        delTable: 'Supprimer un tableau'
       },
       hr: {
         insert: 'Insérer une ligne horizontale'
@@ -87,7 +97,7 @@
       color: {
         recent: 'Dernière couleur utilisée',
         more: 'Autres couleurs',
-        background: 'Couleur d\'arrière-plan',
+        background: 'Couleur d’arrière-plan',
         foreground: 'Couleur',
         transparent: 'Transparent',
         setTransparent: 'Transparent',
@@ -122,13 +132,13 @@
         'insertOrderedList': 'Toggle ordered list',
         'outdent': 'Outdent on current paragraph',
         'indent': 'Indent on current paragraph',
-        'formatPara': 'Change current block\'s format as a paragraph(P tag)',
-        'formatH1': 'Change current block\'s format as H1',
-        'formatH2': 'Change current block\'s format as H2',
-        'formatH3': 'Change current block\'s format as H3',
-        'formatH4': 'Change current block\'s format as H4',
-        'formatH5': 'Change current block\'s format as H5',
-        'formatH6': 'Change current block\'s format as H6',
+        'formatPara': 'Change current block’s format as a paragraph(P tag)',
+        'formatH1': 'Change current block’s format as H1',
+        'formatH2': 'Change current block’s format as H2',
+        'formatH3': 'Change current block’s format as H3',
+        'formatH4': 'Change current block’s format as H4',
+        'formatH5': 'Change current block’s format as H5',
+        'formatH6': 'Change current block’s format as H6',
         'insertHorizontalRule': 'Insert horizontal rule',
         'linkDialog.show': 'Show Link Dialog'
       },

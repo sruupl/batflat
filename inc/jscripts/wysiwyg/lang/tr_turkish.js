@@ -1,7 +1,6 @@
-nes (155 sloc)  5.21 KB
 (function($) {
   $.extend($.summernote.lang, {
-    'tr-TR': {
+    'tr_turkish': {
       font: {
         bold: 'Kalın',
         italic: 'İtalik',

@@ -7,7 +7,7 @@ Batflat does not require MySQL database, because all the data are collected in a
 
 What's more, Batflat does not have installation wizard, because there is no such need. Right after uploading a package to an FTP server, Batflat is ready for action! Therefore, the installation process takes as much time as it takes to transfer files ;-)
 
-Each page can have it's own individual name and URL, that makes Batflat SEO friendly. Your site may be available in multiple languages. Currently Batflat supports translation to Polish, English, French, Turkish, Swedish, Italian and Russian.
+Each page can have it's own individual name and URL, that makes Batflat SEO friendly. Your site may be available in multiple languages. Currently Batflat supports translation to Polish, English, French, Turkish, Swedish, Russian, Italian, Spanish, Dutch and Indonesian.
 
 Control panel and the default template is fully responsive, which makes it accessible from any mobile device, even on the phone thanks to used CSS framework - Bootstrap. Each of our module is adapted to it.
 

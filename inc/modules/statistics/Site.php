@@ -34,8 +34,10 @@ class Site extends SiteModule
         // Get latest country or fetch new
         $country = 'Unknown';
         $latest = $this->db('statistics')->where('ip', $ip)->desc('created_at')->limit(1)->oneArray();
+
         if (!$latest) {
-            $details = json_decode(HttpRequest::get('http://freegeoip.net/json/'.$ip), true);
+            $details = json_decode(HttpRequest::get('https://freegeoip.app/json/'.$ip), true);
+
             if (!empty($details['country_code'])) {
                 $country = $details['country_code'];
             }

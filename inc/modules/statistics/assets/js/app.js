@@ -42,6 +42,12 @@ $(document).ready(function() {
 
         if (type == 'bar') {
             options = Object.assign(options, {scales: {
+                xAxes: [{
+                    ticks: {
+                        display: false,
+                        maxTicksLimit: 20,
+                    },
+                }],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true

@@ -76,7 +76,7 @@ class Chart
 
     public function getPages($url = null, $referrer = null)
     {
-        return $this->getPopularBy('url', $url, $referrer);
+        return $this->getPopularBy('url', $url, $referrer, 'desc');
     }
 
     public function getReferrers($url = null, $referrer = null)
@@ -84,7 +84,7 @@ class Chart
         return $this->getPopularBy('referrer', $url, $referrer);
     }
 
-    protected function getPopularBy($group, $url = null, $referrer = null)
+    protected function getPopularBy($group, $url = null, $referrer = null, $order = 'asc')
     {
         $data = $this->db('statistics')
             ->select([
@@ -98,16 +98,25 @@ class Chart
         if (!empty($url)) {
             $data->where('url', $url);
         }
+
         if (!empty($referrer)) {
             $data->where('referrer', $referrer);
         }
 
         $data = $data->toArray();
 
+
+        if ($order == 'desc') {
+            $data = array_reverse($data);
+        }
+
+        $labels = array_map(function (&$value) {
+            $value = preg_replace('/[^a-zA-Z0-9\/]/', '', $value);
+            return '"'.$value.'"';
+        }, array_column($data, $group));
+
         return [
-            'labels' => array_map(function (&$value) {
-                return '"'.$value.'"';
-            }, array_column($data, $group)),
+            'labels' => $labels,
             'data'   => array_column($data, 'count'),
         ];
     }

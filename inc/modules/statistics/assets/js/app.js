@@ -43,9 +43,11 @@ $(document).ready(function() {
         if (type == 'bar') {
             options = Object.assign(options, {scales: {
                 xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
                     ticks: {
-                        display: false,
-                        maxTicksLimit: 20,
+                        display: false
                     },
                 }],
                 yAxes: [{

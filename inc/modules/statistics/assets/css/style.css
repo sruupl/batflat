@@ -6,6 +6,9 @@
 .panel-body-nopadding {
     padding:0;
 }
+.panel-body-nopadding table tr td a {
+    word-break: break-all;
+}
 .panel-body-nopadding table tr th {
     border-top:0;
 }

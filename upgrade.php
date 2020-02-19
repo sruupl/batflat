@@ -81,7 +81,7 @@ switch ($version) {
 
     case '1.0.4':
         $return = '1.0.4a';
-        
+
     case '1.0.4a':
         $this->core->db()->pdo()->exec("ALTER TABLE modules ADD COLUMN sequence INTEGER DEFAULT 0");
         $this->rcopy(BASE_DIR.'/tmp/update/admin', BASE_DIR.'/admin');
@@ -97,7 +97,7 @@ switch ($version) {
             $this->rcopy(BASE_DIR.'/tmp/update/themes/admin', BASE_DIR.'/themes/admin');
         }
         $return = '1.1.0';
-    
+
     case '1.1.0':
         $this->core->db()->pdo()->exec('CREATE TABLE "blog_tags" (
                         `id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -118,7 +118,7 @@ switch ($version) {
                     ('contact', 'phpmailer.username', 'login@example.com'),
                     ('contact', 'phpmailer.name', 'Batflat contact'),
                     ('contact', 'phpmailer.password', 'yourpassword')");
-        
+
         $this->rcopy(BASE_DIR.'/tmp/update/inc/core', BASE_DIR.'/inc/core');
         $this->rcopy(BASE_DIR.'/tmp/update/themes/admin', BASE_DIR.'/themes/admin');
         $this->rcopy(BASE_DIR.'/tmp/update/admin', BASE_DIR.'/admin');
@@ -177,7 +177,7 @@ switch ($version) {
             $this->core->db('snippets')->where('id', $snippet['id'])->save(['content' => '{lang: '.$lang.'}'.$snippet['content'].'{/lang}']);
         }
         $return = '1.3.0';
-    
+
     case '1.3.0':
         $this->core->db()->pdo()->exec("ALTER TABLE navs_items ADD COLUMN class TEXT NULL");
         $return = '1.3.1';
@@ -203,12 +203,15 @@ switch ($version) {
         $this->rcopy(BASE_DIR.'/tmp/update/admin', BASE_DIR.'/admin');
         $this->rcopy(BASE_DIR.'/tmp/update/themes/admin', BASE_DIR.'/themes/admin');
         $return = '1.3.4';
-    
+
     case '1.3.4':
         $this->rcopy(BASE_DIR.'/tmp/update/themes/admin/css', BASE_DIR.'/themes/admin/css');
         $this->core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('contact', 'checkbox.switch', '0')");
         $this->core->db()->pdo()->exec("INSERT INTO `settings` (`module`, `field`, `value`) VALUES ('contact', 'checkbox.content', 'I agree to the processing of personal data...')");
         $return = '1.3.5';
+
+    case '1.3.5':
+        $return = '1.3.6';
 }
 
 return $return;

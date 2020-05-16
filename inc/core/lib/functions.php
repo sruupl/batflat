@@ -222,6 +222,7 @@ function url($data = null)
     if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off')
         || isset_or($_SERVER['SERVER_PORT'], null) == 443
         || isset_or($_SERVER['HTTP_X_FORWARDED_PORT'], null) == 443
+        || isset_or($_SERVER['HTTP_X_FORWARDED_PROTO'], null) == 'https'
     ) {
         $protocol = 'https://';
     } else {

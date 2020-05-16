@@ -26,6 +26,7 @@ https://batflat.org
 * Spanish
 * Dutch
 * Indonesian
+* Portuguese
 
 ## Modules
 * [SyntaxHighlighter](https://github.com/piotr-placzek/BatFlat-SyntaxHighlighter): Simple module based at Prism.js.
@@ -58,3 +59,4 @@ We are looking for human resources, especially translators who will help us reac
 * **[Javier Igal](mailto:javier@igal.es)** - Spanish translation of website and CMS
 * **[RJ Adriaansen](https://github.com/rjadr)** - Dutch translation of CMS
 * **[Komputronika](https://github.com/komputronika)** - Indonesian translation of CMS
+* **[Renato Frota](https://github.com/renatofrota)** - Portuguese translation of CMS

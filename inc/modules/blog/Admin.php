@@ -25,7 +25,7 @@ class Admin extends AdminModule
             $this->lang('settings')                => 'settings'
         ];
     }
-    
+
     /**
     * list of posts
     */
@@ -59,12 +59,12 @@ class Admin extends AdminModule
         } else {
             $lang = $this->settings('settings.lang_site');
         }
-        
+
         // pagination
         $totalRecords = count($this->db('blog')->where('lang', $lang)->toArray());
         $pagination = new \Inc\Core\Lib\Pagination($page, $totalRecords, 10, url([ADMIN, 'blog', 'manage', '%d']));
         $this->assign['pagination'] = $pagination->nav();
-        
+
         // list
         $this->assign['newURL'] = url([ADMIN, 'blog', 'add']);
         $this->assign['postCount'] = 0;
@@ -73,7 +73,7 @@ class Admin extends AdminModule
                 ->limit($pagination->offset().', '.$pagination->getRecordsPerPage())
                 ->desc('published_at')->desc('created_at')
                 ->toArray();
-            
+
         $this->assign['posts'] = [];
         if ($totalRecords) {
             $this->assign['postCount'] = $totalRecords;
@@ -86,7 +86,7 @@ class Admin extends AdminModule
                 $fullname = $this->core->getUserInfo('fullname', $row['user_id'], true);
                 $username = $this->core->getUserInfo('username', $row['user_id'], true);
                 $row['user'] = !empty($fullname) ? $fullname.' ('.$username.')' : $username;
-                
+
                 $row['comments'] = $row['comments'] ? $this->lang('comments_on') : $this->lang('comments_off');
 
                 switch ($row['status']) {
@@ -116,7 +116,7 @@ class Admin extends AdminModule
 
         return $this->draw('manage.html', ['blog' => $this->assign]);
     }
-    
+
     /**
     * add new post
     */
@@ -124,8 +124,8 @@ class Admin extends AdminModule
     {
         return $this->getEdit(null);
     }
-    
-    
+
+
     /**
     * edit post
     */
@@ -155,7 +155,7 @@ class Admin extends AdminModule
         } else {
             $blog = $this->db('blog')->where('id', $id)->oneArray();
         }
-        
+
         if (!empty($blog)) {
             $this->assign['langs'] = $this->_getLanguages($blog['lang'], 'selected');
             $this->assign['form'] = htmlspecialchars_array($blog);
@@ -163,7 +163,7 @@ class Admin extends AdminModule
             $this->assign['form']['date'] = date("Y-m-d\TH:i", $blog['published_at']);
 
             $tags_array = $this->db('blog_tags')->leftJoin('blog_tags_relationship', 'blog_tags.id = blog_tags_relationship.tag_id')->where('blog_tags_relationship.blog_id', $blog['id'])->select(['blog_tags.name'])->toArray();
-            
+
             $this->assign['form']['tags'] = $tags_array;
             $this->assign['users'] = $this->db('users')->toArray();
             $this->assign['author'] = $this->core->getUserInfo('id', $blog['user_id'], true);
@@ -175,7 +175,7 @@ class Admin extends AdminModule
             redirect(url([ADMIN, 'blog', 'manage']));
         }
     }
-    
+
     /**
      * Save post
      *
@@ -191,7 +191,7 @@ class Admin extends AdminModule
         } else {
             $tags = [];
         }
-            
+
         unset($_POST['tags']);
 
         // redirect location
@@ -213,6 +213,7 @@ class Admin extends AdminModule
             $_POST['slug'] = createSlug($_POST['title']);
         } else {
             $_POST['slug'] = createSlug($_POST['slug']);
+            $_POST['slug'] = $_POST['slug'] ? $_POST['slug'] : createSlug($_POST['title']);
         }
 
         // check slug and append with iterator
@@ -250,7 +251,7 @@ class Admin extends AdminModule
                 $_POST['cover_photo'] = $_POST['slug'].".".$img->getInfos('type');
             }
         }
-        
+
         if (!$id) { // new
             $_POST['created_at'] = strtotime(date('Y-m-d H:i:s'));
 
@@ -268,7 +269,7 @@ class Admin extends AdminModule
             $blogId = $id ? $id : $this->db()->pdo()->lastInsertId();
         }
 
-        
+
         // Attach or create new tag
         foreach ($tags as $tag) {
             if (preg_match("/[`~!@#$%^&*()_|+\-=?;:\'\",.<>\{\}\[\]\\\/]+/", $tag)) {
@@ -300,7 +301,7 @@ class Admin extends AdminModule
 
         redirect($location);
     }
-    
+
     /**
      * Remove post
      *
@@ -395,7 +396,7 @@ class Admin extends AdminModule
 
         if (isset($_FILES['file']['tmp_name'])) {
             $img = new \Inc\Core\Lib\Image;
-            
+
             if ($img->load($_FILES['file']['tmp_name'])) {
                 $imgPath = $dir.'/'.time().'.'.$img->getInfos('type');
                 $img->save($imgPath);
@@ -448,7 +449,7 @@ class Admin extends AdminModule
         if ($this->settings('settings.lang_admin') != 'en_english') {
             $this->core->addJS(url('inc/jscripts/wysiwyg/lang/'.$this->settings('settings.lang_admin').'.js'));
         }
-        
+
         // HTML & MARKDOWN EDITOR
         $this->core->addCSS(url('/inc/jscripts/editor/markitup.min.css'));
         $this->core->addCSS(url('/inc/jscripts/editor/markitup.highlight.min.css'));
@@ -459,7 +460,7 @@ class Admin extends AdminModule
         $this->core->addJS(url('/inc/jscripts/editor/markitup.highlight.min.js'));
         $this->core->addJS(url('/inc/jscripts/editor/sets/html/set.min.js'));
         $this->core->addJS(url('/inc/jscripts/editor/sets/markdown/set.min.js'));
-        
+
         // ARE YOU SURE?
         $this->core->addJS(url('inc/jscripts/are-you-sure.min.js'));
 

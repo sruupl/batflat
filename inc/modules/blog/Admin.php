@@ -213,7 +213,6 @@ class Admin extends AdminModule
             $_POST['slug'] = createSlug($_POST['title']);
         } else {
             $_POST['slug'] = createSlug($_POST['slug']);
-            $_POST['slug'] = $_POST['slug'] ? $_POST['slug'] : createSlug($_POST['title']);
         }
 
         // check slug and append with iterator

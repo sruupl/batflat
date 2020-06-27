@@ -24,7 +24,7 @@ class Admin extends AdminModule
             $this->lang('add_new')                => 'add'
         ];
     }
-    
+
     /**
     * list of pages
     */
@@ -48,7 +48,7 @@ class Admin extends AdminModule
         $rows = $this->db('pages')->where('lang', $lang)
                 ->limit($pagination->offset().', '.$pagination->getRecordsPerPage())
                 ->toArray();
-                
+
         $this->assign['list'] = [];
         if (count($rows)) {
             foreach ($rows as $row) {
@@ -61,11 +61,11 @@ class Admin extends AdminModule
                 $this->assign['list'][] = $row;
             }
         }
-        
+
         $this->assign['langs'] = $this->_getLanguages($lang);
         return $this->draw('manage.html', ['pages' => $this->assign]);
     }
-    
+
     /**
     * add new page
     */
@@ -73,14 +73,14 @@ class Admin extends AdminModule
     {
         $this->assign['editor'] = $this->settings('settings', 'editor');
         $this->_addHeaderFiles();
-        
+
         // Unsaved data with failure
         if (!empty($e = getRedirectData())) {
             $this->assign['form'] = ['title' => isset_or($e['title'], ''), 'desc' => isset_or($e['desc'], ''), 'content' => isset_or($e['content'], ''), 'slug' => isset_or($e['slug'], '')];
         } else {
             $this->assign['form'] = ['title' => '', 'desc' => '', 'content' => '', 'slug' => '', 'markdown' => 0];
         }
-        
+
         $this->assign['title'] = $this->lang('new_page');
         $this->assign['langs'] = $this->_getLanguages($this->settings('settings.lang_site'), 'selected');
         $this->assign['templates'] = $this->_getTemplates(isset_or($e['template'], 'index.html'));
@@ -88,8 +88,8 @@ class Admin extends AdminModule
 
         return $this->draw('form.html', ['pages' => $this->assign]);
     }
-    
-    
+
+
     /**
     * edit page
     */
@@ -99,13 +99,13 @@ class Admin extends AdminModule
         $this->_addHeaderFiles();
 
         $page = $this->db('pages')->where('id', $id)->oneArray();
-        
+
         if (!empty($page)) {
             // Unsaved data with failure
             if (!empty($e = getRedirectData())) {
                 $page = array_merge($page, ['title' => isset_or($e['title'], ''), 'desc' => isset_or($e['desc'], ''), 'content' => isset_or($e['content'], ''), 'slug' => isset_or($e['slug'], '')]);
             }
-                
+
             $this->assign['form'] = htmlspecialchars_array($page);
             $this->assign['form']['content'] =  $this->tpl->noParse($this->assign['form']['content']);
 
@@ -119,7 +119,7 @@ class Admin extends AdminModule
             redirect(url([ADMIN, 'pages', 'manage']));
         }
     }
-    
+
     /**
     * save data
     */
@@ -142,7 +142,7 @@ class Admin extends AdminModule
         if (!isset($_POST['markdown'])) {
             $_POST['markdown'] = 0;
         }
-        
+
         if (empty($_POST['slug'])) {
             $_POST['slug'] = createSlug($_POST['title']);
         } else {
@@ -173,7 +173,7 @@ class Admin extends AdminModule
 
         redirect($location);
     }
-    
+
     /**
     * remove page
     */
@@ -204,7 +204,7 @@ class Admin extends AdminModule
 
         if (isset($_FILES['file']['tmp_name'])) {
             $img = new \Inc\Core\Lib\Image;
-            
+
             if ($img->load($_FILES['file']['tmp_name'])) {
                 $imgPath = $dir.'/'.time().'.'.$img->getInfos('type');
                 $img->save($imgPath);
@@ -229,7 +229,7 @@ class Admin extends AdminModule
         echo $this->draw(MODULES.'/pages/js/admin/pages.js');
         exit();
     }
-    
+
     /**
     * list of theme's templates
     * @param string $selected
@@ -239,7 +239,7 @@ class Admin extends AdminModule
     {
         $theme = $this->settings('settings', 'theme');
         $tpls = glob(THEMES.'/'.$theme.'/*.html');
-        
+
         $result = [];
         foreach ($tpls as $tpl) {
             if ($selected == basename($tpl)) {
@@ -260,7 +260,7 @@ class Admin extends AdminModule
         if ($this->settings('settings', 'lang_admin') != 'en_english') {
             $this->core->addJS(url('inc/jscripts/wysiwyg/lang/'.$this->settings('settings', 'lang_admin').'.js'));
         }
-        
+
         // HTML & MARKDOWN EDITOR
         $this->core->addCSS(url('/inc/jscripts/editor/markitup.min.css'));
         $this->core->addCSS(url('/inc/jscripts/editor/markitup.highlight.min.css'));
@@ -271,7 +271,7 @@ class Admin extends AdminModule
         $this->core->addJS(url('/inc/jscripts/editor/markitup.highlight.min.js'));
         $this->core->addJS(url('/inc/jscripts/editor/sets/html/set.min.js'));
         $this->core->addJS(url('/inc/jscripts/editor/sets/markdown/set.min.js'));
-        
+
         // ARE YOU SURE?
         $this->core->addJS(url('inc/jscripts/are-you-sure.min.js'));
 

@@ -112,7 +112,7 @@ class Admin extends AdminModule
 
             // list of parents
             $this->assign['navs'] = $this->_getParents($lang, $row['nav'], $row['parent'], $row['id']);
-            
+
             $this->assign['title'] = $this->lang('edit_link');
             return $this->draw('form.link.html', ['navigation' => $this->assign]);
         } else {
@@ -126,7 +126,7 @@ class Admin extends AdminModule
     public function postSaveLink($id = null)
     {
         unset($_POST['save']);
-        
+
         // check if it's an external link
         if ($_POST['page']) {
             $fields = ['name', 'page', 'lang', 'parent'];
@@ -219,7 +219,7 @@ class Admin extends AdminModule
             redirect(url([ADMIN, 'navigation', 'manage']));
         }
 
-        return $this->draw('form.nav.html', ['navigation', $this->assign]);
+        return $this->draw('form.nav.html', ['navigation' => $this->assign]);
     }
 
     /**

@@ -28,7 +28,7 @@ abstract class Main
      * @var array
      */
     public $lang = [];
-    
+
     /**
      * Templates instance
      *
@@ -95,13 +95,13 @@ abstract class Main
 
         $this->settings = new Settings($this);
         date_default_timezone_set($this->settings->get('settings.timezone'));
-        
+
         $this->tpl = new Templates($this);
         $this->router = new Router;
 
         $this->append(base64_decode('PG1ldGEgbmFtZT0iZ2VuZXJhdG9yIiBjb250ZW50PSJCYXRmbGF0IiAvPg=='), 'header');
     }
-    
+
     /**
      * New instance of QueryBuilder
      *
@@ -309,7 +309,7 @@ abstract class Main
             }
             setcookie('batflat_remember', null, -1, '/');
         }
-        
+
         return false;
     }
 
@@ -329,7 +329,7 @@ abstract class Main
             self::$userCache = $this->db('users')->where('id', $id)->oneArray();
         }
 
-        return self::$userCache[$field];
+        return self::$userCache ? self::$userCache[$field] : null;
     }
 
     /**
@@ -374,7 +374,7 @@ abstract class Main
             $core->db('modules')->save(['dir' => $name, 'sequence' => $order]);
         }
 
-        
+
         redirect(url());
     }
 }

@@ -60,8 +60,9 @@ function createSlug($text)
     $text = str_replace('.', '-', trim($text));
     $text = iconv('utf-8', 'ascii//translit', $text);
     $text = preg_replace('#[^a-z0-9\-]#si', '', $text);
+    $text = str_replace('\'', '', $text);
 
-    return strtolower(str_replace('\'', '', $text));
+    return strtolower($text ? $text : '-');
 }
 
 /**

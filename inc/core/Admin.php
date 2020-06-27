@@ -82,7 +82,7 @@ class Admin extends Main
     private function loadLanguage($language)
     {
         $this->lang['name'] = $language;
-        
+
         foreach (glob(MODULES.'/*/lang/admin/'.$language.'.ini') as $file) {
             $base = str_replace($language, 'en_english', $file);
             $module = str_replace([MODULES.'/', '/lang/admin/'.$language.'.ini'], null, $file);
@@ -142,7 +142,7 @@ class Admin extends Main
     {
         $nav = [];
         $modules = $this->module->getArray();
-        
+
         if ($this->getUserInfo('access') != 'all') {
             $modules = array_intersect_key($modules, array_fill_keys(explode(',', $this->getUserInfo('access')), null));
         }
@@ -207,7 +207,7 @@ class Admin extends Main
     {
         $file = MODULES.'/'.$dir.'/Info.php';
         $core = $this;
-        
+
         if (file_exists($file)) {
             return include($file);
         } else {
@@ -241,7 +241,7 @@ class Admin extends Main
         if (method_exists($this->module->{$name}, $method)) {
             return call_user_func_array([$this->module->{$name}, $method], array_values($params));
         }
-        
+
         $this->setNotify('failure', $this->lang['general']['unknown_method']);
         return false;
     }
@@ -274,7 +274,7 @@ class Admin extends Main
 
         $row = $this->db('users')->where('username', $username)->oneArray();
 
-        if (count($row) && password_verify(trim($password), $row['password'])) {
+        if ($row && count($row) && password_verify(trim($password), $row['password'])) {
             // Reset fail attempts for this IP
             $this->db('login_attempts')->where('ip', $_SERVER['REMOTE_ADDR'])->save(['attempts' => 0]);
 

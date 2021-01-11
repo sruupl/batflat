@@ -1,30 +1,60 @@
 1. Preamble
 
-This License applies to the computer program which with this licence is distributed (now the "Program"). The Program is intellectual property of Paweł Klockiewicz and Wojciech Król (the "Authors") and is placed under the protection of copyright laws, including Polish legislation and international treaties such as the Berne Convention.
+This License applies to the computer program which with this licence is distributed (now
+the "Program"). The Program is intellectual property of Paweł Klockiewicz and Wojciech
+Król (the "Authors") and is placed under the protection of copyright laws, including
+Polish legislation and international treaties such as the Berne Convention.
 
-BY USING OR DISTRIBUTING THE PROGRAM (OR ANY WORK BASED ON THE PROGRAM), YOU INDICATE YOUR ACCEPTANCE OF THIS LICENSE TO DO SO, AND ALL ITS TERMS AND CONDITIONS FOR USING AND DISTRIBUTING THE PROGRAM OR WORKS BASED ON IT. NOTHING OTHER THAN THIS LICENSE GRANTS YOU PERMISSION TO DISTRIBUTE THE PROGRAM OR ITS DERIVATIVE WORKS. THESE ACTIONS ARE PROHIBITED BY LAW. IF YOU DO NOT ACCEPT THESE TERMS AND CONDITIONS, DO NOT DISTRIBUTE THE PROGRAM.
+BY USING OR DISTRIBUTING THE PROGRAM (OR ANY WORK BASED ON THE PROGRAM), YOU INDICATE
+YOUR ACCEPTANCE OF THIS LICENSE TO DO SO, AND ALL ITS TERMS AND CONDITIONS FOR USING AND
+DISTRIBUTING THE PROGRAM OR WORKS BASED ON IT. NOTHING OTHER THAN THIS LICENSE GRANTS YOU
+PERMISSION TO DISTRIBUTE THE PROGRAM OR ITS DERIVATIVE WORKS. THESE ACTIONS ARE
+PROHIBITED BY LAW. IF YOU DO NOT ACCEPT THESE TERMS AND CONDITIONS, DO NOT DISTRIBUTE THE
+PROGRAM.
 
 2. Licenses
 
-Licensor hereby grants you the following rights, provided that you comply with all of the restrictions set forth in this License and provided, further, that you distribute an unmodified copy of this License with the Program:
+Licensor hereby grants you the following rights, provided that you comply with all of the
+restrictions set forth in this License and provided, further, that you distribute an
+unmodified copy of this License with the Program:
 
-    (a) Permission is granted to use the Program for personal, commercial, non-commercial or non-profit purposes.
-    (b) You may create works based on the Program and distribute a copie of the Program on the web domain for which you have purchased this Commercial License and have a license code to this effect issued by the Authors.
+    (a) Permission is granted to use the Program for personal, commercial, non-commercial or
+    non-profit purposes.
+    (b) You may create works based on the Program and distribute a copie of the Program on
+    the web domain for which you have purchased this Commercial License and have a license
+    code to this effect issued by the Authors.
     (c) The Program and a backlink to the official website may be modified.
-    
+
 3. Restrictions
 
 This license is subject to the following restrictions:
 
-    (a) The Program may not be sold without prior permission from the Authors. Distribution of the Program by a commercial organization to any third party without permission is prohibited if any payment is made in connection with such distribution directly (as in payment for a copy of the Program).
-    (b) Copyright notices and the names of the Authors in the source code of the Program must remain unmodified.
-    (c) You may alter, modify or extend the Software for your own use, or commission a third-party to perform modifications for you, but may not resell, redistribute or transfer the modified version.
-    (d) Portions of the Software may not be extracted and used in other software applications.
-
+    (a) The Program may not be sold without prior permission from the Authors. Distribution
+    of the Program by a commercial organization to any third party without permission is
+    prohibited if any payment is made in connection with such distribution directly (as in
+    payment for a copy of the Program).
+    (b) Copyright notices and the names of the Authors in the source code of the Program must
+    remain unmodified.
+    (c) You may alter, modify or extend the Software for your own use, or commission a
+    third-party to perform modifications for you, but may not resell, redistribute or
+    transfer the modified version.
+    (d) Portions of the Software may not be extracted and used in other software
+    applications.
+    
 4. Reservation of Rights
 
-No rights are granted to the Program except as expressly set forth herein. You may not copy, modify, sublicense, or distribute the Program except as expressly provided under this License. Any other attempt to copy, modify, sublicense or distribute the Program is void, and will automatically terminate your rights under this License. However, parties who have received copies, or rights, from you under this License will not have their licenses terminated so long as such parties remain in full compliance.
+No rights are granted to the Program except as expressly set forth herein. You may not
+copy, modify, sublicense, or distribute the Program except as expressly provided under
+this License. Any other attempt to copy, modify, sublicense or distribute the Program is
+void, and will automatically terminate your rights under this License. However, parties
+who have received copies, or rights, from you under this License will not have their
+licenses terminated so long as such parties remain in full compliance.
 
 5. Limitations
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.

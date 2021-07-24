@@ -35,7 +35,6 @@ https://batflat.org
 * This is place for link to your module on GitHub ;-)
 
 ## Themes
-* [Blue](https://github.com/michu2k/Blue): Simple and clean theme.
 * [Hello](https://github.com/michu2k/Hello): Light and clean theme based on flexbox grid.
 * [Frontiers](https://github.com/iskono/batflat-themes/tree/master/frontiers)
 * [matbatflat](https://github.com/mwasil/matbatflat): Theme based on Materialize CSS with gulp/SASS support

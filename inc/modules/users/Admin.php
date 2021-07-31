@@ -20,8 +20,8 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add_new')                => 'add'
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add_new') => 'add'
         ];
     }
 
@@ -31,10 +31,12 @@ class Admin extends AdminModule
     public function getManage()
     {
         $rows = $this->db('users')->toArray();
+
         foreach ($rows as &$row) {
             if (empty($row['fullname'])) {
                 $row['fullname'] = '----';
             }
+
             $row['editURL'] = url([ADMIN, 'users', 'edit', $row['id']]);
             $row['delURL']  = url([ADMIN, 'users', 'delete', $row['id']]);
         }
@@ -50,9 +52,13 @@ class Admin extends AdminModule
         if (!empty($redirectData = getRedirectData())) {
             $this->assign['form'] = filter_var_array($redirectData, FILTER_SANITIZE_STRING);
         } else {
-            $this->assign['form'] = ['username' => '', 'email' => '', 'fullname' => '', 'description' => ''];
+            $this->assign['form'] = [
+                'username' => '',
+                'email' => '',
+                'fullname' => '',
+                'description' => ''
+            ];
         }
-
 
         $this->assign['title'] = $this->lang('new_user');
         $this->assign['modules'] = $this->_getModules('all');
@@ -87,22 +93,20 @@ class Admin extends AdminModule
     {
         $errors = 0;
 
+        $formData = htmlspecialchars_array($_POST);
+
         // location to redirect
-        if (!$id) {
-            $location = url([ADMIN, 'users', 'add']);
-        } else {
-            $location = url([ADMIN, 'users', 'edit', $id]);
-        }
+        $location = $id ? url([ADMIN, 'users', 'edit', $id]) : url([ADMIN, 'users', 'add']);
 
         // admin
         if ($id == 1) {
-            $_POST['access'] = ['all'];
+            $formData['access'] = ['all'];
         }
 
         // check if required fields are empty
-        if (checkEmptyFields(['username', 'email', 'access'], $_POST)) {
+        if (checkEmptyFields(['username', 'email', 'access'], $formData)) {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
-            redirect($location, $_POST);
+            redirect($location, $formData);
         }
 
         // check if user already exists
@@ -110,33 +114,37 @@ class Admin extends AdminModule
             $errors++;
             $this->notify('failure', $this->lang('user_already_exists'));
         }
-        // chech if e-mail adress is correct
-        $_POST['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+
+        // check if e-mail adress is correct
+        $formData['email'] = filter_var($formData['email'], FILTER_SANITIZE_EMAIL);
+        if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
             $errors++;
             $this->notify('failure', $this->lang('wrong_email'));
         }
+
         // check if password is longer than 5 characters
-        if (isset($_POST['password']) && strlen($_POST['password']) < 5) {
+        if (isset($formData['password']) && strlen($formData['password']) < 5) {
             $errors++;
             $this->notify('failure', $this->lang('too_short_pswd'));
         }
+
         // access to modules
-        if ((count($_POST['access']) == count($this->_getModules())) || ($id == 1)) {
-            $_POST['access'] = 'all';
+        if ((count($formData['access']) == count($this->_getModules())) || ($id == 1)) {
+            $formData['access'] = 'all';
         } else {
-            $_POST['access'][] = 'dashboard';
-            $_POST['access'] = implode(',', $_POST['access']);
+            $formData['access'][] = 'dashboard';
+            $formData['access'] = implode(',', $formData['access']);
         }
 
         // CREATE / EDIT
         if (!$errors) {
-            unset($_POST['save']);
+            unset($formData['save']);
 
-            if (!empty($_POST['password'])) {
-                $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            if (!empty($formData['password'])) {
+                $formData['password'] = password_hash($formData['password'], PASSWORD_BCRYPT);
             }
 
+            // user avatar
             if (($photo = isset_or($_FILES['photo']['tmp_name'], false)) || !$id) {
                 $img = new \Inc\Core\Lib\Image;
 
@@ -158,14 +166,14 @@ class Admin extends AdminModule
                         $user = $this->db('users')->oneArray($id);
                     }
 
-                    $_POST['avatar'] = uniqid('avatar').".".$img->getInfos('type');
+                    $formData['avatar'] = uniqid('avatar').".".$img->getInfos('type');
                 }
             }
 
-            if (!$id) {    // new
-                $query = $this->db('users')->save($_POST);
-            } else {        // edit
-                $query = $this->db('users')->where('id', $id)->save($_POST);
+            if (!$id) { // new
+                $query = $this->db('users')->save($formData);
+            } else { // edit
+                $query = $this->db('users')->where('id', $id)->save($formData);
             }
 
             if ($query) {
@@ -174,18 +182,18 @@ class Admin extends AdminModule
                         unlink(UPLOADS."/users/".$user['avatar']);
                     }
 
-                    $img->save(UPLOADS."/users/".$_POST['avatar']);
+                    $img->save(UPLOADS."/users/".$formData['avatar']);
                 }
 
                 $this->notify('success', $this->lang('save_success'));
             } else {
                 $this->notify('failure', $this->lang('save_failure'));
             }
-                
+
             redirect($location);
         }
 
-        redirect($location, $_POST);
+        redirect($location, $formData);
     }
 
     /**
@@ -198,7 +206,7 @@ class Admin extends AdminModule
                 if (!empty($user['avatar'])) {
                     unlink(UPLOADS."/users/".$user['avatar']);
                 }
-                    
+
                 $this->notify('success', $this->lang('delete_success'));
             } else {
                 $this->notify('failure', $this->lang('delete_failure'));
@@ -215,12 +223,7 @@ class Admin extends AdminModule
     {
         $result = [];
         $rows = $this->db('modules')->toArray();
-
-        if (!$access) {
-            $accessArray = [];
-        } else {
-            $accessArray = explode(',', $access);
-        }
+        $accessArray = $access ? explode(',', $access) : [];
 
         foreach ($rows as $row) {
             if ($row['dir'] != 'dashboard') {
@@ -252,10 +255,7 @@ class Admin extends AdminModule
         } else {        // edit
             $count = $this->db('users')->where('username', $_POST['username'])->where('id', '<>', $id)->count();
         }
-        if ($count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return $count > 0;
     }
 }

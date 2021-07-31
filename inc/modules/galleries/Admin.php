@@ -53,15 +53,16 @@ class Admin extends AdminModule
     public function anyAdd()
     {
         $location = [ADMIN, 'galleries', 'manage'];
-        
+
         if (!empty($_POST['name'])) {
-            $name = trim($_POST['name']);
+            $name = htmlspecialchars(trim($_POST['name']), ENT_NOQUOTES, 'UTF-8');
+
             if (!$this->db('galleries')->where('slug', createSlug($name))->count()) {
                 $query = $this->db('galleries')->save(['name' => $name, 'slug' => createSlug($name)]);
 
                 if ($query) {
-                    $id     = $this->db()->lastInsertId();
-                    $dir    = $this->_uploads.'/'.$id;
+                    $id = $this->db()->lastInsertId();
+                    $dir = $this->_uploads.'/'.$id;
 
                     if (mkdir($dir, 0755, true)) {
                         $this->notify('success', $this->lang('add_gallery_success'));
@@ -76,7 +77,7 @@ class Admin extends AdminModule
         } else {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
         }
-            
+
         redirect(url($location));
     }
 
@@ -142,7 +143,7 @@ class Admin extends AdminModule
         $this->core->addCSS(url('inc/jscripts/lightbox/lightbox.min.css'));
         $this->core->addJS(url('inc/jscripts/lightbox/lightbox.min.js'));
         $this->core->addJS(url('inc/jscripts/are-you-sure.min.js'));
-        
+
         return $this->draw('edit.html', ['gallery' => $assign]);
     }
 
@@ -151,13 +152,15 @@ class Admin extends AdminModule
     */
     public function postSaveSettings($id)
     {
-        if (checkEmptyFields(['name', 'sort'], $_POST)) {
+        $formData = htmlspecialchars_array($_POST);
+
+        if (checkEmptyFields(['name', 'sort'], $formData)) {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
             redirect(url([ADMIN, 'galleries', 'edit', $id]));
         }
 
-        $_POST['slug'] = createSlug($_POST['name']);
-        if ($this->db('galleries')->where($id)->save($_POST)) {
+        $formData['slug'] = createSlug($formData['name']);
+        if ($this->db('galleries')->where($id)->save($formData)) {
             $this->notify('success', $this->lang('save_settings_success'));
         }
 
@@ -185,8 +188,8 @@ class Admin extends AdminModule
     */
     public function postUpload($id)
     {
-        $dir    = $this->_uploads.'/'.$id;
-        $cntr   = 0;
+        $dir = $this->_uploads.'/'.$id;
+        $cntr = 0;
 
         if (!is_uploaded_file($_FILES['files']['tmp_name'][0])) {
             $this->notify('failure', $this->lang('no_files'));
@@ -197,7 +200,7 @@ class Admin extends AdminModule
                 if ($img->load($image)) {
                     $imgName = time().$cntr++;
                     $imgPath = $dir.'/'.$imgName.'.'.$img->getInfos('type');
-                    $src     = [];
+                    $src = [];
 
                     // oryginal size
                     $img->save($imgPath);
@@ -232,6 +235,7 @@ class Admin extends AdminModule
     public function getDeleteImage($id)
     {
         $image = $this->db('galleries_items')->where($id)->oneArray();
+
         if (!empty($image)) {
             if ($this->db('galleries_items')->delete($id)) {
                 $images = unserialize($image['src']);

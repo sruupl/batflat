@@ -60,7 +60,7 @@
                 <h3 class="panel-title">{$lang.galleries.settings}</h3>
             </div>
             <div class="panel-body">
-        		<form action="{?=url(ADMIN.'/galleries/saveSettings/'.$gallery.id)?}" method="POST">
+                <form action="{?=url(ADMIN.'/galleries/saveSettings/'.$gallery.id)?}" method="POST">
                      <div class="form-group">
                          <label>{$lang.general.name}</label>
                          <input type="text" name="name" required class="form-control" value="{$gallery.settings.name}" />

@@ -19,9 +19,9 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add_link')                => 'newLink',
-            $this->lang('add_nav')                => 'newNav'
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add_link') => 'newLink',
+            $this->lang('add_nav') => 'newNav'
         ];
     }
 
@@ -64,13 +64,9 @@ class Admin extends AdminModule
     public function getNewLink()
     {
         // lang
-        if (isset($_GET['lang'])) {
-            $lang = $_GET['lang'];
-        } else {
-            $lang = $this->settings('settings', 'lang_site');
-        }
-        $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
+        $lang = isset($_GET['lang']) ? $_GET['lang'] : $this->settings('settings', 'lang_site');
 
+        $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
         $this->assign['link'] = ['name' => '', 'lang' => '', 'page' => '', 'url' => '', 'parent' => '', 'class' => ''];
 
         // list of pages
@@ -95,13 +91,9 @@ class Admin extends AdminModule
 
         if (!empty($row)) {
             // lang
-            if (isset($_GET['lang'])) {
-                $lang = $_GET['lang'];
-            } else {
-                $lang = $row['lang'];
-            }
-            $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
+            $lang = isset($_GET['lang']) ? $_GET['lang'] : $row['lang'];
 
+            $this->assign['langs'] = $this->_getLanguages($lang, 'selected');
             $this->assign['link'] = filter_var_array($row, FILTER_SANITIZE_SPECIAL_CHARS);
 
             // list of pages
@@ -126,47 +118,39 @@ class Admin extends AdminModule
     public function postSaveLink($id = null)
     {
         unset($_POST['save']);
+        $formData = htmlspecialchars_array($_POST);
 
         // check if it's an external link
-        if ($_POST['page']) {
-            $fields = ['name', 'page', 'lang', 'parent'];
-        } else {
-            $fields = ['name', 'url', 'lang', 'parent'];
-        }
+        $fields = $formData['page'] ? ['name', 'page', 'lang', 'parent'] : ['name', 'url', 'lang', 'parent'];
+        $location = $id ? url([ADMIN, 'navigation', 'editLink', $id]) : url([ADMIN, 'navigation', 'newLink']);
 
-        if (!$id) {
-            $location = url([ADMIN, 'navigation', 'newLink']);
-        } else {
-            $location = url([ADMIN, 'navigation', 'editLink', $id]);
-        }
-
-        if (checkEmptyFields($fields, $_POST)) {
+        if (checkEmptyFields($fields, $formData)) {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
-            $this->assign['form'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $this->assign['form'] = filter_var_array($formData, FILTER_SANITIZE_SPECIAL_CHARS);
             redirect($location);
         }
 
-        if ($_POST['page']) {
-            $_POST['url'] = null;
+        if ($formData['page']) {
+            $formData['url'] = null;
         }
 
         // get parent
-        $parent = explode('_', $_POST['parent']);
-        $_POST['nav'] = $parent[0];
-        $_POST['parent'] = (isset($parent[1]) ? $parent[1] : 0);
+        $parent = explode('_', $formData['parent']);
+        $formData['nav'] = $parent[0];
+        $formData['parent'] = (isset($parent[1]) ? $parent[1] : 0);
 
-        if (!is_numeric($_POST['page'])) {
-            $_POST['url'] = $_POST['page'];
-            $_POST['page'] = 0;
+        if (!is_numeric($formData['page'])) {
+            $formData['url'] = $formData['page'];
+            $formData['page'] = 0;
         }
 
         if (!$id) {
-            $_POST['"order"'] = $this->_getHighestOrder($_POST['nav'], $_POST['parent'], $_POST['lang']) + 1;
-            $query = $this->db('navs_items')->save($_POST);
+            $formData['"order"'] = $this->_getHighestOrder($formData['nav'], $formData['parent'], $formData['lang']) + 1;
+            $query = $this->db('navs_items')->save($formData);
         } else {
-            $query = $this->db('navs_items')->where($id)->save($_POST);
+            $query = $this->db('navs_items')->where($id)->save($formData);
             if ($query) {
-                $query = $this->db('navs_items')->where('parent', $id)->update(['nav' => $_POST['nav']]);
+                $query = $this->db('navs_items')->where('parent', $id)->update(['nav' => $formData['nav']]);
             }
         }
 
@@ -227,7 +211,9 @@ class Admin extends AdminModule
     */
     public function postSaveNav($id = null)
     {
-        if (empty($_POST['name'])) {
+        $formData = htmlspecialchars_array($_POST);
+
+        if (empty($formData['name'])) {
             if (!$id) {
                 redirect(url([ADMIN, 'navigation', 'newNav']));
             } else {
@@ -237,7 +223,7 @@ class Admin extends AdminModule
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
         }
 
-        $name = createSlug($_POST['name']);
+        $name = createSlug($formData['name']);
 
         // check if nav already exists
         if (!$this->db('navs')->where('name', $name)->count()) {
@@ -283,6 +269,7 @@ class Admin extends AdminModule
     private function _getPages($lang, $selected = null)
     {
         $rows = $this->db('pages')->where('lang', $lang)->toArray();
+
         if (count($rows)) {
             foreach ($rows as $row) {
                 if ($selected == $row['id']) {
@@ -293,6 +280,7 @@ class Admin extends AdminModule
                 $result[] = ['id' => $row['id'], 'title' => $row['title'], 'slug' => $row['slug'], 'attr' => $attr];
             }
         }
+
         return $result;
     }
 
@@ -305,6 +293,7 @@ class Admin extends AdminModule
     private function _getParents($lang, $nav = null, $page = null, $except = null)
     {
         $rows = $this->db('navs')->toArray();
+
         if (count($rows)) {
             foreach ($rows as &$row) {
                 $row['name'] = $this->tpl->noParse('{$navigation.'.$row['name'].'}');
@@ -331,6 +320,7 @@ class Admin extends AdminModule
                 }
             }
         }
+
         return $rows;
     }
 
@@ -358,6 +348,7 @@ class Admin extends AdminModule
                     $item['fullURL'] = (parse_url($item['url'], PHP_URL_SCHEME) || strpos($item['url'], '#') === 0 ? '' : '/').trim($item['url'], '/');
                 }
             }
+
             return $this->buildTree($items);
         }
     }
@@ -438,10 +429,6 @@ class Admin extends AdminModule
             ->desc('"order"')
             ->oneArray();
 
-        if (!empty($item)) {
-            return $item['order'];
-        } else {
-            return 0;
-        }
+        return !empty($item) ? $item['order'] : 0;
     }
 }

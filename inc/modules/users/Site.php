@@ -25,6 +25,7 @@ class Site extends SiteModule
                 $result[$value['id']] = $users[$key];
                 $result[$value['id']]['avatar'] = url('uploads/users/' . $value['avatar']);
             }
+
             return $result;
         });
     }

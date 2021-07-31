@@ -6,12 +6,12 @@
             </div>
             <div class="panel-body">
                 <form name="menu" action="{?=url(ADMIN.'/navigation/saveNav/'.@$navigation.id)?}" method="POST">
-    				<div class="form-group">
-    	                <label>{$lang.general.name}</label>
-    	                <input type="text" name="name" class="form-control" value="{$navigation.name}" required />
-    	            </div>
-    	            <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}" />
-        		</form>
+                    <div class="form-group">
+                        <label>{$lang.general.name}</label>
+                        <input type="text" name="name" class="form-control" value="{$navigation.name}" required />
+                    </div>
+                    <input type="submit" name="save" class="btn btn-primary" value="{$lang.general.save}" />
+                </form>
             </div>
         </div>
     </div>

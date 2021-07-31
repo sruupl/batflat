@@ -92,7 +92,6 @@ class Admin extends AdminModule
     public function postSave($id = null)
     {
         $errors = 0;
-
         $formData = htmlspecialchars_array($_POST);
 
         // location to redirect

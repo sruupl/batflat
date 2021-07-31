@@ -29,6 +29,7 @@ class Site extends SiteModule
         $homepage = $this->settings('settings', 'homepage');
 
         $lang_prefix = $this->core->lang['name'];
+
         if ($lang_prefix != $this->settings('settings', 'lang_site')) {
             $lang_prefix = explode('_', $lang_prefix)[0];
         } else {
@@ -98,6 +99,7 @@ class Site extends SiteModule
                 }
             }
         }
+
         return false;
     }
 }

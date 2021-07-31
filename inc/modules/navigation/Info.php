@@ -10,13 +10,12 @@
 */
 
 return [
-    'name'          =>  $core->lang['navigation']['module_name'],
-    'description'   =>  $core->lang['navigation']['module_desc'],
-    'author'        =>  'Sruu.pl',
-    'version'       =>  '1.1',
-    'compatibility'    =>    '1.3.*',
-    'icon'          =>  'list-ul',
-
+    'name'          => $core->lang['navigation']['module_name'],
+    'description'   => $core->lang['navigation']['module_desc'],
+    'author'        => 'Sruu.pl',
+    'version'       => '1.2',
+    'compatibility' => '1.3.*',
+    'icon'          => 'list-ul',
     'install'       =>  function () use ($core) {
         $core->db()->pdo()->exec("CREATE TABLE IF NOT EXISTS `navs` (
             `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,

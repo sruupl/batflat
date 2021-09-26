@@ -10,13 +10,12 @@
 */
 
 return [
-    'name'          =>  $core->lang['galleries']['module_name'],
-    'description'   =>  $core->lang['galleries']['module_desc'],
-    'author'        =>  'Sruu.pl',
-    'version'       =>  '1.0',
-    'compatibility' =>  '1.3.*',
-    'icon'          =>  'camera',
-
+    'name'          => $core->lang['galleries']['module_name'],
+    'description'   => $core->lang['galleries']['module_desc'],
+    'author'        => 'Sruu.pl',
+    'version'       => '1.1',
+    'compatibility' => '1.3.*',
+    'icon'          => 'camera',
     'install'       =>  function () use ($core) {
         $core->db()->pdo()->exec("CREATE TABLE IF NOT EXISTS `galleries` (
             `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,

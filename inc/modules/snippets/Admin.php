@@ -18,8 +18,8 @@ class Admin extends AdminModule
     public function navigation()
     {
         return [
-            $this->lang('manage', 'general')    => 'manage',
-            $this->lang('add')                  => 'add',
+            $this->lang('manage', 'general') => 'manage',
+            $this->lang('add') => 'add',
         ];
     }
 
@@ -61,7 +61,6 @@ class Admin extends AdminModule
 
         if ($id === null) {
             $row = ['name' => isset_or($assign['name'], null), 'content' => isset_or($assign['content'], null)];
-
             $assign['title'] = $this->lang('add');
         } elseif (!empty($row = $this->db('snippets')->oneArray($id))) {
             $assign['title'] = $this->lang('edit');
@@ -74,6 +73,7 @@ class Admin extends AdminModule
 
         $assign['content'] = [];
         preg_match_all("/{lang: ([a-z]{2}_[a-z]+)}(.*?){\/lang}/ms", $row['content'], $matches);
+
         foreach ($matches[1] as $key => $value) {
             $assign['content'][trim($value)] = $this->tpl->noParse(trim($matches[2][$key]));
         }
@@ -103,8 +103,9 @@ class Admin extends AdminModule
     public function postSave($id = null)
     {
         unset($_POST['save']);
+        $formData = htmlspecialchars_array($_POST);
 
-        if (checkEmptyFields(['name'], $_POST)) {
+        if (checkEmptyFields(['name'], $formData)) {
             $this->notify('failure', $this->lang('empty_inputs', 'general'));
 
             if (!$id) {
@@ -114,20 +115,20 @@ class Admin extends AdminModule
             }
         }
 
-        $_POST['name'] = trim($_POST['name']);
-        $_POST['slug'] = createSlug($_POST['name']);
+        $formData['name'] = trim($formData['name']);
+        $formData['slug'] = createSlug($formData['name']);
 
         $tmp = null;
-        foreach ($_POST['content'] as $lang => $content) {
+        foreach ($formData['content'] as $lang => $content) {
             $tmp .= "{lang: $lang}".$content."{/lang}";
         }
 
-        $_POST['content'] = $tmp;
+        $formData['content'] = $tmp;
 
         if ($id === null) { // new
             $location = url([ADMIN, 'snippets', 'add']);
-            if (!$this->db('snippets')->where('slug', $_POST['slug'])->count()) {
-                if ($this->db('snippets')->save($_POST)) {
+            if (!$this->db('snippets')->where('slug', $formData['slug'])->count()) {
+                if ($this->db('snippets')->save($formData)) {
                     $location = url([ADMIN, 'snippets', 'edit', $this->db()->lastInsertId()]);
                     $this->notify('success', $this->lang('save_success'));
                 } else {
@@ -137,8 +138,8 @@ class Admin extends AdminModule
                 $this->notify('failure', $this->lang('already_exists'));
             }
         } else {    // edit
-            if (!$this->db('snippets')->where('slug', $_POST['slug'])->where('id', '<>', $id)->count()) {
-                if ($this->db('snippets')->where($id)->save($_POST)) {
+            if (!$this->db('snippets')->where('slug', $formData['slug'])->where('id', '<>', $id)->count()) {
+                if ($this->db('snippets')->where($id)->save($formData)) {
                     $this->notify('success', $this->lang('save_success'));
                 } else {
                     $this->notify('failure', $this->lang('save_failure'));
@@ -146,11 +147,11 @@ class Admin extends AdminModule
             } else {
                 $this->notify('failure', $this->lang('already_exists'));
             }
-                
+
             $location =  url([ADMIN, 'snippets', 'edit', $id]);
         }
 
-        redirect($location, $_POST);
+        redirect($location, $formData);
     }
 
     /**

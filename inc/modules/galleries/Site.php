@@ -33,7 +33,7 @@ class Site extends SiteModule
                 } else {
                     $items = $this->db('galleries_items')->where('gallery', $gallery['id'])->desc('id')->toArray();
                 }
-                        
+
                 $tempAssign = $gallery;
 
                 if (count($items)) {
@@ -51,6 +51,7 @@ class Site extends SiteModule
                 }
             }
         }
+
         $this->tpl->set('gallery', $assign);
 
         $this->core->addCSS(url('inc/jscripts/lightbox/lightbox.min.css'));

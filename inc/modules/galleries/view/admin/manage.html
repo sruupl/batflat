@@ -2,37 +2,37 @@
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-				<h3 class="panel-title">{$lang.general.manage}</h3>
-			</div>
+                <h3 class="panel-title">{$lang.general.manage}</h3>
+            </div>
             <div class="panel-body">
                 {if: !empty($galleries)}
-				<div class="table-responsive no-margin">
-					<table class="table table-striped no-margin">
-						<thead>
-							<tr>
-								<th>{$lang.general.name}</th>
-								<th>Tag</th>
-								<th class="text-right">{$lang.general.actions}</th>
-							</tr>
-						</thead>
-						<tbody>
-							{loop: $galleries}
-							<tr>
-								<td><a href="{$value.editURL}">{$value.name}</a></td>
-								<td><code>{$value.tag}</code></td>
-								<td class="text-right">
-									<a href="{$value.editURL}" class="btn btn-xs btn-success">
-										<i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span>
-									</a>
-									<a href="{$value.delURL}" class="btn btn-xs btn-danger" data-confirm="{$lang.galleries.delete_confirm}">
-										<i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
-									</a>
-								</td>
-							</tr>
-							{/loop}
-						</tbody>
-					</table>
-				</div>
+                <div class="table-responsive no-margin">
+                    <table class="table table-striped no-margin">
+                        <thead>
+                            <tr>
+                                <th>{$lang.general.name}</th>
+                                <th>Tag</th>
+                                <th class="text-right">{$lang.general.actions}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loop: $galleries}
+                            <tr>
+                                <td><a href="{$value.editURL}">{$value.name}</a></td>
+                                <td><code>{$value.tag}</code></td>
+                                <td class="text-right">
+                                    <a href="{$value.editURL}" class="btn btn-xs btn-success">
+                                        <i class="fa fa-pencil"></i> <span class="hidden-xs">{$lang.general.edit}</span>
+                                    </a>
+                                    <a href="{$value.delURL}" class="btn btn-xs btn-danger" data-confirm="{$lang.galleries.delete_confirm}">
+                                        <i class="fa fa-trash-o"></i> <span class="hidden-xs">{$lang.general.delete}</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {/loop}
+                        </tbody>
+                    </table>
+                </div>
                 {else}
                 <p class="no-margin">{$lang.general.empty_array}</p>
                 {/if}
@@ -43,15 +43,15 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-				<h3 class="panel-title">{$lang.galleries.add_gallery}</h3>
-			</div>
+                <h3 class="panel-title">{$lang.galleries.add_gallery}</h3>
+            </div>
             <div class="panel-body">
-        		<form action="{?=url(ADMIN.'/galleries/add')?}" method="POST">
-    	            <div class="form-group">
-    	                <label>{$lang.general.name}</label>
-    	                <input type="text" name="name" class="form-control" required />
-    	            </div>
-    	            <input type="submit" class="btn btn-primary" value="{$lang.general.save}" />
+                <form action="{?=url(ADMIN.'/galleries/add')?}" method="POST">
+                    <div class="form-group">
+                        <label>{$lang.general.name}</label>
+                        <input type="text" name="name" class="form-control" required />
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="{$lang.general.save}" />
                 </form>
             </div>
         </div>

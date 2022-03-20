@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{if: $page.desc}{$page.desc}{else}{$settings.description}{/if}">
+    <meta name="keywords" content="{$settings.keywords}">
+    <link rel="icon" href="assets/img/favicon.ico">
+    <title>{$page.title} - {$settings.title}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{$bat.theme}/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{$bat.theme}/assets/css/mediumish.css" rel="stylesheet">
+    {loop: $bat.header}{$value}{/loop}
+</head>
+<body>
+
+<!-- Begin Nav
+================================================== -->
+<nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container">
+        <!-- Begin Logo -->
+        <a class="navbar-brand" href="{$bat.path}">
+            {$settings.title}
+        </a>
+        <!-- End Logo -->
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <!-- Begin Menu -->
+            <ul class="navbar-nav ml-auto">
+                {$navigation.main}
+                <li class="nav-item">{$langSwitcher}</li>
+            </ul>
+            <!-- End Menu -->
+            <!-- Begin Search -->
+            <form class="form-inline my-2 my-lg-0">
+                {$searchBox}
+
+            </form>
+            <!-- End Search -->
+        </div>
+    </div>
+</nav>
+<!-- End Nav
+================================================== -->

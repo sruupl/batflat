@@ -1,0 +1,626 @@
+/*
+Author: Michu2k
+Version: 2.1
+Template Name: Blue
+*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+/*---------- 0. Basic ----------*/
+body {
+  background-color: #fff;
+}
+
+p {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #6f8091;
+  word-wrap: break-word;
+}
+
+a {
+  font-family: "Open Sans", "Arial", sans-serif;
+  color: #3e8fe0;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+a:hover, a:focus {
+  color: #000;
+  text-decoration: none;
+  outline: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  color: #000;
+}
+
+hr {
+  height: 1px;
+  background-color: #e4e4e4;
+  border: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+/*---------- 1. Navigation ----------*/
+.navbar {
+  height: 80px;
+  width: 100%;
+  background-color: #fff;
+  z-index: 5;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.navbar .navbar-brand {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000;
+  line-height: 80px;
+  height: 80px;
+  padding: 0;
+  margin: 0 !important;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+.navbar .navbar-brand:hover {
+  color: #3e8fe0;
+}
+.navbar .navbar-nav > li.active > a {
+  color: #000;
+  border-bottom: 1px solid #3e8fe0;
+}
+.navbar .navbar-nav > li.open > a {
+  border: 1px solid transparent;
+  border-bottom: 1px solid #3e8fe0;
+  background: none;
+}
+.navbar .navbar-nav > li > a {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+  line-height: 40px;
+  height: 40px;
+  margin-top: 20px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 0;
+  border: 1px solid transparent;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.navbar .navbar-nav > li > a:hover {
+  border-bottom: 1px solid #3e8fe0;
+  background: none;
+}
+.navbar .navbar-nav > li > a:focus {
+  background: none;
+}
+.navbar .navbar-nav > li > .dropdown-menu {
+  margin-top: 20px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.navbar .navbar-nav > li > .dropdown-menu > li > a {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+  line-height: 30px;
+  height: 30px;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.navbar .navbar-nav > li > .dropdown-menu > li > a:hover {
+  color: #3e8fe0;
+  box-shadow: none;
+  background: none;
+}
+.navbar .navbar-nav > li > .dropdown-menu > li.active > a {
+  color: #3e8fe0;
+  background-color: #f4f4f4;
+  border: 0;
+}
+.navbar .navbar-collapse {
+  border-top: 0;
+}
+
+/*---------- 2. Mobile button ----------*/
+#mobile-btn {
+  position: relative;
+  width: 50px;
+  height: 40px;
+  float: right;
+  margin-top: 20px;
+  cursor: pointer;
+  border: 3px solid #000;
+  display: none;
+  padding: 0;
+  border-radius: 0;
+}
+#mobile-btn .icon-bar {
+  position: absolute;
+  width: 34px;
+  margin-left: 5px;
+  height: 3px;
+  background-color: #000;
+  border-radius: 0;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+#mobile-btn .icon-bar:nth-child(1) {
+  top: 9px;
+}
+#mobile-btn .icon-bar:nth-child(2) {
+  top: 18px;
+}
+#mobile-btn.toggled .icon-bar:nth-child(1) {
+  -webkit-transform: rotate(45deg) translate(5px, 4px);
+  -o-transform: rotate(45deg) translate(5px, 4px);
+  transform: rotate(45deg) translate(5px, 4px);
+}
+#mobile-btn.toggled .icon-bar:nth-child(2) {
+  -webkit-transform: rotate(-45deg) translate(5px, -4px);
+  -o-transform: rotate(-45deg) translate(5px, -4px);
+  transform: rotate(-45deg) translate(5px, -4px);
+}
+
+/*---------- 3. Header ----------*/
+header {
+  background-color: #3e8fe0;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  margin-bottom: 80px;
+  min-height: 250px;
+  border-bottom: 8px solid #3e8fe0;
+}
+header.header-main {
+  min-height: 420px;
+}
+header .header-title {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-size: 35px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 70px;
+}
+header .header-title--main {
+  font-size: 50px;
+  margin-top: 135px;
+}
+header hr {
+  height: 1px;
+  background: #fff;
+  max-width: 60px;
+  border: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+header .header-desc {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  margin-top: 15px;
+}
+
+/*---------- 4. Section ----------*/
+.section {
+  margin-bottom: 30px;
+}
+.section ol > li, .section ul > li {
+  color: #6f8091;
+}
+
+/*---------- 5. Sidebar ----------*/
+aside .widget-container {
+  border: 1px solid #e4e4e4;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 30px;
+}
+aside .widget-container .widget-title {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #000;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+aside .widget-container .widget-content ul {
+  padding: 0;
+}
+aside .widget-container .widget-content ul > li {
+  list-style-type: none;
+  color: #3e8fe0;
+  border-top: 1px solid #e4e4e4;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+aside .widget-container .widget-content ul > li > a {
+  font-size: 13px;
+  color: #6f8091;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+aside .widget-container .widget-content ul > li > a:hover {
+  color: #3e8fe0;
+}
+aside .widget-container .widget-social {
+  margin-top: 20px;
+}
+aside .widget-container .widget-social a {
+  margin-right: 12px;
+}
+aside .widget-container .widget-social a i {
+  font-size: 18px;
+  color: #3e8fe0;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+aside .widget-container .widget-social a:hover i {
+  color: #000;
+}
+
+/*---------- 6. Footer ----------*/
+footer {
+  border-top: 1px solid #e4e4e4;
+  margin-top: 40px;
+  height: 80px;
+}
+footer p {
+  color: #6f8091;
+  font-size: 12px;
+  text-align: center;
+  line-height: 80px;
+  margin: 0;
+}
+
+/*---------- 7. Contact ----------*/
+form .form-group {
+  margin-top: 25px;
+}
+form .form-group label {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: #000;
+  margin-bottom: 6px;
+  text-align: left;
+}
+form .form-group input, form .form-group textarea {
+  min-height: 40px;
+  padding: 10px;
+  border: 1px solid #e4e4e4;
+  border-radius: 0;
+  background: none;
+  box-shadow: none !important;
+  resize: none;
+}
+form .form-group input:focus, form .form-group textarea:focus {
+  border: 1px solid #3e8fe0;
+}
+form .btn-default {
+  font-size: 18px;
+  color: #3e8fe0;
+  margin-top: 30px;
+  width: 140px;
+  padding: 10px;
+  background: none;
+  border: 1px solid #3e8fe0;
+  border-radius: 20px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+form .btn-default:hover, form .btn-default:focus {
+  color: #000;
+  border: 1px solid #000;
+  background: none !important;
+  box-shadow: none;
+}
+
+/*---------- 8. Blog ----------*/
+.post {
+  margin-bottom: 80px;
+}
+.post .post-header figure {
+  background-color: #e4e4e4;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.post .post-header .post-title {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #000;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 40px;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+.post .post-header .post-title:hover {
+  color: #3e8fe0;
+}
+.post .post-header .post-tags a {
+  font-size: 11px;
+  color: #fff;
+  padding: 3px 7px;
+  background-color: #3e8fe0;
+  border-radius: 20px;
+  margin-right: 4px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.post .post-header .post-tags a:hover {
+  background-color: #000;
+}
+.post .post-meta p {
+  font-size: 12px;
+  color: #6f8091;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+.post .post-content {
+  margin-top: 20px;
+}
+.post .post-footer {
+  margin-top: 20px;
+}
+.post .post-footer .post-read-more {
+  font-size: 13px;
+  color: #3e8fe0;
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+.post .post-footer .post-read-more:hover {
+  color: #000;
+}
+.post .post-footer .post-share i {
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  margin-right: 10px;
+  height: 30px;
+  width: 30px;
+  background-color: #000;
+  border-radius: 50%;
+}
+.post .post-footer .post-share i.fa-twitter {
+  background-color: #1da1f2;
+}
+.post .post-footer .post-share i.fa-facebook {
+  background-color: #3b5998;
+}
+.post .post-footer .post-share i.fa-google-plus {
+  background-color: #dd4b39;
+}
+.post .post-footer .post-profile {
+  margin-top: 30px;
+  position: relative;
+}
+.post .post-footer .post-profile .profile-header {
+  height: 100%;
+  position: absolute;
+}
+.post .post-footer .post-profile .profile-header .profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.post .post-footer .post-profile .profile-content {
+  margin-left: 140px;
+}
+.post .post-footer .post-profile .profile-content .profile-name {
+  font-size: 20px;
+  color: #000;
+  margin: 0;
+}
+.post .post-footer .post-profile .profile-content .profile-description {
+  font-size: 14px;
+  color: #6f8091;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.post .post-comments {
+  margin-top: 60px;
+}
+
+.pager {
+  text-align: center;
+  border-top: 1px solid #e4e4e4;
+  padding-top: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.pager li a {
+  font-size: 13px;
+  color: #3e8fe0;
+  min-width: 150px;
+  background: none;
+  padding: 10px;
+  border: 1px solid #3e8fe0;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.pager li a:hover, .pager li a:focus {
+  color: #000;
+  border: 1px solid #000;
+  background: none;
+}
+
+/*---------- 9. LangSwitcher ----------*/
+.langswitcher form {
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.langswitcher form select {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #6f8091;
+  height: 40px;
+  border: 0;
+  border-left: 1px solid #e4e4e4;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.langswitcher form select:focus {
+  color: #3e8fe0;
+  border-left: 1px solid #e4e4e4;
+  box-shadow: none;
+}
+
+/*---------- 10. 404 Page ----------*/
+.error404 {
+  text-align: center;
+}
+.error404 .error404-title {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 80px;
+  color: #3e8fe0;
+  margin-top: 140px;
+}
+.error404 p {
+  color: #6f8091;
+  margin-top: 30px;
+  margin-bottom: 90px;
+}
+
+/*---------- 11. Gallery ----------*/
+.thumbnail {
+  border-radius: 0;
+  border: 1px solid #e4e4e4;
+}
+.thumbnail .caption h3 {
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+.thumbnail .caption p {
+  font-size: 14px;
+}
+
+/*---------- 12. Others ----------*/
+blockquote {
+  border-top: 1px solid #e4e4e4;
+  border-right: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
+  border-left: 3px solid #3e8fe0;
+  padding: 20px;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #ddd !important;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #ddd !important;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #ddd !important;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #ddd !important;
+}
+
+/*---------- 13. Responsive ----------*/
+@media (max-width: 767px) {
+  #mobile-btn {
+    display: block;
+  }
+
+  .navbar .navbar-brand {
+    margin-left: 15px !important;
+  }
+  .navbar .navbar-collapse {
+    padding: 0;
+  }
+  .navbar .navbar-nav {
+    background-color: #fff;
+    width: 100%;
+    margin: 0;
+    left: 0;
+  }
+  .navbar .navbar-nav > li.active > a {
+    color: #fff;
+    background-color: #3e8fe0;
+    border: 0;
+  }
+  .navbar .navbar-nav > li a {
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+    margin: 0;
+    border: 0;
+  }
+  .navbar .navbar-nav > li a:hover {
+    color: #3e8fe0;
+    background-color: #fff;
+    border: 0;
+  }
+  .navbar .navbar-nav > li.open > a {
+    border: 0;
+  }
+  .navbar .navbar-nav > li.dropdown > .dropdown-menu {
+    border: 0;
+    margin-top: 0;
+    padding: 0;
+  }
+  .navbar .navbar-nav > li.dropdown > .dropdown-menu > li > a {
+    line-height: 50px;
+    background-color: #e4e4e4;
+    height: 50px;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  .langswitcher {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .langswitcher form {
+    margin: 10px 20px;
+  }
+  .langswitcher form select {
+    color: #000;
+    border: 2px solid #000;
+  }
+  .langswitcher form select:focus {
+    border: 2px solid #3e8fe0;
+  }
+
+  form .btn-default {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .pager li a {
+    width: 100%;
+  }
+}

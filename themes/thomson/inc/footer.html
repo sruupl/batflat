@@ -1,0 +1,39 @@
+<!-- Footer start -->
+<section class="footer">
+	<div class="container">
+		<div class="row ">
+			<div class="col-lg-6 copyright text-muted">
+				<p class="mb-0 text-left"><small>Designed & Developed by <a href="themefisher.com" class="text-white">Themefisher</a></small></p>
+       <p><small id="copyright"> {$settings.footer}</small></p>
+        <p><small id="copyright"> {$bat.powered}.</small></p>
+			</div>
+			<div class="col-lg-6">
+				<div class="widget footer-widget text-lg-right mt-5 mt-lg-0">
+					<ul class="list-inline mb-0">
+						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher" target="_blank"><i class="ti-facebook mr-3"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="https://twitter.com/themefisher" target="_blank"><i class="ti-twitter mr-3"></i></a>
+						</li>
+						<li class="list-inline-item"><a href="https://github.com/themefisher/" target="_blank"><i class="ti-github mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/" target="_blank"><i class="ti-pinterest mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://dribbble.com/themefisher/" target="_blank"><i class="ti-dribbble mr-3"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Footer End -->
+
+
+<!-- Bootstrap JS -->
+<script src="{$bat.theme}/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="{$bat.theme}/plugins/owl-carousel/owl.carousel.min.js"></script>
+<script src="{$bat.theme}/plugins/animated-text/animated-text.js"></script>
+<script src="{$bat.theme}/plugins/shuffle/shuffle.min.js"></script>
+<script src="{$bat.theme}/plugins/aos/aos.js"></script>
+<!-- Main Script -->
+<script src="{$bat.theme}/js/script.js"></script>
+ {loop: $bat.footer}{$value}{/loop}
+
+</html>

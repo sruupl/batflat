@@ -1,0 +1,77 @@
+{template: inc/header.html}
+
+<header style="background-image: url('{$bat.theme}/img/blog-bg.jpg');">  
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="header-title">{$blog.title}</h1>
+            <hr>
+            <p class="header-desc">{$blog.desc}</p>            
+        </div>
+    </div>                
+</header>   
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="section">
+            {loop: $blog.posts}
+                <article class="post">
+                    <div class="post-header">
+                        <a href="{$value.url}">                        
+                            {if: $value.cover_photo}
+                            <figure>
+                                <img src="{$value.cover_url}">
+                            </figure>
+                            {/if}  
+                        </a>   
+
+                        <p class="post-tags">                        
+                            {if: $value.tags}
+                                {loop: $value.tags as $tag}
+                                    <a href="{$tag.url}" class="tag">{$tag.name}</a>
+                                {/loop}                        
+                            {/if} 
+                        </p>
+
+                        <a href="{$value.url}">    
+                            <h2 class="post-title">{$value.title}</h2>
+                        </a>
+                    </div>
+
+                    <div class="post-meta">
+                        <p>{$value.published_at}</p>  
+                    </div>    
+
+                    <div class="post-content">
+                        {$value.content}
+                    </div>
+
+                    <div class="post-footer">
+                        <a href="{$value.url}" class="post-read-more">{$lang.blog.readmore}</a>
+                    </div>
+
+                </article>   
+            {/loop}
+
+            <ul class="pager">
+                {if: isset($prev)}
+                <li>
+                    <a href="{$prev.url}">{$lang.blog.newer}</a>
+                </li>
+                {/if}
+
+                {if: isset($next)}
+                <li>
+                    <a href="{$next.url}">{$lang.blog.older}</a>
+                </li>
+                {/if}
+            </ul> 
+            </div>  
+        </div>
+        <div class="col-md-4">
+            {template: inc/sidebar.html}
+        </div>
+    </div>    
+</div>
+
+{template: inc/footer.html}

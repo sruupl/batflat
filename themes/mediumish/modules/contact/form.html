@@ -1,0 +1,39 @@
+<form name="email" method="POST" action="{$_SERVER['REQUEST_URI']}">
+    <div class="form-group">
+        <label for="inputName">{$lang.contact.full_name}</label>
+        <input type="text" class="form-control" id="inputName" name="name" placeholder="{$lang.contact.full_name}" required />
+    </div>
+    <div class="form-group">
+        <label for="inputMail">{$lang.contact.email}</label>
+        <input type="email" class="form-control" id="inputMail" name="from" placeholder="{$lang.contact.email}" required />
+    </div>
+    <div class="form-group">
+        <label for="inputSubject">{$lang.contact.subject}</label>
+        <input type="text" class="form-control" id="inputSubject" name="subject" placeholder="{$lang.contact.subject}" required />
+    </div>
+    <div class="form-group">
+        <label for="inputMessage">{$lang.contact.message}</label>
+        <textarea rows="5" id="inputMessage" class="form-control" name="message" placeholder="{$lang.contact.message}" required></textarea>
+    </div>
+    {if: $checkbox.switch > 0}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="agreement" required> <small>{$checkbox.content}</small>
+        </label>
+    </div>
+    {/if}
+
+    <!-- antispam field -->
+    <div class="form-group" id="antispam">
+        <input type="text" name="title" autofill="off" required />
+    </div>
+    <script>
+        (function () {
+            var e = document.getElementById('antispam');
+            e.parentNode.removeChild(e);
+        })();
+    </script>
+    <!-- /antispam field -->
+
+    <button type="submit" name="send-email" class="btn btn-outline-primary">{$lang.contact.send}</button>
+</form>

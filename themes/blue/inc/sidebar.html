@@ -1,0 +1,42 @@
+<aside>
+    <div class="widget-container">
+    	<h2 class="widget-title">
+        	About
+        </h2>
+
+        <div class="widget-content">
+        	{$snippet.widget-content}  
+		</div>
+
+		<div class="widget-social">
+			<a href="#">
+				<i class="fa fa-twitter" aria-hidden="true"></i>
+			</a>
+
+			<a href="#">
+				<i class="fa fa-facebook" aria-hidden="true"></i>
+			</a>
+
+			<a href="#">
+				<i class="fa fa-instagram" aria-hidden="true"></i>
+			</a>
+		</div> 
+    </div>
+
+    <div class="widget-container">
+    	<h2 class="widget-title">
+        	{$lang.blog.latest_posts}
+        </h2>
+
+        <div class="widget-content">
+			<ul>
+				{loop: $latestPosts}
+					<li><a href="{?= url(['blog', 'post', $value.slug]) ?}">{$value.title}</a></li>
+				{/loop}
+			</ul>
+		</div>
+	</div>
+</aside>
+
+
+                       

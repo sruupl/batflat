@@ -1,0 +1,72 @@
+{template: inc/header.html}
+
+<section class="page-title section pb-0 pt-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="text-center">
+          <h1 class="text-capitalize mb-0 text-lg">{$page.title}</h1>
+          <small>{?= sprintf($lang.blog.posted, $post.author.name, $post.published_at) ?} {if: $post.tags} | {loop: $post.tags}{if: $key != 0}, {/if}<a href="{$value.url}">{$value.name}</a>{/loop}{/if}</p></small>
+        </div>
+      </div>
+    </div>
+    {if: $bat.notify}
+    <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
+    {/if}
+  </div>
+</section>
+
+
+
+
+<!-- free block -->
+
+<section class="article" style="padding: 30px 0;">
+	<div class="container"> 
+        {if: $post.cover_photo}
+        <div class="row-row d-flex d-flex justify-content-center">
+			<div class="=col-lg-10 text-center">  
+                <a href="{$post.cover_url}" data-lightbox="featured"><img src="{$post.cover_url}" alt="{$post.title}" class="img-fluid"  max-width="100%"></a>
+            </div>
+        </div>
+        {/if}
+        <div class="row" style="margin-top:30px">
+			<div class="col-md-10 mx-auto">  
+                <article class="single-post">
+                {$post.content}        
+                </article>
+			</div>
+		</div>
+        <div class="post-comments">
+            <div id="disqus_thread"></div>
+                <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        </div>   
+        <div class="row-row d-flex d-flex justify-content-center">
+            <div class="comments bg-secondary col-md-10 p-4 mt-2 ">
+                <div class="row-row d-flex d-flex justify-content-center">
+                          <div class="col-md-12 col-lg-10 text-center mb-5 mb-lg-0">
+                              <img width="200px" src="{?= $post.author.avatar ?}" class="rounded-circle image-fluid" />
+                                    <h4>{$post.author.name}</h4>
+                              <p class="description"><blockquote>{$post.author.description}</blockquote></p>
+                              <div class="pull-left social-links">
+                                    {$lang.blog.share}:   
+                                    <a href="http://twitter.com/home?status={?= urlencode($post.url) ?}">
+                                        <i class="ti-twitter" data-toggle="tooltip" title="" data-original-title="Twitter"></i>
+                                    </a>
+                                    <a href="https://www.facebook.com/sharer.php?u={?= urlencode($post.url) ?}">
+                                        <i class="ti-facebook" data-toggle="tooltip" title="" data-original-title="Facebook"></i>
+                                    </a>
+                                    <a href="http://plus.google.com/share?url={?= urlencode($post.url) ?}">
+                                        <i class="ti-google" data-toggle="tooltip" title="" data-original-title="Google-plus"></i>
+                                    </a>
+                              </div>
+                          </div>
+                </div>
+            </div>
+        </div>
+
+</section>
+
+
+
+{template: inc/footer.html}

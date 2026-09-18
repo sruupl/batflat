@@ -33,7 +33,7 @@ class Site extends SiteModule
 
                 if (count($items)) {
                     foreach ($items as &$item) {
-                        $item['src'] = unserialize($item['src']);
+                        $item['src'] = unserialize($item['src'], ['allowed_classes' => false]);
                     }
 
                     $tempAssign['items'] = $items;

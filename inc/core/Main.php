@@ -156,7 +156,7 @@ abstract class Main
     {
         ini_set('session.use_only_cookies', 1);
         session_name('bat');
-        session_set_cookie_params(0, (batflat_dir() === '/' ? '/' : batflat_dir().'/'));
+        session_set_cookie_params(0, (batflat_dir() === '/' ? '/' : batflat_dir().'/'), '', isHttps(), true);
         session_start();
     }
 
@@ -307,7 +307,7 @@ abstract class Main
                     }
                 }
             }
-            setcookie('batflat_remember', null, -1, '/');
+            setcookie('batflat_remember', null, -1, '/', '', isHttps(), true);
         }
 
         return false;

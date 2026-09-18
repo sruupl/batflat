@@ -55,6 +55,10 @@ class Admin extends AdminModule
             while ($entry = zip_read($zip)) {
                 $entry = zip_entry_name($entry);
                 if (preg_match('/^(.*?)\/Info.php$/', $entry, $matches)) {
+                    if (!isSafeDirName($matches[1])) {
+                        $this->notify('failure', $this->lang('upload_bad_file'));
+                        redirect($backURL);
+                    }
                     $modules[] = ['path' => $matches[0], 'name' => $matches[1]];
                 }
 
@@ -94,6 +98,10 @@ class Admin extends AdminModule
 
     public function getInstall($dir)
     {
+        if (!isSafeDirName($dir)) {
+            redirect(url([ADMIN, 'modules', 'manage', 'inactive']));
+        }
+
         $files = [
             'info'  => MODULES.'/'.$dir.'/Info.php',
             'admin' => MODULES.'/'.$dir.'/Admin.php',
@@ -123,6 +131,10 @@ class Admin extends AdminModule
 
     public function getUninstall($dir)
     {
+        if (!isSafeDirName($dir)) {
+            redirect(url([ADMIN, 'modules', 'manage', 'active']));
+        }
+
         if (in_array($dir, unserialize(BASIC_MODULES))) {
             $this->notify('failure', $this->lang('deactivate_failure'), $dir);
             redirect(url([ADMIN, 'modules', 'manage', 'active']));
@@ -146,6 +158,10 @@ class Admin extends AdminModule
 
     public function getRemove($dir)
     {
+        if (!isSafeDirName($dir)) {
+            redirect(url([ADMIN, 'modules', 'manage', 'inactive']));
+        }
+
         if (in_array($dir, unserialize(BASIC_MODULES))) {
             $this->notify('failure', $this->lang('remove_failure'), $dir);
             redirect(url([ADMIN, 'modules', 'manage', 'inactive']));
@@ -164,6 +180,10 @@ class Admin extends AdminModule
 
     public function getDetails($dir)
     {
+        if (!isSafeDirName($dir)) {
+            exit();
+        }
+
         $files = [
             'info'      => MODULES.'/'.$dir.'/Info.php',
             'readme'    => MODULES.'/'.$dir.'/ReadMe.md'
@@ -241,13 +261,18 @@ class Admin extends AdminModule
             $filename = $zip->getNameIndex($i);
 
             if (empty($path) || strpos($filename, $path) == 0) {
-                $file = $to.'/'.str_replace($path, null, $filename);
+                $relative = ltrim(str_replace($path, null, $filename), '/');
+                if (strpos($relative, '..') !== false) {
+                    continue;
+                }
+
+                $file = $to.'/'.$relative;
                 if (!file_exists(dirname($file))) {
                     mkdir(dirname($file), 0777, true);
                 }
 
                 if (substr($file, -1) != '/') {
-                    file_put_contents($to.'/'.str_replace($path, null, $filename), $zip->getFromIndex($i));
+                    file_put_contents($file, $zip->getFromIndex($i));
                 }
             }
         }

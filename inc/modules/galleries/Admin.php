@@ -55,7 +55,7 @@ class Admin extends AdminModule
         $location = [ADMIN, 'galleries', 'manage'];
 
         if (!empty($_POST['name'])) {
-            $name = htmlspecialchars(trim($_POST['name']), ENT_NOQUOTES, 'UTF-8');
+            $name = htmlspecialchars(trim($_POST['name']), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
             if (!$this->db('galleries')->where('slug', createSlug($name))->count()) {
                 $query = $this->db('galleries')->save(['name' => $name, 'slug' => createSlug($name)]);
@@ -128,7 +128,7 @@ class Admin extends AdminModule
             foreach ($rows as $row) {
                 $row['title'] = $this->tpl->noParse(htmlspecialchars($row['title']));
                 $row['desc'] = $this->tpl->noParse(htmlspecialchars($row['desc']));
-                $row['src'] = unserialize($row['src']);
+                $row['src'] = unserialize($row['src'], ['allowed_classes' => false]);
 
                 if (!isset($row['src']['sm'])) {
                     $row['src']['sm'] = isset($row['src']['xs']) ? $row['src']['xs'] : $row['src']['lg'];
@@ -238,7 +238,7 @@ class Admin extends AdminModule
 
         if (!empty($image)) {
             if ($this->db('galleries_items')->delete($id)) {
-                $images = unserialize($image['src']);
+                $images = unserialize($image['src'], ['allowed_classes' => false]);
                 foreach ($images as $src) {
                     if (file_exists(BASE_DIR.'/'.$src)) {
                         if (!unlink(BASE_DIR.'/'.$src)) {

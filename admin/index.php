@@ -43,8 +43,15 @@ if ($core->loginCheck()) {
     $core->drawTheme('index.html');
     $core->module->finishLoop();
 } else {
+    if (empty($_SESSION['login_csrf'])) {
+        $_SESSION['login_csrf'] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
+
     if (isset($_POST['login'])) {
-        if ($core->login($_POST['username'], $_POST['password'], isset($_POST['remember_me']))) {
+        $validToken = isset($_POST['csrf_token']) && hash_equals($_SESSION['login_csrf'], $_POST['csrf_token']);
+
+        if ($validToken && $core->login($_POST['username'], $_POST['password'], isset($_POST['remember_me']))) {
+            unset($_SESSION['login_csrf']);
             if (count($arrayURL = parseURL()) > 1) {
                 $url = array_merge([ADMIN], $arrayURL);
                 redirect(url($url));
@@ -52,6 +59,8 @@ if ($core->loginCheck()) {
             redirect(url([ADMIN, 'dashboard', 'main']));
         }
     }
+
+    $core->tpl->set('csrf_token', $_SESSION['login_csrf']);
     $core->drawTheme('login.html');
 }
 

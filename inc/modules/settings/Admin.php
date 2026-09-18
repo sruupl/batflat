@@ -156,6 +156,10 @@ class Admin extends AdminModule
             $this->tpl->set('themes', $this->_getThemes());
             return $this->draw('themes.html');
         } else {
+            if (!isSafeDirName($theme) || !is_dir(THEMES.'/'.$theme)) {
+                redirect(url([ADMIN, 'settings', 'theme']));
+            }
+
             if ($file == 'activate') {
                 $this->db('settings')->where('module', 'settings')->where('field', 'theme')->save(['value' => $theme]);
                 $this->notify('success', $this->lang('theme_changed'));
@@ -198,6 +202,35 @@ class Admin extends AdminModule
         }
     }
 
+    /**
+     * Validate a language directory code (e.g. "en_english") to prevent
+     * path traversal via $_GET['lang'] reaching file read/write calls.
+     *
+     * @param string $lang
+     * @return bool
+     */
+    private function _isValidLangCode($lang)
+    {
+        return is_string($lang) && preg_match("/^[a-z]{2}_[a-z]+$/", $lang);
+    }
+
+    /**
+     * Validate a translation source (module directory name, or 0/numeric for
+     * the admin general translations) to prevent path traversal via
+     * $_GET['source'] reaching file read/write calls.
+     *
+     * @param string $source
+     * @return bool
+     */
+    private function _isValidTranslationSource($source)
+    {
+        if (is_numeric($source)) {
+            return true;
+        }
+
+        return is_string($source) && preg_match('/^[a-zA-Z0-9_-]+$/', $source) && is_dir(MODULES.'/'.$source);
+    }
+
     public function getTranslation()
     {
         if (isset($_GET['export'])) {
@@ -238,6 +271,11 @@ class Admin extends AdminModule
             $_GET['source'] = 0;
         }
 
+        if (!$this->_isValidLangCode($_GET['lang']) || !$this->_isValidTranslationSource($_GET['source'])) {
+            $this->notify('failure', $this->lang('save_file_failure'));
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         $settings = [
             'langs'         => $this->_getLanguages($_GET['lang']),
             'langs_all'     => $this->_getLanguages($_GET['lang'], 'active', true),
@@ -267,7 +305,12 @@ class Admin extends AdminModule
         if (!isset($_GET['source'])) {
             $_GET['source'] = 0;
         }
-            
+
+        if (!$this->_isValidLangCode($_GET['lang']) || !$this->_isValidTranslationSource($_GET['source'])) {
+            $this->notify('failure', $this->lang('save_file_failure'));
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (isset($_POST['upload']) && FILE_LOCK === false) {
             $zip = new ZipArchive();
             $allowedDest = '/(.*?inc\/)((jscripts|lang|modules).*$)/';
@@ -411,6 +454,10 @@ class Admin extends AdminModule
     */
     public function getDeleteLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_delete_failure'));
         }
@@ -430,6 +477,10 @@ class Admin extends AdminModule
     */
     public function getActivateLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (unlink(BASE_DIR.'/inc/lang/'.$name.'/.lock')) {
             $this->notify('success', $this->lang('lang_activate_success'));
         } else {
@@ -444,6 +495,10 @@ class Admin extends AdminModule
     */
     public function getDeactivateLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_deactivate_failure'));
         } else {

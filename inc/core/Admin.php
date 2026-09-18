@@ -288,7 +288,7 @@ class Admin extends Main
 
                 $this->db('remember_me')->save(['user_id' => $row['id'], 'token' => $token, 'expiry' => time()+60*60*24*30]);
 
-                setcookie('batflat_remember', $row['id'].':'.$token, time()+60*60*24*365, '/');
+                setcookie('batflat_remember', $row['id'].':'.$token, time()+60*60*24*365, '/', '', isHttps(), true);
             }
             return true;
         } else {
@@ -322,7 +322,7 @@ class Admin extends Main
         if (isset($_COOKIE['batflat_remember'])) {
             $token = explode(':', $_COOKIE['batflat_remember']);
             $this->db('remember_me')->where('user_id', $token[0])->where('token', $token[1])->delete();
-            setcookie('batflat_remember', null, -1, '/');
+            setcookie('batflat_remember', null, -1, '/', '', isHttps(), true);
         }
 
         session_unset();

@@ -28,14 +28,14 @@
 							{loop: $modules}
                                 {loop: $value}
                                 <tr>
-                                    <td class="text-center"><i class="fa fa-{$value.icon} fa-2x"></i></td>
+                                    <td class="text-center"><i class="fa fa-{$value.icon|e} fa-2x"></i></td>
                                     <td>
                                         <a href="{$value.detailsUrl}" data-toggle="modal" data-target="#moduleModal">
-                                            <strong>{$value.name}</strong>
+                                            <strong>{$value.name|e}</strong>
                                         </a>
                                         <p>{$value.description|cut:54}</p>
                                     </td>
-                                    <td>{$value.version}</td>
+                                    <td>{$value.version|e}</td>
                                     <td>
                                         {if: !$value.compatible}
                                             <span class="label label-danger">{$lang.modules.outdated}</span>

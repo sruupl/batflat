@@ -12,8 +12,6 @@
 namespace Inc\Modules\Settings;
 
 use Inc\Core\AdminModule;
-use Inc\Core\Lib\License;
-use Inc\Core\Lib\HttpRequest;
 
 use ZipArchive;
 use RecursiveIteratorIterator;
@@ -24,7 +22,6 @@ use Inc\Modules\Settings\Inc\RecursiveDotFilterIterator;
 class Admin extends AdminModule
 {
     private $assign = [];
-    private $feed_url = "http://feed.sruu.pl";
 
     public function init()
     {
@@ -39,7 +36,6 @@ class Admin extends AdminModule
             $this->lang('general')          => 'general',
             $this->lang('theme', 'general') => 'theme',
             $this->lang('translation')      => 'translation',
-            $this->lang('updates')          => 'updates',
         ];
     }
 
@@ -68,19 +64,6 @@ class Admin extends AdminModule
             'system_size'   => $this->roundSize($this->_directorySize(BASE_DIR)),
         ];
 
-        $settings['license'] = [];
-        $settings['license']['type'] = $this->_verifyLicense();
-        switch ($settings['license']['type']) {
-            case License::FREE:
-                $settings['license']['name'] = $this->lang('free');
-                break;
-            case License::COMMERCIAL:
-                $settings['license']['name'] = $this->lang('commercial');
-                break;
-            default:
-                $settings['license']['name'] = $this->lang('invalid_license');
-        }
-
         foreach ($this->core->getRegisteredPages() as $page) {
             $settings['pages'][] = $page;
         }
@@ -90,7 +73,6 @@ class Admin extends AdminModule
         }
 
         $this->tpl->set('settings', $this->tpl->noParse_array(htmlspecialchars_array($settings)));
-        $this->tpl->set('updateurl', url([ADMIN, 'settings', 'updates']));
 
         return $this->draw('general.html');
     }
@@ -125,28 +107,6 @@ class Admin extends AdminModule
         }
     }
 
-    public function anyLicense()
-    {
-        if (isset($_POST['license-key'])) {
-            $licenseKey = str_replace('-', null, $_POST['license-key']);
-            
-            if (!($licenseKey = License::getLicenseData($licenseKey))) {
-                $this->notify('failure', $this->lang('license_invalid_key'));
-            }
-
-            $verify = License::verify($licenseKey);
-            if ($verify != License::COMMERCIAL) {
-                $this->notify('failure', $this->lang('license_invalid_key'));
-            } else {
-                $this->notify('success', $this->lang('license_good_key'));
-            }
-        } elseif (isset($_GET['downgrade'])) {
-            $this->db('settings')->where('module', 'settings')->where('field', 'license')->save(['value' => '']);
-        }
-
-        redirect(url([ADMIN,'settings','general']));
-    }
-
     public function anyTheme($theme = null, $file = null)
     {
         $this->core->addCSS(url(MODULES.'/settings/css/admin/settings.css'));
@@ -156,6 +116,10 @@ class Admin extends AdminModule
             $this->tpl->set('themes', $this->_getThemes());
             return $this->draw('themes.html');
         } else {
+            if (!isSafeDirName($theme) || !is_dir(THEMES.'/'.$theme)) {
+                redirect(url([ADMIN, 'settings', 'theme']));
+            }
+
             if ($file == 'activate') {
                 $this->db('settings')->where('module', 'settings')->where('field', 'theme')->save(['value' => $theme]);
                 $this->notify('success', $this->lang('theme_changed'));
@@ -198,6 +162,35 @@ class Admin extends AdminModule
         }
     }
 
+    /**
+     * Validate a language directory code (e.g. "en_english") to prevent
+     * path traversal via $_GET['lang'] reaching file read/write calls.
+     *
+     * @param string $lang
+     * @return bool
+     */
+    private function _isValidLangCode($lang)
+    {
+        return is_string($lang) && preg_match("/^[a-z]{2}_[a-z]+$/", $lang);
+    }
+
+    /**
+     * Validate a translation source (module directory name, or 0/numeric for
+     * the admin general translations) to prevent path traversal via
+     * $_GET['source'] reaching file read/write calls.
+     *
+     * @param string $source
+     * @return bool
+     */
+    private function _isValidTranslationSource($source)
+    {
+        if (is_numeric($source)) {
+            return true;
+        }
+
+        return is_string($source) && preg_match('/^[a-zA-Z0-9_-]+$/', $source) && is_dir(MODULES.'/'.$source);
+    }
+
     public function getTranslation()
     {
         if (isset($_GET['export'])) {
@@ -238,6 +231,11 @@ class Admin extends AdminModule
             $_GET['source'] = 0;
         }
 
+        if (!$this->_isValidLangCode($_GET['lang']) || !$this->_isValidTranslationSource($_GET['source'])) {
+            $this->notify('failure', $this->lang('save_file_failure'));
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         $settings = [
             'langs'         => $this->_getLanguages($_GET['lang']),
             'langs_all'     => $this->_getLanguages($_GET['lang'], 'active', true),
@@ -267,7 +265,12 @@ class Admin extends AdminModule
         if (!isset($_GET['source'])) {
             $_GET['source'] = 0;
         }
-            
+
+        if (!$this->_isValidLangCode($_GET['lang']) || !$this->_isValidTranslationSource($_GET['source'])) {
+            $this->notify('failure', $this->lang('save_file_failure'));
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (isset($_POST['upload']) && FILE_LOCK === false) {
             $zip = new ZipArchive();
             $allowedDest = '/(.*?inc\/)((jscripts|lang|modules).*$)/';
@@ -411,6 +414,10 @@ class Admin extends AdminModule
     */
     public function getDeleteLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_delete_failure'));
         }
@@ -430,6 +437,10 @@ class Admin extends AdminModule
     */
     public function getActivateLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (unlink(BASE_DIR.'/inc/lang/'.$name.'/.lock')) {
             $this->notify('success', $this->lang('lang_activate_success'));
         } else {
@@ -444,6 +455,10 @@ class Admin extends AdminModule
     */
     public function getDeactivateLanguage($name)
     {
+        if (!$this->_isValidLangCode($name)) {
+            redirect(url([ADMIN, 'settings', 'translation']));
+        }
+
         if (($this->settings('settings', 'lang_site') == $name) || ($this->settings('settings', 'lang_admin') == $name)) {
             $this->notify('failure', $this->lang('lang_deactivate_failure'));
         } else {
@@ -457,169 +472,12 @@ class Admin extends AdminModule
         redirect(url([ADMIN, 'settings', 'translation']));
     }
 
-    public function anyUpdates()
-    {
-        $this->tpl->set('allow_curl', intval(function_exists('curl_init')));
-        $settings = $this->settings('settings');
-        
-        if (isset($_POST['check'])) {
-            $request = $this->updateRequest('/batflat/update', [
-                'ip' => isset_or($_SERVER['SERVER_ADDR'], $_SERVER['SERVER_NAME']),
-                'version' => $settings['version'],
-                'domain' => url(),
-            ]);
-
-            $this->_updateSettings('update_check', time());
-
-            if (!is_array($request)) {
-                $this->tpl->set('error', $request);
-            } elseif ($request['status'] == 'error') {
-                $this->tpl->set('error', $request['message']);
-            } else {
-                $this->_updateSettings('update_version', $request['data']['version']);
-                $this->_updateSettings('update_changelog', $request['data']['changelog']);
-                $this->tpl->set('update_version', $request['data']['version']);
-
-                // if(DEV_MODE)
-                //     $this->tpl->set('request', $request);
-            }
-        } elseif (isset($_POST['update'])) {
-            if (!class_exists("ZipArchive")) {
-                $this->tpl->set('error', "ZipArchive is required to update Batflat.");
-            }
-
-            if (!isset($_GET['manual'])) {
-                $request = $this->updateRequest('/batflat/update', [
-                    'ip' => isset_or($_SERVER['SERVER_ADDR'], $_SERVER['SERVER_NAME']),
-                    'version' => $settings['version'],
-                    'domain' => url(),
-                ]);
-
-                $this->download($request['data']['download'], BASE_DIR.'/tmp/latest.zip');
-            } else {
-                $package = glob(BASE_DIR.'/batflat-*.zip');
-                if (!empty($package)) {
-                    $package = array_shift($package);
-                    $this->rcopy($package, BASE_DIR.'/tmp/latest.zip');
-                }
-            }
-
-            define("UPGRADABLE", true);
-            // Making backup
-            $backup_date = date('YmdHis');
-            $this->rcopy(BASE_DIR, BASE_DIR.'/backup/'.$backup_date.'/', 0755, [BASE_DIR.'/backup', BASE_DIR.'/tmp/latest.zip', (isset($package) ? BASE_DIR.'/'.basename($package) : '')]);
-
-            // Unzip latest update
-            $zip = new ZipArchive;
-            $zip->open(BASE_DIR.'/tmp/latest.zip');
-            $zip->extractTo(BASE_DIR.'/tmp/update');
-
-            // Copy files
-            $this->rcopy(BASE_DIR.'/tmp/update/inc/css', BASE_DIR.'/inc/css');
-            $this->rcopy(BASE_DIR.'/tmp/update/inc/core', BASE_DIR.'/inc/core');
-            $this->rcopy(BASE_DIR.'/tmp/update/inc/jscripts', BASE_DIR.'/inc/jscripts');
-            $this->rcopy(BASE_DIR.'/tmp/update/inc/lang', BASE_DIR.'/inc/lang');
-            $this->rcopy(BASE_DIR.'/tmp/update/inc/modules', BASE_DIR.'/inc/modules');
-
-            // Restore defines
-            $this->rcopy(BASE_DIR.'/backup/'.$backup_date.'/inc/core/defines.php', BASE_DIR.'/inc/core/defines.php');
-
-            // Run upgrade script
-            $version = $settings['version'];
-            $new_version = include(BASE_DIR.'/tmp/update/upgrade.php');
-
-            // Close archive and delete all unnecessary files
-            $zip->close();
-            unlink(BASE_DIR.'/tmp/latest.zip');
-            deleteDir(BASE_DIR.'/tmp/update');
-
-            $this->_updateSettings('version', $new_version);
-            $this->_updateSettings('update_version', 0);
-            $this->_updateSettings('update_changelog', '');
-            $this->_updateSettings('update_check', time());
-
-            sleep(2);
-            redirect(url([ADMIN, 'settings', 'updates']));
-        } elseif (isset($_GET['reset'])) {
-            $this->_updateSettings('update_version', 0);
-            $this->_updateSettings('update_changelog', '');
-            $this->_updateSettings('update_check', 0);
-        } elseif (isset($_GET['manual'])) {
-            $package = glob(BASE_DIR.'/batflat-*.zip');
-            $version = false;
-            if (!empty($package)) {
-                $package_path = array_shift($package);
-                preg_match('/batflat\-([0-9\.a-z]+)\.zip$/', $package_path, $matches);
-                $version = $matches[1];
-            }
-            
-            $manual_mode = ['version' => $version];
-        }
-
-        $this->settings->reload();
-        $settings = $this->settings('settings');
-        $this->tpl->set('settings', $settings);
-        $this->tpl->set('manual_mode', isset_or($manual_mode, false));
-        return $this->draw('update.html');
-    }
-
     public function postChangeOrderOfNavItem()
     {
         foreach ($_POST as $module => $order) {
             $this->db('modules')->where('dir', $module)->save(['sequence' => $order]);
         }
         exit();
-    }
-
-    public function _checkUpdate()
-    {
-        $settings = $this->settings('settings');
-        if (time() - $settings['update_check'] > 3600*6) {
-            $request = $this->updateRequest('/batflat/update', [
-                'ip' => isset_or($_SERVER['SERVER_ADDR'], $_SERVER['SERVER_NAME']),
-                'version' => $settings['version'],
-                'domain' => url(),
-            ]);
-
-            if (is_array($request) && $request['status'] != 'error') {
-                $settings['update_version'] = $request['data']['version'];
-                $this->_updateSettings('update_version', $request['data']['version']);
-                $this->_updateSettings('update_changelog', $request['data']['changelog']);
-            }
-            
-            $this->_updateSettings('update_check', time());
-        }
-
-        if (cmpver($settings['update_version'], $settings['version']) === 1) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    private function updateRequest($resource, $params = [])
-    {
-        $output = HttpRequest::post($this->feed_url.$resource, $params);
-        if ($output === false) {
-            $output = HttpRequest::getStatus();
-        } else {
-            $output = json_decode($output, true);
-        }
-
-        return $output;
-    }
-
-    private function download($source, $dest)
-    {
-        set_time_limit(0);
-        $fp = fopen($dest, 'w+');
-        $ch = curl_init($source);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
     }
 
     /**
@@ -694,64 +552,6 @@ class Admin extends AdminModule
         return $result;
     }
 
-    private function _updateSettings($field, $value)
-    {
-        return $this->settings('settings', $field, $value);
-    }
-
-    private function rcopy($source, $dest, $permissions = 0755, $expect = [])
-    {
-        foreach ($expect as $e) {
-            if ($e == $source) {
-                return;
-            }
-        }
-
-        if (is_link($source)) {
-            return symlink(readlink($source), $dest);
-        }
-
-        if (is_file($source)) {
-            if (!is_dir(dirname($dest))) {
-                mkdir(dirname($dest), 0777, true);
-            }
-
-            return copy($source, $dest);
-        }
-
-        if (!is_dir($dest)) {
-            mkdir($dest, $permissions, true);
-        }
-
-        $dir = dir($source);
-        while (false !== $entry = $dir->read()) {
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
-
-            $this->rcopy("$source/$entry", "$dest/$entry", $permissions, $expect);
-        }
-
-        $dir->close();
-        return true;
-    }
-
-    private function _verifyLicense()
-    {
-        $licenseArray = (array) json_decode(base64_decode($this->settings('settings', 'license')), true);
-        $license = array_replace(array_fill(0, 5, null), $licenseArray);
-        list($md5hash, $pid, $lcode, $dcode, $tstamp) = $license;
-        
-        if (empty($md5hash)) {
-            return License::FREE;
-        }
-
-        if ($md5hash == md5($pid.$lcode.$dcode.domain(false))) {
-            return License::COMMERCIAL;
-        }
-
-        return License::ERROR;
-    }
 
     private function _getTimezones()
     {

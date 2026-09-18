@@ -10,6 +10,17 @@
  */
 
 /**
+ * Detect whether the current request was made over HTTPS, so auth cookies
+ * can be marked Secure without breaking plain-HTTP deployments.
+ *
+ * @return boolean
+ */
+function isHttps()
+{
+    return !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off';
+}
+
+/**
  * check if array have an empty values
  *
  * @param array $keys
@@ -44,6 +55,20 @@ function deleteDir($path)
                 return $r && deleteDir($i);
             }, true))
         && @rmdir($path);
+}
+
+/**
+ * Validate that a value is safe to use as a single filesystem directory or
+ * file name segment (module/theme/language directory names): rejects path
+ * traversal ("..") and separator characters.
+ *
+ * @param mixed $name
+ *
+ * @return boolean
+ */
+function isSafeDirName($name)
+{
+    return is_string($name) && preg_match('/^[a-zA-Z0-9_-]+$/', $name);
 }
 
 /**

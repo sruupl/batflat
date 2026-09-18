@@ -85,48 +85,12 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{$lang.settings.license}</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="text-center">
-                        {if: $settings.license.type == \Inc\Core\Lib\License::ERROR}
-                        <span class="fa-stack text-danger fa-5x">
-                            <i class="fa fa-circle-o fa-stack-2x"></i>
-                            <i class="fa fa-times fa-stack-1x"></i>
-                        </span>
-                        {else}
-                        <span class="fa-stack text-success fa-5x">
-                            <i class="fa fa-circle-o fa-stack-2x"></i>
-                            <i class="fa fa-check fa-stack-1x"></i>
-                        </span>
-                        {/if}
-                        <p>
-                            <h1>
-                                {$settings.license.name}
-                            </h1>
-                            <small>{?=domain()?}</small>
-                        </p>
-                        {if: $settings.license.type == \Inc\Core\Lib\License::FREE}
-                        <a href="#license-modal" data-toggle="modal" class="btn btn-primary">{$lang.settings.upgrade}</a>
-                        {else}
-                        <a href="{?=url([ADMIN, 'settings', 'license?downgrade'])?}" data-confirm="{$lang.settings.confirm_downgrade}" class="btn btn-default">{$lang.settings.downgrade}</a>
-                        {/if}
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
                     <h3 class="panel-title">{$lang.settings.system_info}</h3>
                 </div>
                 <div class="panel-body">
                     <dl class="dl-horizontal no-margin">
                         <dt>{$lang.settings.version}</dt>
-                        <dd>{$settings.version} <a href="{$updateurl}" class="small">({$lang.settings.check_updates})</a></dd>
-                        <dt>{$lang.settings.license}</dt>
-                        <dd>
-                            {$settings.license.name}
-                            <a href="#license-modal" data-toggle="modal" class="small">({$lang.general.edit})</a>
-                        </dd>
+                        <dd>{$settings.version}</dd>
                     </dl>
                     <hr />
                     <dl class="dl-horizontal no-margin">
@@ -147,24 +111,3 @@
         </div>
     </form>
 </article>
-<div class="modal fade" id="license-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{$lang.settings.license}</h4>
-            </div>
-            <form method="post" action="{?=url([ADMIN,'settings','license'])?}">
-                <div class="modal-body">
-                    <p>{$lang.settings.get_commercial}</p>
-                    <p>{$lang.settings.activate_info}</p>
-                    <input type="text" name="license-key" class="form-control" placeholder="{$lang.settings.license_key}..." />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{$lang.general.cancel}</button>
-                    <button type="submit" class="btn btn-primary">{$lang.settings.upgrade}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

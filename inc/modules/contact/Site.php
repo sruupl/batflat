@@ -57,8 +57,7 @@ class Site extends SiteModule
 
         $this->email['driver'] = $settings['driver'];
 
-        $data = $_POST;
-        htmlspecialchars_array($data);
+        $data = htmlspecialchars_array($_POST);
 
         if ($this->_checkErrors($data)) {
             return false;
@@ -68,7 +67,8 @@ class Site extends SiteModule
         $this->email['from'] = $data['from'];
 
         if ($settings['driver'] == 'mail') {
-            $this->email['sender'] = $this->settings('settings', 'title')." <no-reply@{$_SERVER['HTTP_HOST']}>";
+            $host = preg_replace('/[\r\n]+/', '', $_SERVER['HTTP_HOST']);
+            $this->email['sender'] = $this->settings('settings', 'title')." <no-reply@{$host}>";
         } elseif ($settings['driver'] == 'phpmailer' && class_exists('PHPMailer\PHPMailer\PHPMailer')) {
             $this->email['sender'] = [
                 $this->settings('contact', 'phpmailer.username'),
@@ -125,7 +125,7 @@ class Site extends SiteModule
             if (@mail($this->email['to'], '=?UTF-8?B?'.base64_encode($this->email['subject']).'?=', $this->email['message'], $headers)) {
                 // cookies antiflood
                 $cookieParams = session_get_cookie_params();
-                setcookie("MailWasSend", 'BATFLAT', time()+360, $cookieParams["path"], $cookieParams["domain"], null, true);
+                setcookie("MailWasSend", 'BATFLAT', time()+360, $cookieParams["path"], $cookieParams["domain"], isHttps(), true);
                 return true;
             } else {
                 $this->_error = $this->lang('send_failure');
@@ -164,7 +164,7 @@ class Site extends SiteModule
 
                 if ($mail->send()) {
                     $cookieParams = session_get_cookie_params();
-                    setcookie("MailWasSend", 'BATFLAT', time()+360, $cookieParams["path"], $cookieParams["domain"], null, true);
+                    setcookie("MailWasSend", 'BATFLAT', time()+360, $cookieParams["path"], $cookieParams["domain"], isHttps(), true);
                 }
             } catch (\Exception $e) {
                 $this->_error = $e->errorMessage();

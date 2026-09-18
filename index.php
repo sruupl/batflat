@@ -22,9 +22,6 @@ if (DEV_MODE) {
 }
 
 require_once('inc/core/lib/Autoloader.php');
-ob_start(base64_decode('XEluY1xDb3JlXE1haW46OnZlcmlmeUxpY2Vuc2U='));
-    
+
 // Site core init
 $core = new Inc\Core\Site;
-
-ob_end_flush();

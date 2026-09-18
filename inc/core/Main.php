@@ -15,7 +15,6 @@ use Inc\Core\Lib\QueryBuilder;
 use Inc\Core\Lib\Templates;
 use Inc\Core\Lib\Router;
 use Inc\Core\Lib\Settings;
-use Inc\Core\Lib\License;
 
 /**
  * Base for core classes
@@ -231,35 +230,6 @@ abstract class Main
     public function append($string, $location)
     {
         $this->appends[$location][] = $string."\n";
-    }
-
-    /**
-     * Batflat license verify
-     * By removing or modifing these procedures you break our license.
-     *
-     * @param string $buffer
-     * @return string
-     */
-    public static function verifyLicense($buffer)
-    {
-        $core = isset_or($GLOBALS['core'], false);
-        if (!$core) {
-            return $buffer;
-        }
-        $checkBuffer = preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
-        $isHTML = strpos(get_headers_list('Content-Type'), 'text/html') !== false;
-        $hasBacklink = strpos($checkBuffer, 'Powered by <a href="https://batflat.org/">Batflat</a>') !== false;
-        $hasHeader = get_headers_list('X-Created-By') === 'Batflat <batflat.org>';
-        $license = License::verify($core->settings->get('settings.license'));
-        if (($license == License::FREE) && $isHTML && (!$hasBacklink || !$hasHeader)) {
-            return '<strong>Batflat license system</strong><br />The return link has been deleted or modified.';
-        } elseif ($license == License::TIME_OUT) {
-            return $buffer.'<script>alert("Batflat license system\nCan\'t connect to license server and verify it.");</script>';
-        } elseif ($license == License::ERROR) {
-            return '<strong>Batflat license system</strong><br />The license is not valid. Please correct it or go to free version.';
-        }
-
-        return trim($buffer);
     }
 
     /**

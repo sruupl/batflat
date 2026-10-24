@@ -1,0 +1,39 @@
+{template: inc/header.html}
+
+<!-- Begin Site Title
+================================================== -->
+<div class="container">
+    <div class="mainheading">
+        <h1 class="sitetitle">{$page.title}</h1>
+    </div>
+</div>
+<!-- End Site Title
+================================================== -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            {if: $bat.notify}
+            <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
+            {/if}
+            {$page.content}
+        </div>
+        <!-- Sidebar -->
+        <div class="col-md-4 col-xs-12">                
+            <h4>{$lang.blog.latest_posts}</h4>
+            <ul>
+                {loop: $latestPosts}
+                <li><a href="{?= url(['blog', 'post', $value.slug]) ?}">{$value.title}</a></li>
+                {/loop}
+            </ul>                    
+            <h4>{$lang.blog.categories}</h4>
+            <ul>
+                {loop: $allTags}
+                <li><a href="{?=url(['blog','tag', $value.slug]) ?}">{$value.name} ({$value.count})</a></li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{template: inc/footer.html}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>{$page.title} - {$settings.title}</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <!-- ** Plugins Needed for the Project ** -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{$bat.theme}/plugins/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="{$bat.theme}/plugins/themify/css/themify-icons.css">
+  <link rel="stylesheet" href="{$bat.theme}/plugins/aos/aos.css">
+  <link rel="stylesheet" href="{$bat.theme}/plugins/counto/animate.css">
+  <link rel="stylesheet" href="{$bat.theme}/plugins/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="{$bat.theme}/plugins/owl-carousel/owl.theme.default.min.css">
+
+  <link rel="stylesheet" href="{$bat.theme}/plugins/animated-text/animated-text.css">
+  
+  <!-- jQuery -->
+<script src="{$bat.theme}/plugins/jQuery/jquery.min.js"></script>
+  {loop: $bat.header}{$value}{/loop}
+
+  <!-- Main Stylesheet -->
+  <link href="{$bat.theme}/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  
+<!-- Navigation Start -->
+<!-- Header Start --> 
+
+<nav class="navbar navbar-expand-lg  main-nav " id="navbar">
+	<div class="container">
+	  <a class="navbar-brand" href="index.html">
+	  	{$settings.title}
+	  </a>
+
+	  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="ti-align-justify"></span>
+	  </button>
+  
+		<div class="collapse navbar-collapse " id="navbarsExample09">
+			<ul class="navbar-nav ml-auto nav-link">
+			 {$navigation.main}
+        <li style="margin-top:-5px">{$langSwitcher}</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- Header Close --> 
+
+
+<!-- Navigation ENd -->

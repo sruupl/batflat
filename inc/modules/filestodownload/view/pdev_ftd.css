@@ -1,0 +1,36 @@
+.pdev_ftd{
+    margin: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+}
+
+.pdev_ftd:hover{
+    background-color: #aaaaaa30;
+}
+
+.pdev_ftd .fas{
+    font-size: 1.5em;
+    margin-left: 5px;
+}
+
+.pdev_ftd p{
+    margin: 0 10px !important;
+}
+
+.pdev_ftd .strech{
+    flex-grow: 1;
+}
+
+.pdev_ftd .strech .baseline{
+    border-bottom: dotted 1px silver;
+    margin-bottom: 3px;
+    height: 100%;
+}
+
+.pdev_ftd .btn{
+    padding: 2px 5px !important;
+}
+
+

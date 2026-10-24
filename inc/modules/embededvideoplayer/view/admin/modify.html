@@ -1,0 +1,37 @@
+<div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{$lang.embededvideoplayer.modify_exist}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{$lang.embededvideoplayer.th_name}</th>
+                                    <th>{$lang.embededvideoplayer.th_slug}</th>
+                                    <th>{$lang.embededvideoplayer.th_file}</th>
+                                    <th>{$lang.embededvideoplayer.th_actions}</th>
+                                </tr>
+                            </thead>
+                            <form action="{?=url([ADMIN, 'embededvideoplayer', 'modifyFile'])?}" method="POST"  enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="{$element.id}" />
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="file_name" value="{$element.name}"></td>
+                                        <td><input type="text" name="file_slug" value="{$element.slug}"></td>
+                                        <td><a href="{$element.path}" target="balnk">{$element.file}</a></td>
+                                        <td>
+                                                <a href="{?= url('admin/embededvideoplayer/index') ?}"  class="btn btn-info">{$lang.embededvideoplayer.btn_cancel}</a>
+                                            <input type="submit" value="{$lang.embededvideoplayer.btn_change}" class="btn btn-warning" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </form>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.embededvideoplayer.add_new}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>{$lang.embededvideoplayer.th_name}</th>
+                                <th>{$lang.embededvideoplayer.th_slug}</th>
+                                <th>{$lang.embededvideoplayer.th_file}</th>
+                                <th>{$lang.embededvideoplayer.th_actions}</th>
+                            </tr>
+                        </thead>
+                        <form action="{?=url([ADMIN, 'embededvideoplayer', 'saveFile'])?}" method="POST"  enctype="multipart/form-data">
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" name="file_name" value=""></td>
+                                    <td><input type="text" name="file_slug" value=""></td>
+                                    <td><input type="file" name="file_path" value=""></td>
+                                    <td>
+                                        <input type="submit" value="{$lang.embededvideoplayer.btn_add}" class="btn btn-success" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </form>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{$lang.embededvideoplayer.manage}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>{$lang.embededvideoplayer.th_name}</th>
+                                <th>{$lang.embededvideoplayer.th_tag}</th>
+                                <th>{$lang.embededvideoplayer.th_file}</th>
+                                <th>{$lang.embededvideoplayer.th_actions}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loop: $entries}
+                            <tr>
+                                <td>{$value.id}</td>
+                                <td>{$value.name}</td>
+                                <td>{noparse}{$pdev_evp.{/noparse}{$value.slug}}</td>
+                                <td><a href="{$value.path}" target="balnk">{$value.file}</a></td>
+                                <td>
+                                    <a href="{?= url('admin/embededvideoplayer/modify/{$value.id}') ?}" class="btn btn-warning">{$lang.embededvideoplayer.btn_change}</a>
+                                    <a href="{?= url('admin/embededvideoplayer/remove/{$value.id}') ?}" class="btn btn-danger">{$lang.embededvideoplayer.btn_remove}</a>
+                                </td>
+                            </tr>
+                            {/loop}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+{template: inc/header.html}
+
+
+<!-- Banner Start -->
+<section class="section banner pb-0 pt-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10">
+				 <h2 class="cd-headline clip is-full-width mb-4 ">
+				 	I provide <br>
+                    <span class="cd-words-wrapper text-color">
+                        <b class="is-visible">Design solutions.</b>
+                        <b class="is-hidden">Creative Ideas.</b>
+                        <b class="is-hidden">Professional Content.</b>
+                    </span>
+                </h2>
+                <p>I must explain to you how all this mistaken idea of denouncing pleasure and praising pain <br>was born and I will give you a complete account of the system</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Banner End -->
+{if: $bat.notify}
+    <div class="container">
+      <div class="row">
+        <div id="notify" class="alert alert-{$bat.notify.type}">{$bat.notify.text}</div>
+      </div>
+    </div>
+{/if}
+
+<!-- POrtfolio start -->
+<section class=" portfolio ">
+	<div class="container">
+		<div class="row mb-5 justify-content-center">
+	      	<div class="col-10 text-center">
+		        <div class="btn-group btn-group-toggle " data-toggle="buttons">
+		          <label class="btn active ">
+		            <input type="radio" name="shuffle-filter" value="all" checked="checked" />All Projects
+		          </label>
+                  {loop: $allTags}
+                  <label class="btn">
+		            <input type="radio" name="shuffle-filter" value="{?= str_replace(' ','-',$value.name) ?}" checked="checked" />{$value.name}
+		          </label>
+                  {/loop}
+		        </div>
+	      	</div>
+	    </div>
+	
+
+    <div class="row shuffle-wrapper portfolio-gallery">
+        {loop: $blog.posts}
+	      <div class="col-lg-4 col-6 mb-4 shuffle-item"  data-groups="[{loop: $value.tags as $tag}{if: $key != 0},{/if}&quot;{$tag.name}&quot;{/loop}]">
+		      	<div class="position-relative inner-box">
+		          <div class="image position-relative ">
+                   {if: $value.cover_photo}
+	               <img src="{$value.cover_url}" alt="{$value.title}" class="img-fluid w-100 d-block">
+                   {else}
+                   <img src="{$bat.theme}/images/portfolio/1.jpg" alt="{$value.title}" class="img-fluid w-100 d-block">
+                   {/if}
+	                <div class="overlay-box">
+	                	<a class="portfolio-image" href="{$value.url}">
+	                  		<i class="ti-link"></i>
+	                  	</a>
+		                  <div class="overlay-inner">
+		                    <div class="overlay-content">
+		                      <h5 class="mb-0">{$value.title}</h5>
+                              {if: $value.tags}
+		                      <p>Tags : {loop: $value.tags as $tag}{if: $key != 0}, {/if}<a href="{$tag.url}">{$tag.name}</a>{/loop}</p>
+                              {/if}
+                            </div>
+		                  </div>
+	                </div> 
+	            </div>
+		      </div>
+	      </div>
+          {/loop}
+    </div>
+    <!-- Pager -->
+            <ul  id="portfolio-flters" class="d-flex justify-content-center" style="padding-inline-start: 0px;">
+                {if: isset($prev)}
+                    <a class ="btn" href="{$prev.url}">&larr; {$lang.blog.newer}</a>
+                {/if} {if: isset($next)}
+                    <a class ="btn" href="{$next.url}">{$lang.blog.older} &rarr;</a>
+                {/if}
+            </ul>
+ </div>
+</section>
+{template: inc/footer.html}

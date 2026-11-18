@@ -120,7 +120,7 @@
                             {if: $value.referrer == NULL}
                             <td><a href="#">({$lang.statistics.direct_visit})</a></td>
                             {else}
-                            <td><a href="{?= url($value.referrer) ?}">{$value.referrer}</a></td>
+                            <td><a href="{?= url($value.referrer) ?}">{$value.referrer|e}</a></td>
                             {/if}
                             <td>{$value.count}</td>
                             <td>{$value.count_unique}</td>

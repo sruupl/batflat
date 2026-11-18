@@ -189,7 +189,7 @@
                             {if: $value.referrer == NULL}
                             <td><a href="#">(direct visit)</a></td>
                             {else}
-                            <td><a href="{?= url([ADMIN, 'statistics', 'referrer', base64_encode($value.referrer)]) ?}">{$value.referrer}</a></td>
+                            <td><a href="{?= url([ADMIN, 'statistics', 'referrer', base64_encode($value.referrer)]) ?}">{$value.referrer|e}</a></td>
                             {/if}
                             <td>{$value.count}</td>
                             <td>{$value.count_unique}</td>
@@ -214,7 +214,7 @@
                         </tr>
                         {loop: $visitors.pages}
                         <tr>
-                            <td><a href="{?= url([ADMIN, 'statistics', 'url', base64_encode($value.url)]) ?}">{$value.url}</a></td>
+                            <td><a href="{?= url([ADMIN, 'statistics', 'url', base64_encode($value.url)]) ?}">{$value.url|e}</a></td>
                             <td>{$value.count}</td>
                             <td>{$value.count_unique}</td>
                         </tr>

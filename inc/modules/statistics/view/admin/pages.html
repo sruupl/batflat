@@ -32,7 +32,7 @@
                         </tr>
                         {loop: $pages.list}
                         <tr>
-                            <td><a href="{?= url([ADMIN, 'statistics', 'url', base64_encode($value.url)]) ?}">{$value.url}</a></td>
+                            <td><a href="{?= url([ADMIN, 'statistics', 'url', base64_encode($value.url)]) ?}">{$value.url|e}</a></td>
                             <td>{$value.count}</td>
                             <td>{$value.count_unique}</td>
                         </tr>
